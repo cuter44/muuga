@@ -1,4 +1,4 @@
-package com.github.cuter44.muuga.user.dao;
+package com.github.cuter44.muuga.user.model;
 
 import java.util.Properties;
 import java.io.Serializable;
@@ -171,7 +171,7 @@ public class Profile
         if (this == o)
             return(true);
 
-        if (o!=null && !this.getClass().equals(o.getClass()))
+        if (o==null || !this.getClass().equals(o.getClass()))
             return(false);
 
         Profile p = (Profile)o;

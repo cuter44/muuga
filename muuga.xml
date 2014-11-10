@@ -1,0 +1,4 @@
+<!-- note: copy this file to your TOMCAT_HOME/conf/Catalina/localhost(or other as your actual) to deploy -->
+<Context docBase="F:\Project\muuga\web">
+</Context>
+    

@@ -3,13 +3,13 @@
 	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-    <class name="com.github.cuter44.muuga.user.dao.Profile" table="user_profile">
+    <class name="com.github.cuter44.muuga.user.model.Profile" table="user_profile">
         <id	name="id" type="long">
             <generator class="foreign">
                 <param name="property">user</param>
             </generator>
         </id>
-        <one-to-one name="user" class="com.github.cuter44.muuga.user.dao.User" />
+        <one-to-one name="user" class="com.github.cuter44.muuga.user.model.User" />
         
         <property name="dname" type="string" length="48" />
         <property name="tname" type="string" length="48" />

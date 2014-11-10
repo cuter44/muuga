@@ -11,7 +11,7 @@ import static com.github.cuter44.nyafx.servlet.Params.notNull;
 import static com.github.cuter44.nyafx.servlet.Params.needString;
 
 import com.github.cuter44.muuga.Constants;
-import com.github.cuter44.muuga.user.dao.*;
+import com.github.cuter44.muuga.user.model.*;
 import com.github.cuter44.muuga.user.core.*;
 
 /** 注册
@@ -24,11 +24,11 @@ import com.github.cuter44.muuga.user.core.*;
    mail:string(60), 邮件地址
 
    <strong>响应</strong>
-   application/json class=authorize.dao.User(private)
-   @see J#writeUserPrivate
+   application/json class=user.model.User(private)
+   attributes refer to {@link Json#jsonizeUserPrivate(User) Json}
 
    <strong>例外</strong>
-    通用, @see com.github.cuter44.muuga.sys.servlet.ExceptionHandler
+   parsed by {@link com.github.cuter44.muuga.sys.servlet.ExceptionHandler ExceptionHandler}
 
    <strong>样例</strong>暂无
  * </pre>
@@ -42,13 +42,6 @@ public class Register extends HttpServlet
 
     protected UserDao userDao = UserDao.getInstance();
     protected Authorizer authorizer = Authorizer.getInstance();
-
-    @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse resp)
-        throws ServletException, IOException
-    {
-        doPost(req, resp);
-    }
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -66,7 +59,7 @@ public class Register extends HttpServlet
 
             this.userDao.commit();
 
-            J.writeUserPrivate(u, resp);
+            Json.writeUserPrivate(u, resp);
         }
         catch (Exception ex)
         {

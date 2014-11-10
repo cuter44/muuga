@@ -15,8 +15,8 @@ import static com.github.cuter44.nyafx.servlet.Params.getLongList;
 import org.hibernate.criterion.*;
 
 import com.github.cuter44.muuga.Constants;
-import com.github.cuter44.muuga.user.dao.*;
-import com.github.cuter44.muuga.user.dao.*;
+import com.github.cuter44.muuga.user.model.*;
+import com.github.cuter44.muuga.user.model.*;
 import com.github.cuter44.muuga.user.core.*;
 import com.github.cuter44.muuga.conf.Configurator;
 
@@ -37,11 +37,11 @@ import com.github.cuter44.muuga.conf.Configurator;
    size:int, 返回结果的最大笔数, 缺省使用服务器配置
 
    <strong>响应</strong>
-   application/json array class=profile.dao.Profile
-   @see J#write
+   application/json array class=user.model.Profile
+   attributes refer to {@link Json#jsonizeProfile(Profile) Json}
 
    <strong>例外</strong>
-    通用, @see com.github.cuter44.muuga.sys.servlet.ExceptionHandler
+   parsed by {@link com.github.cuter44.muuga.sys.servlet.ExceptionHandler ExceptionHandler}
 
    <strong>样例</strong>
  * </pre>
@@ -90,7 +90,7 @@ public class SearchProfile extends HttpServlet
 
                 this.profileDao.commit();
 
-                J.writeProfile(l, resp);
+                Json.writeProfile(l, resp);
 
                 return;
             }
@@ -108,7 +108,7 @@ public class SearchProfile extends HttpServlet
 
                 this.profileDao.commit();
 
-                J.writeProfile(l, resp);
+                Json.writeProfile(l, resp);
 
                 return;
             }

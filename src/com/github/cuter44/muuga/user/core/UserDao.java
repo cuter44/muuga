@@ -3,7 +3,7 @@ package com.github.cuter44.muuga.user.core;
 import com.github.cuter44.nyafx.dao.DaoBase;
 import org.hibernate.criterion.*;
 
-import com.github.cuter44.muuga.user.dao.User;
+import com.github.cuter44.muuga.user.model.User;
 
 public class UserDao extends DaoBase<User>
 {
@@ -13,15 +13,15 @@ public class UserDao extends DaoBase<User>
         super();
     }
 
-  // Singleton
+  // SINGLETON
     private static class Singleton
     {
-        public static final UserDao instance = new UserDao();
+        public static final UserDao INSTANCE = new UserDao();
     }
 
     public static UserDao getInstance()
     {
-        return(Singleton.instance);
+        return(Singleton.INSTANCE);
     }
 
   // GET

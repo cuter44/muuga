@@ -1,4 +1,4 @@
-package com.github.cuter44.muuga.user.dao;
+package com.github.cuter44.muuga.user.model;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -10,16 +10,16 @@ public class User
 
   // ENUM
     // 帐户状态枚举
-    /** 注册
+    /** 0, 注册
      */
     public static final Byte REGISTERED = 0;
-    /** 已验证邮箱
+    /** 1, 已验证邮箱
      */
     public static final Byte ACTIVATED = 1;
-    /** 主动注销
+    /** -1, 主动注销
      */
     public static final Byte CANCELED = -1;
-    /** 封号
+    /** -2, 封号
      */
     public static final Byte BANNED = -2;
 
@@ -127,7 +127,7 @@ public class User
   // CONSTRUCT
     public User()
     {
-        this.status = REGISTERED;
+        return;
     }
 
     public User(String aMail)
@@ -153,7 +153,7 @@ public class User
         if (this == o)
             return(true);
 
-        if (o!=null && !this.getClass().equals(o.getClass()))
+        if (o==null || !this.getClass().equals(o.getClass()))
             return(false);
 
         User u = (User)o;

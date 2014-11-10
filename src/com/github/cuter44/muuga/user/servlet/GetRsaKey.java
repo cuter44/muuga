@@ -15,7 +15,7 @@ import static com.github.cuter44.nyafx.crypto.CryptoBase.byteToHex;
 import static com.github.cuter44.nyafx.servlet.Params.needLong;
 
 import com.github.cuter44.muuga.Constants;
-import com.github.cuter44.muuga.user.dao.*;
+import com.github.cuter44.muuga.user.model.*;
 import com.github.cuter44.muuga.user.core.*;
 
 /** 获取 RSA 公钥
@@ -30,12 +30,12 @@ import com.github.cuter44.muuga.user.core.*;
    uid:long, uid, 可以指定一个负的随机数来为未注册用户保存一个key
 
    <strong>响应</strong>
-   application/json 对象:
+   application/json:
    m:hex, modulus
    e:hex, public exponent
 
    <strong>例外</strong>
-    通用, @see com.github.cuter44.muuga.sys.servlet.ExceptionHandler
+   parsed by {@link com.github.cuter44.muuga.sys.servlet.ExceptionHandler ExceptionHandler}
 
    <strong>样例</strong>暂无
  * </pre>

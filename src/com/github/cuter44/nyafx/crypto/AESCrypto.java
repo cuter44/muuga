@@ -36,7 +36,7 @@ public class AESCrypto extends CryptoBase
     public static final int DEFAULT_KEY_LENGTH = KEY_LENGTH_128;
 
     protected KeyGenerator keyGen;
-    protected SecretKeyFactory keyFac;
+    //protected SecretKeyFactory keyFac;
     protected String algorithm;
 
     public void setKeyLength(Integer keyLength)
@@ -69,16 +69,16 @@ public class AESCrypto extends CryptoBase
     {
         super();
 
-        try
-        {
-            this.keyFac = SecretKeyFactory.getInstance(BASE_ALGORITHM);
+        //try
+        //{
+            //this.keyFac = SecretKeyFactory.getInstance(BASE_ALGORITHM);
             this.setKeyLength(null);
             this.setAlgorithm(null);
-        }
-        catch (NoSuchAlgorithmException ex)
-        {
-            throw(new RuntimeException(ex.getMessage(), ex));
-        }
+        //}
+        //catch (NoSuchAlgorithmException ex)
+        //{
+            //throw(new RuntimeException(ex.getMessage(), ex));
+        //}
 
         return;
     }
@@ -87,16 +87,16 @@ public class AESCrypto extends CryptoBase
     {
         super();
 
-        try
-        {
-            this.keyFac = SecretKeyFactory.getInstance(BASE_ALGORITHM);
+        //try
+        //{
+            //this.keyFac = SecretKeyFactory.getInstance(BASE_ALGORITHM);
             this.setAlgorithm(algorithm);
             this.setKeyLength(keyLength);
-        }
-        catch (NoSuchAlgorithmException ex)
-        {
-            throw(new RuntimeException(ex.getMessage(), ex));
-        }
+        //}
+        //catch (NoSuchAlgorithmException ex)
+        //{
+            //throw(new RuntimeException(ex.getMessage(), ex));
+        //}
 
         return;
     }

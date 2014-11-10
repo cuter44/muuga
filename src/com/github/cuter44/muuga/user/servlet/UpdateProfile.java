@@ -12,7 +12,7 @@ import static com.github.cuter44.nyafx.servlet.Params.getString;
 import static com.github.cuter44.nyafx.servlet.Params.needLong;
 
 import com.github.cuter44.muuga.Constants;
-import com.github.cuter44.muuga.user.dao.*;
+import com.github.cuter44.muuga.user.model.*;
 import com.github.cuter44.muuga.user.core.*;
 
 /** 变更个人资料
@@ -32,11 +32,11 @@ import com.github.cuter44.muuga.user.core.*;
    s:hex, 必需, session key
 
    <strong>响应</strong>
-   application/json class=profile.dao.Profile
-   @see J#write
+   application/json class=user.model.Profile
+   attributes refer to {@link Json#jsonizeProfile(Profile) Json}
 
    <strong>例外</strong>
-    通用, @see com.github.cuter44.muuga.sys.servlet.ExceptionHandler
+   parsed by {@link com.github.cuter44.muuga.sys.servlet.ExceptionHandler ExceptionHandler}
 
    <strong>样例</strong>暂无
  * </pre>
@@ -51,13 +51,6 @@ public class UpdateProfile extends HttpServlet
     private static final String POS = "pos";
 
     protected ProfileDao profileDao = ProfileDao.getInstance();
-
-    @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse resp)
-        throws ServletException, IOException
-    {
-        doPost(req, resp);
-    }
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -89,7 +82,7 @@ public class UpdateProfile extends HttpServlet
 
             this.profileDao.commit();
 
-            J.write(p, resp);
+            Json.writeProfile(p, resp);
 
         }
         catch (Exception ex)

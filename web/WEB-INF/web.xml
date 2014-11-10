@@ -3,7 +3,9 @@
         xmlns:web="http://java.sun.com/xml/ns/javaee"
         xmlns="http://java.sun.com/xml/ns/javaee"
         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
-        version="3.0">
+        version="3.0"
+        metadata-completed="true">
+
   <display-name>muuga</display-name>
 
   <!--
@@ -15,6 +17,25 @@
     <servlet-name></servlet-name>
     <url-pattern></url-pattern>
   </servlet-mapping>
+  -->
+
+  <filter>
+    <filter-name>SessionKeyVerifier</filter-name>
+    <filter-class>com.github.cuter44.muuga.user.filter.SessionKeyVerifier</filter-class>
+    <init-param>
+      <param-name>userIdParamName</param-name>
+      <param-value>uid</param-value>
+    </init-param>
+    <init-param>
+      <param-name>sessionKeyParamName</param-name>
+      <param-value>s</param-value>
+    </init-param>
+  </filter>
+  <!--
+  <filter-mapping>
+    <filter-name>SessionKeyVerifier</filter-name>
+    <url-pattern>/book/*.api</url-pattern>
+  </filter-mapping>
   -->
 
   <welcome-file-list>

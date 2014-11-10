@@ -16,7 +16,7 @@ import com.alibaba.fastjson.*;
 
 //import com.github.cuter44.muuga.util.conf.*;
 import com.github.cuter44.muuga.Constants;
-import com.github.cuter44.muuga.user.dao.*;
+import com.github.cuter44.muuga.user.model.*;
 import com.github.cuter44.muuga.user.core.*;
 import com.github.cuter44.muuga.user.exception.*;
 
@@ -32,11 +32,11 @@ import com.github.cuter44.muuga.user.exception.*;
    pass:hex, RSA 加密的 UTF-8 编码的用户登录密码.
 
    <strong>响应</strong>
-   application/json, class=authorize.dao.User(private)
-   @see J#writeUserPrivate
+   application/json, class=user.model.User(private)
+   attributes refer to {@link Json#jsonizeUserPrivate(User) Json}
 
    <strong>例外</strong>
-    通用, @see com.github.cuter44.muuga.sys.servlet.ExceptionHandler
+   parsed by {@link com.github.cuter44.muuga.sys.servlet.ExceptionHandler ExceptionHandler}
 
    <strong>样例</strong>暂无
  * </pre>
@@ -53,13 +53,6 @@ public class Activate extends HttpServlet
     protected Authorizer authorizer = Authorizer.getInstance();
     protected RSAKeyCache keyCache = RSAKeyCache.getInstance();
     protected RSACrypto rsa = RSACrypto.getInstance();
-
-    @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse resp)
-        throws ServletException, IOException
-    {
-        doPost(req, resp);
-    }
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp)

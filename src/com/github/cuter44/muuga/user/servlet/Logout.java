@@ -14,7 +14,7 @@ import static com.github.cuter44.nyafx.servlet.Params.needLong;
 import static com.github.cuter44.nyafx.servlet.Params.getByteArray;
 
 import com.github.cuter44.muuga.Constants;
-import com.github.cuter44.muuga.user.dao.*;
+import com.github.cuter44.muuga.user.model.*;
 import com.github.cuter44.muuga.user.core.*;
 import com.github.cuter44.muuga.user.exception.*;
 
@@ -32,12 +32,11 @@ import com.github.cuter44.muuga.user.exception.*;
    pass:hex, RSA 加密的 UTF-8 编码的用户登录密码.
 
    <strong>响应</strong>
-    application/json class=authorize.dao.User(private)
-    @see J#writeUserPrivate
-
+   application/json
+   error: string, ="ok"
 
    <strong>例外</strong>
-    通用, @see com.github.cuter44.muuga.sys.servlet.ExceptionHandler
+   parsed by {@link com.github.cuter44.muuga.sys.servlet.ExceptionHandler ExceptionHandler}
 
    <strong>样例</strong>暂无
  * </pre>
@@ -82,7 +81,7 @@ public class Logout extends HttpServlet
 
                 this.userDao.commit();
 
-                J.writeUserPrivate(this.userDao.get(uid), resp);
+                Json.writeErrorOk(resp);
 
                 return;
             }
@@ -98,9 +97,9 @@ public class Logout extends HttpServlet
 
                 this.authorizer.logoutViaPass(uid, pass);
 
-                J.writeUserPrivate(this.userDao.get(uid), resp);
-
                 this.userDao.commit();
+
+                Json.writeErrorOk(resp);
 
                 return;
             }

@@ -89,6 +89,7 @@
     <antcall target="copy-config" />
     <javac srcdir="${srcdir}" destdir="${destdir}" failonerror="true" debug="true" includeantruntime="false" encoding="utf-8">
       <compilerarg value="-Xlint:unchecked"/>
+      <compilerarg value="-Xlint:deprecation"/>
       <classpath refid="classpath" />
     </javac>
   </target>

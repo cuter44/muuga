@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.github.cuter44.nyafx.dao.*;
 import static com.github.cuter44.nyafx.dao.EntityNotFoundException.entFound;
 
-import com.github.cuter44.muuga.user.dao.*;
+import com.github.cuter44.muuga.user.model.*;
 
 public class ProfileDao extends DaoBase<Profile>
 {

@@ -132,6 +132,20 @@ public class URLBuilder
         return(this);
     }
 
+    public URLBuilder appendLabel(String label)
+    {
+        this.builder.append('#').append(label);
+
+        return(this);
+    }
+
+    public URLBuilder append(String str)
+    {
+        this.builder.append(str);
+
+        return(this);
+    }
+
     @Override
     public String toString()
     {

@@ -8,7 +8,7 @@ import net.sf.ehcache.*;
 import com.github.cuter44.nyafx.crypto.*;
 
 import com.github.cuter44.muuga.conf.*;
-import com.github.cuter44.muuga.user.dao.*;
+import com.github.cuter44.muuga.user.model.*;
 
 /** 生成及缓存 RSA 密钥对
  * 生成的公钥将直接返回, 以 Long 值为键稍后取回私钥

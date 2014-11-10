@@ -14,7 +14,7 @@ import static com.github.cuter44.nyafx.servlet.Params.getStringList;
 
 import com.github.cuter44.muuga.Constants;
 import com.github.cuter44.muuga.conf.*;
-import com.github.cuter44.muuga.user.dao.*;
+import com.github.cuter44.muuga.user.model.*;
 import com.github.cuter44.muuga.user.core.*;
 
 /** 搜索用户, 主要用于用户 uid, mail, uname.
@@ -33,11 +33,11 @@ import com.github.cuter44.muuga.user.core.*;
    size:int, 返回结果的最大笔数, 缺省使用服务器配置
 
    <strong>响应</strong>
-   application/json array class=authorize.dao.User(public)
-   @see J#writeUserListPublic
+   application/json array class=user.model.User(public)
+   attributes refer to {@link Json#jsonizeUserPublic(User) Json}
 
    <strong>例外</strong>
-    通用, @see com.github.cuter44.muuga.sys.servlet.ExceptionHandler
+   parsed by {@link com.github.cuter44.muuga.sys.servlet.ExceptionHandler ExceptionHandler}
 
    <strong>样例</strong>暂无
  * </pre>
@@ -103,7 +103,7 @@ public class SearchUser extends HttpServlet
 
             this.userDao.commit();
 
-            J.writeUserPublic(l, resp);
+            Json.writeUserPublic(l, resp);
         }
         catch (Exception ex)
         {

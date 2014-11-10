@@ -11,7 +11,7 @@ import static com.github.cuter44.nyafx.dao.EntityNotFoundException.entFound;
 import com.github.cuter44.nyafx.crypto.*;
 import org.hibernate.criterion.*;
 
-import com.github.cuter44.muuga.user.dao.*;
+import com.github.cuter44.muuga.user.model.*;
 import com.github.cuter44.muuga.user.exception.*;
 import com.github.cuter44.muuga.conf.*;
 
