@@ -3,7 +3,7 @@ package com.github.cuter44.muuga.desire.model;
 import java.io.Serializable;
 import java.util.Date;
 
-import com.github.cuter44.muuga.user.model.User;
+import com.github.cuter44.muuga.user.model.*;
 
 public class TradeDesire extends Desire
     implements Serializable
@@ -32,7 +32,7 @@ public class TradeDesire extends Desire
         return;
     }
 
-    public TradeDesire(String isbn, User orginator)
+    public TradeDesire(String isbn, Profile orginator)
     {
         this();
 

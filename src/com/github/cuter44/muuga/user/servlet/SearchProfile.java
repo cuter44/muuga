@@ -6,8 +6,7 @@ import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 
-import com.github.cuter44.util.dao.*;
-import com.github.cuter44.util.servlet.*;
+import com.github.cuter44.nyafx.servlet.*;
 import static com.github.cuter44.nyafx.servlet.Params.notNull;
 import static com.github.cuter44.nyafx.servlet.Params.getString;
 import static com.github.cuter44.nyafx.servlet.Params.getInt;

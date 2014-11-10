@@ -7,7 +7,7 @@ import java.io.*;
 import org.hibernate.*;
 import org.hibernate.criterion.*;
 import org.hibernate.exception.ConstraintViolationException;
-import static com.github.cuter44.util.dao.EntityNotFoundException.entFound;
+import static com.github.cuter44.nyafx.dao.EntityNotFoundException.entFound;
 
 /**
  */
