@@ -20,16 +20,16 @@ import com.github.cuter44.muuga.desire.core.*;
 import com.github.cuter44.muuga.user.model.*;
 import com.github.cuter44.muuga.user.core.*;
 
-/** 增加购买意愿
+/** 增加出售意愿
  * <pre style="font-size:12px">
 
    <strong>请求</strong>
-   POST /desire/buy/create.api
+   POST /desire/sell/create.api
 
    <strong>参数</strong>
-   uid      :long           , 必需, 购买意愿的发起者
-   isbn     :string         , 必需, 购买意愿的 isbn
-   price    :double(0.2)    , 必需, 接受的价格
+   uid      :long           , 必需, 出售意愿的发起者
+   isbn     :string         , 必需, 出售的 isbn
+   price    :double(0.2)    , 必需, 出售的价格
    qty      :integer        , 购买量
    ps       :string(255)    , 附言
    pos      :geohash(24)    , 地理位置标签
@@ -38,7 +38,7 @@ import com.github.cuter44.muuga.user.core.*;
    s    :hex    , 必需, session key
 
    <strong>响应</strong>
-   application/json class=desire.model.BuyDesire
+   application/json class=desire.model.SellDesire
    rendered by Json#jsonizeBuyDesire
 
    <strong>例外</strong>
@@ -49,8 +49,8 @@ import com.github.cuter44.muuga.user.core.*;
  *
  *
  */
-@WebServlet("/desire/buy/create.api")
-public class CreateBuyDesire extends HttpServlet
+@WebServlet("/desire/sell/create.api")
+public class CreateSellDesire extends HttpServlet
 {
     private static final String UID     = "uid";
     private static final String ISBN    = "isbn";
@@ -79,7 +79,7 @@ public class CreateBuyDesire extends HttpServlet
 
             this.desireDao.begin();
 
-            BuyDesire   d   = this.desireFactory.createBuyDesire(uid, isbn, price, qty, ps, pos);
+            SellDesire  d   = this.desireFactory.createSellDesire(uid, isbn, price, qty, ps, pos);
 
             this.desireDao.commit();
 

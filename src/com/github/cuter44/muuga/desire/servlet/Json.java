@@ -19,14 +19,62 @@ class Json
     private static final String POS = "pos";
     private static final String TM = "tm";
 
-    public static JSONObject jsonizeDesire(Desire d)
+    protected static JSONObject jsonizeDesire(Desire d)
     {
-        return(null);
+        if (d instanceof BuyDesire)
+            return(jsonizeBuyDesire((BuyDesire)d));
+
+        if (d instanceof SellDesire)
+            return(jsonizeSellDesire((SellDesire)d));
+
+        //if (d instanceof BorrowDesire)
+            //return(jsonizeBuyDesire((BuyDesire)d));
+
+        //if (d instanceof LendDesire)
+            //return(jsonizeBuyDesire((LendDesire)d));
+
+        return(new JSONObject());
     }
 
-    public static JSONObject jsonizeDesire(BuyDesire d)
+    protected static JSONObject jsonizeDesire(Desire d, JSONObject j)
     {
-        return(null);
+        j.put(ID            , d.getId());
+        j.put(ISBN          , d.getIsbn());
+        j.put(QTY           , d.getQty());
+        j.put(PS            , d.getPs());
+        j.put(POS           , d.getPos());
+
+        if (d.getOriginator()!=null)
+            j.put(ORIGINATOR, d.getOriginator().getId());
+
+        return(j);
+    }
+
+    protected static JSONObject jsonizeTradeDesire(TradeDesire d, JSONObject j)
+    {
+        j.put(PRICE, d.getPrice());
+
+        j = jsonizeDesire(d, j);
+
+        return(j);
+    }
+
+    public static JSONObject jsonizeBuyDesire(BuyDesire d)
+    {
+        JSONObject j = new JSONObject();
+
+        j = jsonizeTradeDesire(d, j);
+
+        return(j);
+    }
+
+    public static JSONObject jsonizeSellDesire(SellDesire d)
+    {
+        JSONObject j = new JSONObject();
+
+        j = jsonizeTradeDesire(d, j);
+
+        return(j);
     }
 
     public static void writeDesire(Desire d, ServletResponse resp)
@@ -54,4 +102,5 @@ class Json
 
         return;
     }
+
 }

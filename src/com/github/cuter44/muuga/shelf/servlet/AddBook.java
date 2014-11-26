@@ -56,8 +56,6 @@ public class AddBook extends HttpServlet
         throws ServletException, IOException
     {
         req.setCharacterEncoding("utf-8");
-        resp.setContentType("application/json; charset=utf-8");
-        PrintWriter out = resp.getWriter();
 
         try
         {

@@ -11,19 +11,8 @@ public class TradeDesire extends Desire
     public static final long serialVersionUID = 1L;
 
   // FIELD
-    protected Double price;
 
   // GETTER/SETTER
-    public Double getPrice()
-    {
-        return(this.price);
-    }
-
-    public void setPrice(Double newPrice)
-    {
-        this.price = newPrice;
-        return;
-    }
 
   // CONSTRUCT
     public TradeDesire()

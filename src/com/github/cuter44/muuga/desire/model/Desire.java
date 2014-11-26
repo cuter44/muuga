@@ -16,6 +16,7 @@ public class Desire
     protected String isbn;
     protected Profile originator;
     protected Integer qty;
+    protected Double expense;
 
     protected String ps;
     protected String pos;
@@ -64,6 +65,17 @@ public class Desire
     public void setQty(Integer newQty)
     {
         this.qty = newQty;
+        return;
+    }
+
+    public Double getExpense()
+    {
+        return(this.expense);
+    }
+
+    public void setExpense(Double newExpense)
+    {
+        this.expense = newExpense;
         return;
     }
 

@@ -27,8 +27,7 @@ import com.github.cuter44.muuga.user.exception.*;
    s    :hex    , session key;
 
    <strong>响应</strong>
-   application/json:
-   error:string, ="ok"
+   HTTP 204:NO CONTENT
 
    <strong>例外</strong>
    parsed by {@link com.github.cuter44.muuga.sys.servlet.ExceptionHandler ExceptionHandler}
@@ -51,8 +50,6 @@ public class RemoveBook extends HttpServlet
         throws ServletException, IOException
     {
         req.setCharacterEncoding("utf-8");
-        resp.setContentType("application/json; charset=utf-8");
-        PrintWriter out = resp.getWriter();
 
         try
         {
@@ -71,7 +68,7 @@ public class RemoveBook extends HttpServlet
 
             this.bookDao.commit();
 
-            Json.writeErrorOk(resp);
+            resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
         }
         catch (Exception ex)
         {

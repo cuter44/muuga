@@ -11,12 +11,13 @@
         <property name="isbn" type="string" index="idx_desire_isbn" length="13" not-null="true" />
         <many-to-one name="originator" class="com.github.cuter44.muuga.user.model.Profile" not-null="true" index="idx_book_owner" />
         <property name="qty" type="int" default="1" />
+        <property name="expense" type="double" precision="2" />
+
         <property name="ps" type="string" default="255" />
         <property name="pos" type="string" length="24" />
         
         <property name="tm" type="timestamp" />
         <subclass name="com.github.cuter44.muuga.desire.model.TradeDesire">
-          <property name="price" type="double" precision="2" />
           <subclass name="oom.github.cuter44.muuga.desire.model.BuyDesire">
           </subclass>
           <subclass name="com.github.cuter44.muuga.desire.model.SellDesire">
