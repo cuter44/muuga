@@ -41,7 +41,7 @@ import com.github.cuter44.muuga.desire.core.*;
  *
  *
  */
-@WebServlet("/desire/buy/create.api")
+@WebServlet("/desire/buy/remove.api")
 public class RemoveDesire extends HttpServlet
 {
     private static final String UID     = "uid";

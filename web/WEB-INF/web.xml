@@ -8,6 +8,14 @@
 
   <display-name>muuga</display-name>
 
+  <listener>
+    <listener-class>net.sf.ehcache.constructs.web.ShutdownListener</listener-class>
+  </listener>
+  <listener>
+    <listener-class>com.github.cuter44.muuga.sys.servlet.DeamonRoot</listener-class>
+  </listener>
+
+
   <!--
   <servlet>
     <servlet-name></servlet-name>

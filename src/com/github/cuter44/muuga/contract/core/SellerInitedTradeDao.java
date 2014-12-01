@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.github.cuter44.nyafx.dao.*;
 import static com.github.cuter44.nyafx.dao.EntityNotFoundException.entFound;
+import org.hibernate.criterion.*;
 
 import com.github.cuter44.muuga.contract.model.*;
 import com.github.cuter44.muuga.desire.model.*;
@@ -36,16 +37,16 @@ public class SellerInitedTradeDao extends DaoBase<SellerInitedTrade>
         return(SellerInitedTrade.class);
     }
 
-    public BuyerInitedTrade getActive(Long desireId, Long buyerId)
+    public SellerInitedTrade getActive(Long desireId, Long buyerId)
     {
         DetachedCriteria dc = DetachedCriteria.forClass(SellerInitedTrade.class)
             .createAlias("consume", "consume")
             .add(Restrictions.eq("consume.id", buyerId))
             .add(Restrictions.eq("id", desireId))
-            .add(Restrictions.ge("status", BuyerInitedTrade.STATUS_INIT))
-            .add(Restrictions.lt("status", BuyerInitedTrade.STATUS_FINISH));
+            .add(Restrictions.ge("status", SellerInitedTrade.STATUS_INIT))
+            .add(Restrictions.lt("status", SellerInitedTrade.STATUS_FINISH));
 
-        BuyerInitedTrade t = this.get(dc);
+        SellerInitedTrade t = this.get(dc);
 
         return(t);
     }

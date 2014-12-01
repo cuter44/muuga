@@ -13,7 +13,7 @@ class Json
     private static final String ID  = "id";
     private static final String ORIGINATOR = "originator";
     private static final String ISBN = "isbn";
-    private static final String PRICE = "price";
+    private static final String EXPENSE = "expense";
     private static final String QTY = "qty";
     private static final String PS = "ps";
     private static final String POS = "pos";
@@ -43,6 +43,7 @@ class Json
         j.put(QTY           , d.getQty());
         j.put(PS            , d.getPs());
         j.put(POS           , d.getPos());
+        j.put(EXPENSE       , d.getExpense());
 
         if (d.getOriginator()!=null)
             j.put(ORIGINATOR, d.getOriginator().getId());
@@ -52,8 +53,6 @@ class Json
 
     protected static JSONObject jsonizeTradeDesire(TradeDesire d, JSONObject j)
     {
-        j.put(PRICE, d.getPrice());
-
         j = jsonizeDesire(d, j);
 
         return(j);

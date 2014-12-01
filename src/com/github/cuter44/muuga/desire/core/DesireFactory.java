@@ -35,7 +35,7 @@ public class DesireFactory
     }
 
   // DESIRE
-    public BuyDesire createBuyDesire(Long originatorId, String isbn, Double price, Integer qty, String ps, String pos)
+    public BuyDesire createBuyDesire(Long originatorId, String isbn, Double expense, Integer qty, String ps, String pos)
     {
         DetachedCriteria dc = DetachedCriteria.forClass(BuyDesire.class)
             .createAlias("originator", "originator")
@@ -51,7 +51,7 @@ public class DesireFactory
 
         d.setOriginator(p);
         d.setIsbn(isbn);
-        d.setPrice(price);
+        d.setExpense(expense);
         d.setQty(qty);
         d.setPs(ps);
         d.setPos(pos);
@@ -62,7 +62,7 @@ public class DesireFactory
         return(d);
     }
 
-    public SellDesire createSellDesire(Long originatorId, String isbn, Double price, Integer qty, String ps, String pos)
+    public SellDesire createSellDesire(Long originatorId, String isbn, Double expense, Integer qty, String ps, String pos)
     {
         DetachedCriteria dc = DetachedCriteria.forClass(SellDesire.class)
             .createAlias("originator", "originator")
@@ -78,7 +78,7 @@ public class DesireFactory
 
         d.setOriginator(p);
         d.setIsbn(isbn);
-        d.setPrice(price);
+        d.setExpense(expense);
         d.setQty(qty);
         d.setPs(ps);
         d.setPos(pos);

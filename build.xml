@@ -16,6 +16,7 @@
 
   <!-- 变量 -->
   <property name="srcdir" value="src" />
+  <property name="resdir" value="res" />
   <property name="dtlibdir" value="lib" />
   <property name="webdir" value="web" />
   <property name="javadocdir" value="javadoc" />
@@ -87,6 +88,7 @@
   <target name="build" description="编译">
     <mkdir dir="${destdir}" />
     <antcall target="copy-config" />
+    <antcall target="copy-resource" />
     <javac srcdir="${srcdir}" destdir="${destdir}" failonerror="true" debug="true" includeantruntime="false" encoding="utf-8">
       <compilerarg value="-Xlint:unchecked"/>
       <compilerarg value="-Xlint:deprecation"/>
@@ -110,6 +112,14 @@
       <fileset dir="${srcdir}">
         <include name="**/*.xml" />
         <include name="**/*.properties" />
+      </fileset>
+    </copy>
+  </target>
+
+  <target name="copy-resource" description="复制资源">
+    <copy todir="${destdir}">
+      <fileset dir="${resdir}">
+        <include name="**" />
       </fileset>
     </copy>
   </target>

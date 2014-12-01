@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import com.github.cuter44.nyafx.dao.*;
 import static com.github.cuter44.nyafx.dao.EntityNotFoundException.entFound;
 import com.github.cuter44.nyafx.crypto.*;
+import com.github.cuter44.nyafx.event.*;
 import org.hibernate.criterion.*;
 
 import com.github.cuter44.muuga.user.model.*;
@@ -57,6 +58,25 @@ public class Authorizer
         return;
     }
 
+
+  // CALLBACK
+    protected ListenerList<User> registerListeners = new ListenerList<User>();
+
+    public void addRegisterListener(EventSink<User> l)
+    {
+        this.registerListeners.addListener(l);
+
+        return;
+    }
+
+    protected void notifyRegister(User u)
+    {
+        this.registerListeners.dispatch(new Event<User>(u));
+
+        return;
+    }
+
+
   // SINGLETON
     private static class Singleton
     {
@@ -67,6 +87,8 @@ public class Authorizer
     {
         return(Singleton.instance);
     }
+
+
 
 
   // BASE
@@ -202,7 +224,10 @@ public class Authorizer
             u.setPass(pass);
 
             this.userDao.save(u);
+
         }
+
+        this.notifyRegister(u);
 
         return(u);
     }
