@@ -20,7 +20,6 @@ import com.alibaba.fastjson.*;
 
    <strong>响应</strong>
    application/json
-   attributes refer to {@link Json#jsonizeUserPrivate(User) Json}
 
    <strong>例外</strong>
    parsed by {@link com.github.cuter44.muuga.sys.servlet.ExceptionHandler ExceptionHandler}

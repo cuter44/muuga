@@ -142,7 +142,7 @@ public class Authorizer
 
     /** 验证 session key
      * @param uid
-     * @param pass 登录密码, UTF-8编码
+     * @param skey session key
      * @return boolean session key 正确与否
      * @exception NullPointerException 当uid为null
      */
@@ -158,8 +158,8 @@ public class Authorizer
     }
 
     /** 清除 session key, 即注销登录, 通过登录密码
-     * @param uid, 需要注销登录的 uid
-     * @param pass, UTF-8 编码的登录密码
+     * @param uid , 需要注销登录的 uid
+     * @param pass , UTF-8 编码的登录密码
      * @exception EntityNotFoundException 当指定的uid不存在时
      * @exception UnauthorizedException 当pass错误时
      */
@@ -178,8 +178,8 @@ public class Authorizer
     }
 
     /** 清除 session key, 即注销登录
-     * @param uid, 需要注销登录的 uid
-     * @param skey, session key
+     * @param uid , 需要注销登录的 uid
+     * @param skey , session key
      * @exception EnetityNotFoundException 当指定的uid不存在时
      * @exception UnauthorizedException 当skey不正确时
      */
