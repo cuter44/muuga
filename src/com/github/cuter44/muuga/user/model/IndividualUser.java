@@ -7,6 +7,17 @@ public class IndividualUser extends User
 {
     public static final long serialVersionUID = 1L;
 
+  // CONSTRUCT
+    public IndividualUser()
+    {
+        super();
+    }
+
+    public IndividualUser(String mail)
+    {
+        super(mail);
+    }
+
   // HASH
     @Override
     public int hashCode()

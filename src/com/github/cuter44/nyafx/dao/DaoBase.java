@@ -38,7 +38,7 @@ public abstract class DaoBase<T>
 
   // TRANSACTION
     /** begin a session and transaction
-     * Both session and xact are cross-dao, aka. once you invoke CatDao.begin(),
+     * Both session and xact are cross-dao, i.e. once you invoke CatDao.begin(),
      * it is no needed to invoke DogDao.begin() in the same thread.
      */
     public void begin()

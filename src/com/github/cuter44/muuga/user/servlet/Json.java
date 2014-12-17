@@ -11,14 +11,15 @@ import com.github.cuter44.muuga.user.model.*;
 
 class Json
 {
-    private static final String ID = "id";
+    private static final String ID          = "id";
 
-    private static final String UID = "uid";
-    private static final String UNAME = "uname";
-    private static final String MAIL = "mail";
-    private static final String S = "s";
-    private static final String STATUS = "status";
-    private static final String REG_DATE = "regDate";
+    private static final String UID         = "uid";
+    private static final String UNAME       = "uname";
+    private static final String MAIL        = "mail";
+    private static final String S           = "s";
+    private static final String STATUS      = "status";
+    private static final String REG_DATE    = "regDate";
+    private static final String CLAZZ       = "clazz";
 
     /**
      * export below attributes:
@@ -29,6 +30,7 @@ class Json
        <li>mail     :string             , user e-mail
        <li>status   :byte               , account state, refer to {@link com.github.cuter44.muuga.user.model.User User}
        <li>regDate  :unix-time-millis   , register date
+       <li>clazz    :string             , class of user (IndividualUser, EnterpriseUser, etc.)
        </ul>
      */
     protected static JSONObject jsonizeUserPublic(User u)
@@ -41,6 +43,7 @@ class Json
         j.put(MAIL      , u.getMail());
         j.put(STATUS    , u.getStatus());
         j.put(REG_DATE  , u.getRegDate());
+        j.put(CLAZZ     , u.getClazz());
 
         return(j);
     }

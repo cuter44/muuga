@@ -11,10 +11,10 @@ import static com.github.cuter44.nyafx.servlet.Params.notNull;
 import static com.github.cuter44.nyafx.servlet.Params.getString;
 import static com.github.cuter44.nyafx.servlet.Params.getInt;
 import static com.github.cuter44.nyafx.servlet.Params.getLongList;
+import org.hibernate.*;
 import org.hibernate.criterion.*;
 
 import com.github.cuter44.muuga.Constants;
-import com.github.cuter44.muuga.user.model.*;
 import com.github.cuter44.muuga.user.model.*;
 import com.github.cuter44.muuga.user.core.*;
 import com.github.cuter44.muuga.conf.Configurator;
@@ -27,13 +27,17 @@ import com.github.cuter44.muuga.conf.Configurator;
 
    <strong>参数</strong>
    <i>以下的其中一种</i>
-   <i>精确匹配</i>
-   id:long, 指定uid, 多值时以逗号分隔;
+   <i>精确匹配, 忽略任意匹配参数</i>
+   id       :long       , 指定uid, 多值时以逗号分隔;
    <i>任意匹配</i>
-   q:string, 在 mail, uname, dname, tname 上运行包含匹配(%key%)
+   q        :string     , 在 mail, uname, dname, tname 上运行包含匹配(%key%)
    <i>分页</i>
-   start:int, 返回结果的起始笔数, 缺省从 1 开始
-   size:int, 返回结果的最大笔数, 缺省使用服务器配置
+   start    :int        , 返回结果的起始笔数, 缺省从 1 开始
+   size     :int        , 返回结果的最大笔数, 缺省使用服务器配置
+   <i>排序</i>
+   by       :string             , 按该字段...
+   order    :string=asc|desc    , 顺序|逆序排列
+
 
    <strong>响应</strong>
    application/json array class=user.model.Profile
@@ -53,6 +57,9 @@ public class SearchProfile extends HttpServlet
     private static final String SIZE = "size";
     private static final String ID = "id";
     private static final String Q = "q";
+
+    private static final String ORDER = "order";
+    private static final String BY = "by";
 
     private static final Integer defaultPageSize = Configurator.getInstance().getInt("nyafx.search.defaultpagesize", 20);
 
@@ -75,7 +82,9 @@ public class SearchProfile extends HttpServlet
         {
             Integer start   = getInt(req, START);
             Integer size    = getInt(req, SIZE);
-            size = size!=null?size:defaultPageSize;
+                    size    = size!=null?size:defaultPageSize;
+            String  order   = getString(req, ORDER);
+            String  by      = getString(req, BY);
 
             this.profileDao.begin();
 
@@ -84,6 +93,11 @@ public class SearchProfile extends HttpServlet
             {
                 DetachedCriteria dc = DetachedCriteria.forClass(Profile.class)
                     .add(Restrictions.in("id", uids));
+
+                if ("asc".equals(order))
+                    dc.addOrder(Order.asc(by));
+                if ("desc".equals(order))
+                    dc.addOrder(Order.desc(by));
 
                 List<Profile> l = (List<Profile>)this.profileDao.search(dc);
 
@@ -98,12 +112,22 @@ public class SearchProfile extends HttpServlet
             if (q != null && q.length() > 0)
             {
                 q = "%"+q+"%";
-                List<Profile> l = (List<Profile>)this.profileDao.createQuery(
-                    "SELECT p FROM Profile p INNER JOIN p.user u "+
-                        "WHERE p.dname LIKE :q OR p.tname LIKE :q "+
-                        "OR    u.uname LIKE :q OR u.mail LIKE :q")
-                    .setString("q", q)
-                    .list();
+
+                String hql = "SELECT p FROM Profile p INNER JOIN p.user u "+
+                    "WHERE p.dname LIKE :q OR p.tname LIKE :q "+
+                    "OR    u.uname LIKE :q OR u.mail LIKE :q";
+
+                if ("asc".equals(order))
+                    hql = hql + " ORDER ASC BY :by";
+                if ("desc".equals(order))
+                    hql = hql + " ORDER DESC BY :by";
+
+                Query query = this.profileDao.createQuery(hql)
+                    .setString("q", q);
+                if (by !=  null)
+                    query.setString("by", by);
+
+                List<Profile> l = (List<Profile>)query.list();
 
                 this.profileDao.commit();
 

@@ -34,4 +34,20 @@ public class ContractBaseDao extends DaoBase<ContractBase>
     }
 
   // EXTENDED
+    public boolean isSupplier(Long contractId, Long profileId)
+    {
+        TradeContract trade = (TradeContract)this.get(contractId);
+
+        try
+        {
+            return(
+                profileId.equals(
+                    trade.getSupply().getId()
+            ));
+        }
+        catch (NullPointerException ex)
+        {
+            return(false);
+        }
+    }
 }

@@ -52,7 +52,7 @@ public class SellerInitedTradeDao extends DaoBase<SellerInitedTrade>
     }
 
   // EXTENDED
-    public SellerInitedTrade create(BuyDesire desire, Book book, Profile seller)
+    public SellerInitedTrade create(BuyDesire desire, Profile seller, Book book)
     {
         SellerInitedTrade t = this.getActive(desire.getId(), seller.getId());
         if (t != null)
@@ -65,6 +65,7 @@ public class SellerInitedTradeDao extends DaoBase<SellerInitedTrade>
         t.setConsume(desire.getOriginator());
         t.setIsbn(desire.getIsbn());
         t.setExpense(desire.getExpense());
+        t.setBook(book);
 
         t.setStatus(SellerInitedTrade.STATUS_INIT);
 

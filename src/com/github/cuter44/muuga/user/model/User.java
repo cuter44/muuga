@@ -50,8 +50,9 @@ public class User
      */
     protected Date regDate;
 
+    protected String clazz;
 
-  // GETTER/SETTER
+  // ACCESSOR
     public Long getId()
     {
         return(id);
@@ -122,6 +123,17 @@ public class User
     public void setRegDate(Date aRegDate)
     {
         this.regDate = aRegDate;
+    }
+
+    public String getClazz()
+    {
+        return(this.clazz);
+    }
+
+    public void setClazz(String newClazz)
+    {
+        this.clazz = newClazz;
+        return;
     }
 
   // CONSTRUCT

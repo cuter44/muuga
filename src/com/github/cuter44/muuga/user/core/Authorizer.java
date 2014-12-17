@@ -214,7 +214,7 @@ public class Authorizer
         }
         else
         {
-            u = new User(mail);
+            u = new IndividualUser(mail);
 
             u.setStatus(User.REGISTERED);
             u.setRegDate(new Date(System.currentTimeMillis()));

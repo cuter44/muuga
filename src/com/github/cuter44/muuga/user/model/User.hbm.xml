@@ -7,7 +7,7 @@
         <id	name="id" type="long">
             <generator class="identity"/>
         </id>
-        <discriminator></discriminator>
+        <discriminator column="class" />
         
         <property name="mail" type="string" unique="true" not-null="true" />
         <property name="uname" type="string" unique="true" length="60" />
@@ -18,6 +18,8 @@
 
         <property name="status" type="byte" not-null="true" />
         <property name="regDate" type="timestamp" />
+
+        <property name="clazz" type="string" column="class" insert="false" update="false" />
 
         <subclass name="com.github.cuter44.muuga.user.model.IndividualUser" discriminator-value="IndividualUser" ></subclass>
         <subclass name="com.github.cuter44.muuga.user.model.EnterpriseUser" discriminator-value="EnterpriseUser" ></subclass>

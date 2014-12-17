@@ -2,13 +2,12 @@ package com.github.cuter44.nyafx.servlet;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
-/* util */
+import java.util.Date;
 import java.util.List;
 import java.util.Iterator;
 import java.util.StringTokenizer;
 
 import javax.servlet.http.Cookie;
-/* http */
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -81,7 +80,7 @@ public class Params
     {
         String value = getString(req, name);
         if (value == null)
-            throw(new MissingParameterException("Required parameter/cookies/parameter but not found:"+name));
+            throw(new MissingParameterException("Required parameter/cookies/attribute but not found:"+name));
 
         return(value);
     }
@@ -114,7 +113,7 @@ public class Params
     {
         Integer value = getInt(req, name);
         if (value == null)
-            throw(new MissingParameterException("Required int parameter/cookies/parameter but not found:"+name));
+            throw(new MissingParameterException("Required int parameter/cookies/attribute but not found:"+name));
 
         return(value);
     }
@@ -137,7 +136,7 @@ public class Params
     {
         Float value = getFloat(req, name);
         if (value == null)
-            throw(new MissingParameterException("Required float parameter/cookies/parameter but not found:"+name));
+            throw(new MissingParameterException("Required float parameter/cookies/attribute but not found:"+name));
 
         return(value);
     }
@@ -169,7 +168,7 @@ public class Params
     {
         Double value = getDouble(req, name);
         if (value == null)
-            throw(new MissingParameterException("Required double parameter/cookies/parameter but not found:"+name));
+            throw(new MissingParameterException("Required double parameter/cookies/attribute but not found:"+name));
 
         return(value);
     }
@@ -201,7 +200,7 @@ public class Params
     {
         Byte value = getByte(req, name);
         if (value == null)
-            throw(new MissingParameterException("Required byte parameter/cookies/parameter but not found:"+name));
+            throw(new MissingParameterException("Required byte parameter/cookies/attribute but not found:"+name));
 
         return(value);
     }
@@ -224,7 +223,33 @@ public class Params
     {
         Long value = getLong(req, name);
         if (value == null)
-            throw(new MissingParameterException("Required long parameter/cookies/parameter but not found:"+name));
+            throw(new MissingParameterException("Required long parameter/cookies/attribute but not found:"+name));
+
+        return(value);
+    }
+
+    /**
+     * accept a Java/javascript:Date.getTime() as param-value.
+     */
+    public static Date getDate(HttpServletRequest req, String name)
+    {
+        try
+        {
+            Long v = getLong(req, name);
+            return(v==null?null:new Date(v));
+        }
+        catch (Exception ex)
+        {
+            ex.printStackTrace();
+            return(null);
+        }
+    }
+
+    public static Date needDate(HttpServletRequest req, String name)
+    {
+        Date value = getDate(req, name);
+        if (value == null)
+            throw(new MissingParameterException("Required date parameter/cookies/attribute but not found:"+name));
 
         return(value);
     }
@@ -262,7 +287,7 @@ public class Params
     {
         byte[] value = getByteArray(req, name);
         if (value == null)
-            throw(new MissingParameterException("Required byte array parameter/cookies/parameter but not found:"+name));
+            throw(new MissingParameterException("Required byte array parameter/cookies/attribute but not found:"+name));
 
         return(value);
     }
@@ -277,7 +302,7 @@ public class Params
     {
         Boolean value = getBoolean(req, name);
         if (value == null)
-            throw(new MissingParameterException("Required boolean parameter/cookies/parameter but not found:"+name));
+            throw(new MissingParameterException("Required boolean parameter/cookies/attribute but not found:"+name));
 
         return(value);
     }
@@ -311,7 +336,7 @@ public class Params
     {
         List<String> value = getStringList(req, name);
         if (value == null)
-            throw(new MissingParameterException("Required float parameter/cookies/parameter but not found:"+name));
+            throw(new MissingParameterException("Required float parameter/cookies/attribute but not found:"+name));
 
         return(value);
     }
@@ -343,7 +368,7 @@ public class Params
     {
         List<Long> value = getLongList(req, name);
         if (value == null)
-            throw(new MissingParameterException("Required float parameter/cookies/parameter but not found:"+name));
+            throw(new MissingParameterException("Required float parameter/cookies/attribute but not found:"+name));
 
         return(value);
     }

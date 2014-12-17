@@ -11,10 +11,6 @@ public class SellerInitedTrade extends TradeContract
   // FIELDS
 
   // ACCESSOR
-    public String getType()
-    {
-        return("SellerInitedTrade");
-    }
 
   // CONSTRUCT
     public SellerInitedTrade()

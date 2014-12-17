@@ -17,10 +17,13 @@
         <property name="pos" type="string" length="24" />
         
         <property name="tm" type="timestamp" />
-        <subclass name="com.github.cuter44.muuga.desire.model.TradeDesire">
-          <subclass name="oom.github.cuter44.muuga.desire.model.BuyDesire">
+
+        <property name="clazz" type="string" column="class" insert="false" update="false" />
+
+        <subclass name="com.github.cuter44.muuga.desire.model.TradeDesire" discriminator-value="TradeDesire" >
+          <subclass name="oom.github.cuter44.muuga.desire.model.BuyDesire" discriminator-value="BuyDesire" >
           </subclass>
-          <subclass name="com.github.cuter44.muuga.desire.model.SellDesire">
+          <subclass name="com.github.cuter44.muuga.desire.model.SellDesire" discriminator-value="SellDesire" >
           </subclass>
         </subclass>
     </class>

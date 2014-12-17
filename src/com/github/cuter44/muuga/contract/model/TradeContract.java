@@ -11,10 +11,10 @@ public class TradeContract extends ContractBase
   // FIELDS
     /** 1, 已支付
      */
-    public static final Byte STATUS_PAYED = 1;
+    public static final Byte STATUS_PAYED = 2;
     /** 2, 已交付
      */
-    public static final Byte STATUS_DELIEVERED = 2;
+    public static final Byte STATUS_DELIEVERED = 3;
 
   // ACCESSOR
 

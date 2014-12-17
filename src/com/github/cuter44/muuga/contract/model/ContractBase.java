@@ -25,6 +25,11 @@ public class ContractBase
     protected Date tmCreate;
     protected Date tmStatus;
 
+    protected String clazz;
+
+    /**
+     * 子类具有不同的状态, 你可能需要沿继承树翻阅多个文档才能得到全部可能的值
+     */
     protected Byte status;
     /** 0, 初始状态
      */
@@ -35,7 +40,10 @@ public class ContractBase
     /** -2, 需求方放弃
      */
     public static final Byte STATUS_CONSUME_QUIT = -2;
-    /** 16, 完成
+    /** 1, 对方已接受该交易
+     */
+    public static final Byte STATUS_ACKED = 1;
+    /** 255, 完成
      */
     public static final Byte STATUS_FINISH = 16;
 
@@ -128,6 +136,17 @@ public class ContractBase
         return;
     }
 
+    public String getClazz()
+    {
+        return(this.clazz);
+    }
+
+    public void setClazz(String newClazz)
+    {
+        this.clazz = newClazz;
+        return;
+    }
+
     public Byte getStatus()
     {
         return(this.status);
@@ -136,12 +155,9 @@ public class ContractBase
     public void setStatus(Byte newStatus)
     {
         this.status = newStatus;
-        return;
-    }
+        this.tmStatus = new Date(System.currentTimeMillis());
 
-    public String getType()
-    {
-        throw(new UnsupportedOperationException());
+        return;
     }
 
   // CONSTRUCT

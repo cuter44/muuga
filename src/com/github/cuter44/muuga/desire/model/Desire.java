@@ -23,6 +23,8 @@ public class Desire
 
     protected Date tm;
 
+    protected String clazz;
+
   // GETTER/SETTER
     public Long getId()
     {
@@ -109,6 +111,17 @@ public class Desire
     public void setTm(Date newTm)
     {
         this.tm = newTm;
+        return;
+    }
+
+    public String getClazz()
+    {
+        return(this.clazz);
+    }
+
+    public void setClazz(String newClazz)
+    {
+        this.clazz = newClazz;
         return;
     }
 

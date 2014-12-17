@@ -24,7 +24,7 @@ import com.github.cuter44.muuga.shelf.core.*;
  * <pre style="font-size:12px">
 
    <strong>请求</strong>
-   GET/POST /book/search
+   GET/POST /book/search.api
 
    <strong>参数</strong>
    <i>以下零至多个参数组, 按参数名分组, 组内以,分隔以or逻辑连接, 组间以and逻辑连接, 完全匹配</i>
@@ -48,6 +48,7 @@ import com.github.cuter44.muuga.shelf.core.*;
  * </pre>
  *
  */
+@WebServlet("/book/search.api")
 public class SearchBook extends HttpServlet
 {
     private static final String ID = "id";

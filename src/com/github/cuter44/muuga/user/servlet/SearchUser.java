@@ -10,6 +10,7 @@ import org.hibernate.criterion.*;
 import com.github.cuter44.nyafx.dao.*;
 import static com.github.cuter44.nyafx.servlet.Params.getLongList;
 import static com.github.cuter44.nyafx.servlet.Params.getInt;
+import static com.github.cuter44.nyafx.servlet.Params.getString;
 import static com.github.cuter44.nyafx.servlet.Params.getStringList;
 
 import com.github.cuter44.muuga.Constants;
@@ -25,12 +26,15 @@ import com.github.cuter44.muuga.user.core.*;
 
    <strong>参数</strong>
    <i>以下零至多个参数组, 按参数名分组, 组内以,分隔以or逻辑连接, 组间以and逻辑连接, 完全匹配</i>
-   uid:long, uid
-   mail:string(60), 邮件地址
-   uname:string, 用户名字, 不包含显示名
+   uid      :long       , uid
+   mail     :string(60) , 邮件地址
+   uname    :string     , 用户名字, 不包含显示名
    <i>分页</i>
-   start:int, 返回结果的起始笔数, 缺省从 1 开始
-   size:int, 返回结果的最大笔数, 缺省使用服务器配置
+   start    :int        , 返回结果的起始笔数, 缺省从 1 开始
+   size     :int        , 返回结果的最大笔数, 缺省使用服务器配置
+   <i>排序</i>
+   by       :string             , 按该字段...
+   order    :string=asc|desc    , 顺序|逆序排列
 
    <strong>响应</strong>
    application/json array class=user.model.User(public)
@@ -51,6 +55,9 @@ public class SearchUser extends HttpServlet
     private static final String UID = "uid";
     private static final String MAIL = "mail";
     private static final String UNAME = "uname";
+
+    private static final String ORDER = "order";
+    private static final String BY = "by";
 
     private static final Integer defaultPageSize = Configurator.getInstance().getInt("nyafx.search.defaultpagesize", 20);
 
@@ -93,9 +100,17 @@ public class SearchUser extends HttpServlet
                 req
             );
 
-            Integer start   =   getInt(req, START);
-            Integer size    =   getInt(req, SIZE);
-            size            =   size!=null?size:defaultPageSize;
+            Integer start   = getInt(req, START);
+            Integer size    = getInt(req, SIZE);
+                    size    = size!=null?size:defaultPageSize;
+            String  order   = getString(req, ORDER);
+            String  by      = getString(req, BY);
+
+
+            if ("asc".equals(order))
+                dc.addOrder(Order.asc(by));
+            if ("desc".equals(order))
+                dc.addOrder(Order.desc(by));
 
             this.userDao.begin();
 
