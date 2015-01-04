@@ -80,7 +80,7 @@ public class Authorizer
   // SINGLETON
     private static class Singleton
     {
-        public static final Authorizer instance = new Authorizer();
+        public static Authorizer instance = new Authorizer();
     }
 
     public static Authorizer getInstance()
@@ -209,14 +209,14 @@ public class Authorizer
 
         if (u != null)
         {
-            if (!User.REGISTERED.equals(u.getStatus()))
+            if (!User.STATUS_REGISTERED.equals(u.getStatus()))
                 throw(new EntityDuplicatedException("Mail address is occupied:"+mail));
         }
         else
         {
             u = new IndividualUser(mail);
 
-            u.setStatus(User.REGISTERED);
+            u.setStatus(User.STATUS_REGISTERED);
             u.setRegDate(new Date(System.currentTimeMillis()));
 
             byte[] pass = ByteBuffer.allocate(16).put(this.rsa.randomBytes(16)).array();
@@ -242,7 +242,7 @@ public class Authorizer
     {
         User u = (User)entFound(this.userDao.get(uid));
 
-        if (!User.REGISTERED.equals(u.getStatus()))
+        if (!User.STATUS_REGISTERED.equals(u.getStatus()))
             throw(new LoginBlockedException());
 
         if (!Arrays.equals(u.getPass(), activateCode))
@@ -250,7 +250,7 @@ public class Authorizer
 
         this.setPassword(uid, newPass);
 
-        u.setStatus(User.ACTIVATED);
+        u.setStatus(User.STATUS_ACTIVATED);
 
         this.userDao.update(u);
 
@@ -269,7 +269,7 @@ public class Authorizer
         User u = (User)entFound(this.userDao.get(uid));
 
         // 验证状态
-        if (!User.ACTIVATED.equals(u.getStatus()))
+        if (!User.STATUS_ACTIVATED.equals(u.getStatus()))
             throw(new LoginBlockedException());
 
         // 验证密码

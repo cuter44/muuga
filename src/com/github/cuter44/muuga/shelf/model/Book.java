@@ -9,7 +9,7 @@ import com.github.cuter44.muuga.user.model.Profile;
  * 书被以单本的方式加入到收藏中, i.e. 同一个账户可以加入相同isbn的书
  */
 public class Book
-    implements Serializable
+    implements Serializable, Cloneable
 {
     public static final long serialVersionUID = 1L;
 
@@ -100,6 +100,20 @@ public class Book
         this.owner = aOwner;
 
         return;
+    }
+
+  // CLONE
+
+    /** clone Book without id nor owner
+     */
+    @Override
+    public Object clone()
+    {
+        Book b = new Book();
+
+        b.setIsbn(this.isbn);
+
+        return(b);
     }
 
   // EXTENDED

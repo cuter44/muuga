@@ -18,12 +18,12 @@ public class ContractBaseDao extends DaoBase<ContractBase>
   // SINGLETON
     private static class Singleton
     {
-        public static final ContractBaseDao INSTANCE = new ContractBaseDao();
+        public static ContractBaseDao instance = new ContractBaseDao();
     }
 
     public static ContractBaseDao getInstance()
     {
-        return(Singleton.INSTANCE);
+        return(Singleton.instance);
     }
 
   // GET

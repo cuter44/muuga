@@ -21,12 +21,12 @@ public class BuyerInitedTradeDao extends DaoBase<BuyerInitedTrade>
   // SINGLETON
     private static class Singleton
     {
-        public static final BuyerInitedTradeDao INSTANCE = new BuyerInitedTradeDao();
+        public static BuyerInitedTradeDao instance = new BuyerInitedTradeDao();
     }
 
     public static BuyerInitedTradeDao getInstance()
     {
-        return(Singleton.INSTANCE);
+        return(Singleton.instance);
     }
 
   // GET

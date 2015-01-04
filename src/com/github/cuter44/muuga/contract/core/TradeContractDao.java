@@ -18,12 +18,12 @@ public class TradeContractDao extends DaoBase<TradeContract>
   // SINGLETON
     private static class Singleton
     {
-        public static final TradeContractDao INSTANCE = new TradeContractDao();
+        public static TradeContractDao instance = new TradeContractDao();
     }
 
     public static TradeContractDao getInstance()
     {
-        return(Singleton.INSTANCE);
+        return(Singleton.instance);
     }
 
   // GET

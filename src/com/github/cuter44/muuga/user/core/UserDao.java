@@ -16,12 +16,12 @@ public class UserDao extends DaoBase<User>
   // SINGLETON
     private static class Singleton
     {
-        public static final UserDao INSTANCE = new UserDao();
+        public static UserDao instance = new UserDao();
     }
 
     public static UserDao getInstance()
     {
-        return(Singleton.INSTANCE);
+        return(Singleton.instance);
     }
 
   // GET
@@ -56,7 +56,7 @@ public class UserDao extends DaoBase<User>
     {
         User u = this.get(id);
         return(
-            User.ACTIVATED.equals(u.getStatus())
+            User.STATUS_ACTIVATED.equals(u.getStatus())
         );
     }
 
@@ -64,7 +64,7 @@ public class UserDao extends DaoBase<User>
     {
         User u = this.get(id);
         return(
-            User.REGISTERED.equals(u.getStatus())
+            User.STATUS_REGISTERED.equals(u.getStatus())
         );
     }
 }

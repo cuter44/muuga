@@ -20,12 +20,12 @@ public class BookDao extends DaoBase<Book>
   // SINGLETON
     private static class Singleton
     {
-        public static final BookDao INSTANCE = new BookDao();
+        public static BookDao instance = new BookDao();
     }
 
     public static BookDao getInstance()
     {
-        return(Singleton.INSTANCE);
+        return(Singleton.instance);
     }
 
   // GET

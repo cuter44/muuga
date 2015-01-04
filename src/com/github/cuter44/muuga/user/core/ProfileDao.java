@@ -34,7 +34,7 @@ public class ProfileDao extends DaoBase<Profile>
   // Singleton
     private static class Singleton
     {
-        public static final ProfileDao instance = new ProfileDao();
+        public static ProfileDao instance = new ProfileDao();
     }
 
     public static ProfileDao getInstance()

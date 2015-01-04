@@ -16,12 +16,12 @@ public class DesireDao extends DaoBase<Desire>
   // SINGLETON
     private static class Singleton
     {
-        public static final DesireDao INSTANCE = new DesireDao();
+        public static DesireDao instance = new DesireDao();
     }
 
     public static DesireDao getInstance()
     {
-        return(Singleton.INSTANCE);
+        return(Singleton.instance);
     }
 
   // GET

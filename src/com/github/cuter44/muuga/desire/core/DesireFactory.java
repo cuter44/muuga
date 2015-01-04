@@ -26,12 +26,12 @@ public class DesireFactory
   // SINGLETON
     private static class Singleton
     {
-        public static final DesireFactory INSTANCE = new DesireFactory();
+        public static DesireFactory instance = new DesireFactory();
     }
 
     public static DesireFactory getInstance()
     {
-        return(Singleton.INSTANCE);
+        return(Singleton.instance);
     }
 
   // DESIRE

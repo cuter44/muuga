@@ -21,7 +21,7 @@ public class Configurator
   // SINGLETON
     private static class Singleton
     {
-        public static final Configurator instance = new Configurator();
+        public static Configurator instance = new Configurator();
     }
 
     public static Configurator getInstance()

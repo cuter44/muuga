@@ -26,13 +26,13 @@ public class TradeController
   // SINGLETON
     private static class Singleton
     {
-        public static final TradeController INSTANCE = new TradeController();
+        public static TradeController instance = new TradeController();
     }
 
     public static TradeController getInstance()
     {
         return(
-            Singleton.INSTANCE
+            Singleton.instance
         );
     }
 

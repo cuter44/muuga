@@ -12,16 +12,16 @@ public class User
     // 帐户状态枚举
     /** 0, 注册
      */
-    public static final Byte REGISTERED = 0;
+    public static final Byte STATUS_REGISTERED = 0;
     /** 1, 已验证邮箱
      */
-    public static final Byte ACTIVATED = 1;
+    public static final Byte STATUS_ACTIVATED = 1;
     /** -1, 主动注销
      */
-    public static final Byte CANCELED = -1;
+    public static final Byte STATUS_CANCELED = -1;
     /** -2, 封号
      */
-    public static final Byte BANNED = -2;
+    public static final Byte STATUS_BANNED = -2;
 
   // FIELDS
     protected Long id;
