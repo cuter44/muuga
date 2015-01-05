@@ -11,23 +11,23 @@ import com.github.cuter44.muuga.user.model.*;
 
 class Json
 {
-    private static final String ID = "id";
-    private static final String ISBN = "isbn";
-    private static final String OWNER = "owner";
-    private static final String REG_DATE = "regDate";
-    private static final String STATUS = "status";
+    private static final String ID          = "id";
+    private static final String ISBN        = "isbn";
+    private static final String OWNER       = "owner";
+    private static final String REG_DATE    = "regDate";
+    private static final String STATUS      = "status";
 
 
-    public static JSONObject jsonizeBook(Book b)
+    public static JSONObject jsonizeBook(Book book)
     {
         JSONObject j = new JSONObject();
 
-        j.put(ID        , b.getId());
-        j.put(ISBN      , b.getIsbn());
-        j.put(REG_DATE  , b.getRegDate());
+        j.put(ID        , book.getId());
+        j.put(ISBN      , book.getIsbn());
+        j.put(REG_DATE  , book.getRegDate());
 
-        if (b.getOwner()!=null)
-            j.put(OWNER , b.getOwner().getId());
+        if (book.getOwner()!=null)
+            j.put(OWNER , book.getOwner().getId());
 
         return(j);
     }
@@ -36,13 +36,13 @@ class Json
     {
         JSONArray j = new JSONArray();
 
-        for (Book b:coll)
-            j.add(jsonizeBook(b));
+        for (Book book:coll)
+            j.add(jsonizeBook(book));
 
         return(j);
     }
 
-    public static void writeBook(Book b, ServletResponse resp)
+    public static void writeBook(Book book, ServletResponse resp)
         throws IOException
     {
         resp.setContentType("application/json; charset=utf-8");
@@ -50,13 +50,13 @@ class Json
         PrintWriter out = resp.getWriter();
 
         out.println(
-            jsonizeBook(b).toJSONString()
+            jsonizeBook(book).toJSONString()
         );
 
         return;
     }
 
-    public static void writeBook(Collection<Book> b, ServletResponse resp)
+    public static void writeBook(Collection<Book> book, ServletResponse resp)
         throws IOException
     {
         resp.setContentType("application/json; charset=utf-8");
@@ -64,7 +64,7 @@ class Json
         PrintWriter out = resp.getWriter();
 
         out.println(
-            jsonizeBook(b).toJSONString()
+            jsonizeBook(book).toJSONString()
         );
 
         return;

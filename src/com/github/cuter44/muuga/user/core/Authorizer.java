@@ -15,6 +15,7 @@ import org.hibernate.criterion.*;
 import com.github.cuter44.muuga.user.model.*;
 import com.github.cuter44.muuga.user.exception.*;
 import com.github.cuter44.muuga.conf.*;
+import com.github.cuter44.muuga.Constants;
 
 /** 身份验证及访问控制模块
  * 提供基于帐号密码的身份验证实现:
@@ -38,12 +39,15 @@ import com.github.cuter44.muuga.conf.*;
  */
 public class Authorizer
 {
+    protected static final String EVENT_TYPE_REGISTER = Constants.EVENT_TYPE_REGISTER;
+
   // CONSTRUCT
     protected static Integer SKEY_LENGTH;
     protected static Integer SALT_LENGTH;
 
     protected UserDao userDao;
     protected RSACrypto rsa;
+    protected EventHub eventHub;
 
     public Authorizer()
     {
@@ -54,28 +58,10 @@ public class Authorizer
 
         this.userDao = UserDao.getInstance();
         this.rsa = RSACrypto.getInstance();
+        this.eventHub = EventHub.getInstance();
 
         return;
     }
-
-
-  // CALLBACK
-    protected ListenerList<User> registerListeners = new ListenerList<User>();
-
-    public void addRegisterListener(EventSink<User> l)
-    {
-        this.registerListeners.addListener(l);
-
-        return;
-    }
-
-    protected void notifyRegister(User u)
-    {
-        this.registerListeners.dispatch(new Event<User>(u));
-
-        return;
-    }
-
 
   // SINGLETON
     private static class Singleton
@@ -99,18 +85,18 @@ public class Authorizer
      */
     public void setPassword(Long uid, byte[] pass)
     {
-        User u = (User)entFound(this.userDao.get(uid));
+        User user = (User)entFound(this.userDao.get(uid));
 
         byte[] salt = this.rsa.randomBytes(SALT_LENGTH);
-        u.setSalt(salt);
+        user.setSalt(salt);
 
         byte[] buf = ByteBuffer.allocate(pass.length + salt.length)
             .put(pass)
             .put(salt)
             .array();
-        u.setPass(this.rsa.MD5Digest(buf));
+        user.setPass(this.rsa.MD5Digest(buf));
 
-        this.userDao.update(u);
+        this.userDao.update(user);
 
         return;
     }
@@ -125,16 +111,16 @@ public class Authorizer
     public boolean verifyPassword(Long uid, byte[] pass)
         throws IllegalArgumentException, EntityNotFoundException
     {
-        User u = (User)entFound(this.userDao.get(uid));
+        User user = (User)entFound(this.userDao.get(uid));
 
-        byte[] salt = u.getSalt();
+        byte[] salt = user.getSalt();
         byte[] buf = ByteBuffer.allocate(pass.length + salt.length)
             .put(pass)
             .put(salt)
             .array();
         buf = this.rsa.MD5Digest(buf);
 
-        if (Arrays.equals(u.getPass(), buf))
+        if (Arrays.equals(user.getPass(), buf))
             return(true);
         else
             return(false);
@@ -149,9 +135,9 @@ public class Authorizer
     public boolean verifySkey(Long uid, byte[] skey)
         throws IllegalArgumentException, EntityNotFoundException
     {
-        User u = (User)entFound(this.userDao.get(uid));
+        User user = (User)entFound(this.userDao.get(uid));
 
-        if (Arrays.equals(u.getSkey(), skey))
+        if (Arrays.equals(user.getSkey(), skey))
             return(true);
         else
             return(false);
@@ -168,11 +154,11 @@ public class Authorizer
         if (!this.verifyPassword(uid, pass))
             throw(new UnauthorizedException());
 
-        User u = this.userDao.get(uid);
+        User user = this.userDao.get(uid);
 
-        u.setSkey(null);
+        user.setSkey(null);
 
-        this.userDao.update(u);
+        this.userDao.update(user);
 
         return;
     }
@@ -188,11 +174,11 @@ public class Authorizer
         if (!this.verifySkey(uid, skey))
             throw(new UnauthorizedException());
 
-        User u = this.userDao.get(uid);
+        User user = this.userDao.get(uid);
 
-        u.setSkey(null);
+        user.setSkey(null);
 
-        this.userDao.update(u);
+        this.userDao.update(user);
 
         return;
     }
@@ -205,31 +191,31 @@ public class Authorizer
      */
     public User register(String mail)
     {
-        User u = this.userDao.forMail(mail);
+        User user = this.userDao.forMail(mail);
 
-        if (u != null)
+        if (user != null)
         {
-            if (!User.STATUS_REGISTERED.equals(u.getStatus()))
+            if (!User.STATUS_REGISTERED.equals(user.getStatus()))
                 throw(new EntityDuplicatedException("Mail address is occupied:"+mail));
         }
         else
         {
-            u = new IndividualUser(mail);
+            user = new IndividualUser(mail);
 
-            u.setStatus(User.STATUS_REGISTERED);
-            u.setRegDate(new Date(System.currentTimeMillis()));
+            user.setStatus(User.STATUS_REGISTERED);
+            user.setRegDate(new Date(System.currentTimeMillis()));
 
             byte[] pass = ByteBuffer.allocate(16).put(this.rsa.randomBytes(16)).array();
 
-            u.setPass(pass);
+            user.setPass(pass);
 
-            this.userDao.save(u);
+            this.userDao.save(user);
 
         }
 
-        this.notifyRegister(u);
+        this.eventHub.dispatch(this.EVENT_TYPE_REGISTER, new Event(user));
 
-        return(u);
+        return(user);
     }
 
     /** 激活帐号并设定登录密码
@@ -240,19 +226,19 @@ public class Authorizer
      */
     public void activate(Long uid, byte[] activateCode, byte[] newPass)
     {
-        User u = (User)entFound(this.userDao.get(uid));
+        User user = (User)entFound(this.userDao.get(uid));
 
-        if (!User.STATUS_REGISTERED.equals(u.getStatus()))
+        if (!User.STATUS_REGISTERED.equals(user.getStatus()))
             throw(new LoginBlockedException());
 
-        if (!Arrays.equals(u.getPass(), activateCode))
+        if (!Arrays.equals(user.getPass(), activateCode))
             throw(new UnauthorizedException());
 
         this.setPassword(uid, newPass);
 
-        u.setStatus(User.STATUS_ACTIVATED);
+        user.setStatus(User.STATUS_ACTIVATED);
 
-        this.userDao.update(u);
+        this.userDao.update(user);
 
         return;
     }
@@ -266,20 +252,20 @@ public class Authorizer
     public void login(Long uid, byte[] pass)
         throws UnauthorizedException, EntityNotFoundException
     {
-        User u = (User)entFound(this.userDao.get(uid));
+        User user = (User)entFound(this.userDao.get(uid));
 
         // 验证状态
-        if (!User.STATUS_ACTIVATED.equals(u.getStatus()))
+        if (!User.STATUS_ACTIVATED.equals(user.getStatus()))
             throw(new LoginBlockedException());
 
         // 验证密码
         if (!this.verifyPassword(uid, pass))
             throw(new UnauthorizedException());
 
-        if (u.getSkey() == null)
+        if (user.getSkey() == null)
         {
-            u.setSkey(this.rsa.randomBytes(SKEY_LENGTH));
-            this.userDao.update(u);
+            user.setSkey(this.rsa.randomBytes(SKEY_LENGTH));
+            this.userDao.update(user);
         }
 
         return;

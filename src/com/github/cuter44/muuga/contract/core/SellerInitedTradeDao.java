@@ -39,42 +39,42 @@ public class SellerInitedTradeDao extends DaoBase<SellerInitedTrade>
 
     public SellerInitedTrade getActive(Long desireId, Long buyerId)
     {
-        DetachedCriteria dc = DetachedCriteria.forClass(SellerInitedTrade.class)
+        DetachedCriteria dc = DetachedCriteria.forClass(this.classOfT())
             .createAlias("consume", "consume")
             .add(Restrictions.eq("consume.id", buyerId))
             .add(Restrictions.eq("id", desireId))
             .add(Restrictions.ge("status", SellerInitedTrade.STATUS_INIT))
             .add(Restrictions.lt("status", SellerInitedTrade.STATUS_FINISH));
 
-        SellerInitedTrade t = this.get(dc);
+        SellerInitedTrade trade = this.get(dc);
 
-        return(t);
+        return(trade);
     }
 
   // EXTENDED
     public SellerInitedTrade create(BuyDesire desire, Profile seller, Book book)
     {
-        SellerInitedTrade t = this.getActive(desire.getId(), seller.getId());
-        if (t != null)
-            return(t);
+        SellerInitedTrade trade = this.getActive(desire.getId(), seller.getId());
+        if (trade != null)
+            return(trade);
 
         // else
-        t = new SellerInitedTrade();
+        trade = new SellerInitedTrade();
 
-        t.setSupply(seller);
-        t.setConsume(desire.getOriginator());
-        t.setIsbn(desire.getIsbn());
-        t.setExpense(desire.getExpense());
-        t.setBook(book);
+        trade.setSupply(seller);
+        trade.setConsume(desire.getOriginator());
+        trade.setIsbn(desire.getIsbn());
+        trade.setExpense(desire.getExpense());
+        trade.setBook(book);
 
-        t.setStatus(SellerInitedTrade.STATUS_INIT);
+        trade.setStatus(SellerInitedTrade.STATUS_INIT);
 
         Date d = new Date(System.currentTimeMillis());
-        t.setTmCreate(d);
-        t.setTmStatus(d);
+        trade.setTmCreate(d);
+        trade.setTmStatus(d);
 
-        this.save(t);
+        this.save(trade);
 
-        return(t);
+        return(trade);
     }
 }

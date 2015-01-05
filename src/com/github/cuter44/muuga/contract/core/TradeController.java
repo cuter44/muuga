@@ -37,7 +37,13 @@ public class TradeController
     }
 
   // CREATE
-    public BuyerInitedTrade buyerInitTrade(SellDesire desire, Profile buyer)
+    //public TradeContractDao createTrade(Long desireId, Long acceptorId)
+    //{
+        //if ()
+
+    //}
+
+    protected BuyerInitedTrade buyerInitTrade(SellDesire desire, Profile buyer)
     {
         BuyerInitedTrade trade = this.bTradeDao.create(desire, buyer);
 
@@ -46,7 +52,7 @@ public class TradeController
         return(trade);
     }
 
-    public SellerInitedTrade sellerInitTrade(BuyDesire desire, Profile seller, Book book)
+    protected SellerInitedTrade sellerInitTrade(BuyDesire desire, Profile seller, Book book)
     {
         SellerInitedTrade trade = this.sTradeDao.create(desire, seller, book);
 

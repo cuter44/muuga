@@ -44,12 +44,11 @@ import com.github.cuter44.muuga.user.core.*;
 @WebServlet("/book/add.api")
 public class AddBook extends HttpServlet
 {
-    private static final String UID = "uid";
-    private static final String OWNER = "owner";
-    private static final String ISBN = "isbn";
+    private static final String UID     = "uid";
+    private static final String OWNER   = "owner";
+    private static final String ISBN    = "isbn";
 
-    protected BookDao       bookDao     = BookDao.getInstance();
-    protected ProfileDao    profileDao  = ProfileDao.getInstance();
+    protected BookDao bookDao = BookDao.getInstance();
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -64,8 +63,7 @@ public class AddBook extends HttpServlet
 
             this.bookDao.begin();
 
-            Profile owner   = (Profile)entFound(this.profileDao.get(uid));
-            Book    book    = this.bookDao.create(isbn, owner);
+            Book    book    = this.bookDao.create(uid, isbn);
 
             this.bookDao.commit();
 

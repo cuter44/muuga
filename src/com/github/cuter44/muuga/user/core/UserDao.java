@@ -34,7 +34,7 @@ public class UserDao extends DaoBase<User>
   // EXTENDED
     public User forMail(String mail)
     {
-        DetachedCriteria dc = DetachedCriteria.forClass(User.class)
+        DetachedCriteria dc = DetachedCriteria.forClass(this.classOfT())
             .add(Restrictions.eq("mail", mail));
 
         return(
@@ -44,7 +44,7 @@ public class UserDao extends DaoBase<User>
 
     public User forUname(String uname)
     {
-        DetachedCriteria dc = DetachedCriteria.forClass(User.class)
+        DetachedCriteria dc = DetachedCriteria.forClass(this.classOfT())
             .add(Restrictions.eq("uname", uname));
 
         return(
@@ -54,17 +54,17 @@ public class UserDao extends DaoBase<User>
 
     public boolean isLoginable(Long id)
     {
-        User u = this.get(id);
+        User user = this.get(id);
         return(
-            User.STATUS_ACTIVATED.equals(u.getStatus())
+            User.STATUS_ACTIVATED.equals(user.getStatus())
         );
     }
 
     public boolean isActivatable(Long id)
     {
-        User u = this.get(id);
+        User user = this.get(id);
         return(
-            User.STATUS_REGISTERED.equals(u.getStatus())
+            User.STATUS_REGISTERED.equals(user.getStatus())
         );
     }
 }

@@ -12,7 +12,7 @@ public class ProfileDao extends DaoBase<Profile>
   // EVENT CALLBACK
     public static interface ProfileListener
     {
-        public abstract void onGet(Profile p);
+        public abstract void onGet(Profile profile);
     }
 
     protected ArrayList<ProfileListener> profileListeners = new ArrayList<ProfileListener>();
@@ -25,10 +25,13 @@ public class ProfileDao extends DaoBase<Profile>
     }
 
   // CONSTRUCT
-    protected UserDao userDao = UserDao.getInstance();
+    protected UserDao userDao;
+
     public ProfileDao()
     {
         super();
+
+        this.userDao = UserDao.getInstance();
     }
 
   // Singleton
@@ -52,18 +55,18 @@ public class ProfileDao extends DaoBase<Profile>
   // EXTENDED
     public Profile get(Long id)
     {
-        Profile p = super.get(id);
+        Profile profile = super.get(id);
 
-        if (p == null)
+        if (profile == null)
         {
             if (this.userDao.get(id) != null)
-                p = this.create(id);
+                profile = this.create(id);
         }
 
         for (ProfileListener pl:this.profileListeners)
-            pl.onGet(p);
+            pl.onGet(profile);
 
-        return(p);
+        return(profile);
     }
 
     public Profile create(Long id)
@@ -71,10 +74,10 @@ public class ProfileDao extends DaoBase<Profile>
     {
         User u = (User)entFound(this.userDao.get(id));
 
-        Profile p = new Profile(u);
+        Profile profile = new Profile(u);
 
-        this.save(p);
+        this.save(profile);
 
-        return(p);
+        return(profile);
     }
 }

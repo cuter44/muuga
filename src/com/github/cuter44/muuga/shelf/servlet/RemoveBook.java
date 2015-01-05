@@ -64,7 +64,7 @@ public class RemoveBook extends HttpServlet
                         String.format("Not possession:Book=%d,User=%d", id, uid)
                 ));
 
-            this.bookDao.softRemove(id);
+            this.bookDao.remove(id);
 
             this.bookDao.commit();
 

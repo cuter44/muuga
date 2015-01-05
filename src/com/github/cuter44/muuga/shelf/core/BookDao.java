@@ -12,6 +12,8 @@ import com.github.cuter44.muuga.user.model.*;
 public class BookDao extends DaoBase<Book>
 {
   // CONSTRUCT
+    protected ProfileDao profileDao;
+
     public BookDao()
     {
         super();
@@ -36,32 +38,34 @@ public class BookDao extends DaoBase<Book>
     }
 
   // EXTENDED
-    public Book create(String isbn, Profile owner)
+    public Book create(Long ownerId, String isbn)
     {
-        Book b = new Book(isbn, owner);
-        b.setRegDate(new Date(System.currentTimeMillis()));
+        Profile owner   = (Profile)entFound(this.profileDao.get(ownerId));
+        Book    book    = new Book(isbn, owner);
 
-        this.save(b);
+        book.setRegDate(new Date(System.currentTimeMillis()));
 
-        return(b);
+        this.save(book);
+
+        return(book);
     }
 
-    public void softRemove(Long id)
-    {
-        Book b = this.get(id);
+    //public void softRemove(Long id)
+    //{
+        //Book book = this.get(id);
 
-        b.setStatus(Book.REMOVED);
+        //book.setStatus(Book.STATUS_REMOVED);
 
-        this.update(b);
+        //this.update(book);
 
-        return;
-    }
+        //return;
+    //}
 
     public boolean isOwnedBy(Long bookId, Long userId)
         throws EntityNotFoundException
     {
-        Book b = (Book)entFound(this.get(bookId));
-        return(b.ownedBy(userId));
+        Book book = (Book)entFound(this.get(bookId));
+        return(book.ownedBy(userId));
     }
 
 }

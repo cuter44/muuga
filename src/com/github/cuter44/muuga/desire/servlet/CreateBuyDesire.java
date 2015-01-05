@@ -59,8 +59,7 @@ public class CreateBuyDesire extends HttpServlet
     private static final String PS      = "ps";
     private static final String POS     = "pos";
 
-    protected DesireDao desireDao = DesireDao.getInstance();
-    protected DesireFactory desireFactory = DesireFactory.getInstance();
+    protected BuyDesireDao desireDao = BuyDesireDao.getInstance();
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -79,7 +78,7 @@ public class CreateBuyDesire extends HttpServlet
 
             this.desireDao.begin();
 
-            BuyDesire   d   = this.desireFactory.createBuyDesire(uid, isbn, price, qty, ps, pos);
+            BuyDesire   d   = this.desireDao.create(uid, isbn, price, qty, ps, pos);
 
             this.desireDao.commit();
 

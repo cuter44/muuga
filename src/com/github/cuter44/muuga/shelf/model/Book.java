@@ -24,10 +24,10 @@ public class Book
 
     /** 1, 正常
      */
-    public static final Byte NORMAL = 1;
+    public static final Byte STATUS_NORMAL = 1;
     /** -1, 已删除
      */
-    public static final Byte REMOVED = -1;
+    public static final Byte STATUS_REMOVED = -1;
 
   // GETTER/SETTER
     public Long getId()

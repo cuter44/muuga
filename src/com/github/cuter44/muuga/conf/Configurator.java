@@ -100,10 +100,10 @@ public class Configurator
 
     public String get(String name, String defaultValue)
     {
-        String v = this.prop.getProperty(name);
+        String value = this.prop.getProperty(name);
 
         return(
-            v!=null ? v : null
+            value!=null ? value : null
         );
     }
 
@@ -112,9 +112,9 @@ public class Configurator
     {
         try
         {
-            String v = this.get(name);
+            String value = this.get(name);
             return(
-                v!=null ? Integer.valueOf(v) : null
+                value!=null ? Integer.valueOf(value) : null
             );
         }
         catch (Exception ex)
@@ -126,9 +126,9 @@ public class Configurator
 
     public Integer getInt(String name, Integer defaultValue)
     {
-        Integer v = this.getInt(name);
+        Integer value = this.getInt(name);
         return(
-            v!=null ? v : defaultValue
+            value!=null ? value : defaultValue
         );
     }
 
@@ -136,9 +136,9 @@ public class Configurator
     {
         try
         {
-            String v = this.get(name);
+            String value = this.get(name);
             return(
-                v!=null ? Long.valueOf(v) : null
+                value!=null ? Long.valueOf(value) : null
             );
         }
         catch (Exception ex)
@@ -150,9 +150,9 @@ public class Configurator
 
     public Long getLong(String name, Long defaultValue)
     {
-        Long v = this.getLong(name);
+        Long value = this.getLong(name);
         return(
-            v!=null ? v : defaultValue
+            value!=null ? value : defaultValue
         );
     }
 
@@ -160,9 +160,9 @@ public class Configurator
     {
         try
         {
-            String v = this.get(name);
+            String value = this.get(name);
             return(
-                v!=null ? Double.valueOf(v) : null
+                value!=null ? Double.valueOf(value) : null
             );
         }
         catch (Exception ex)
@@ -174,9 +174,9 @@ public class Configurator
 
     public Double getDouble(String name, Double defaultValue)
     {
-        Double v = this.getDouble(name);
+        Double value = this.getDouble(name);
         return(
-            v!=null ? v : defaultValue
+            value!=null ? value : defaultValue
         );
     }
 }
