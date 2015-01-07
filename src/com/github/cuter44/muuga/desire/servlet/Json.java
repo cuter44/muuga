@@ -55,6 +55,7 @@ class Json
         j.put(PS            , d.getPs());
         j.put(POS           , d.getPos());
         j.put(EXPENSE       , d.getExpense());
+        j.put(TM            , d.getTm());
         j.put(CLAZZ         , d.getClazz());
 
         if (d.getOriginator()!=null)

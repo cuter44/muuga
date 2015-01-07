@@ -8,14 +8,24 @@ import org.hibernate.criterion.*;
 
 import com.github.cuter44.muuga.contract.model.*;
 import com.github.cuter44.muuga.desire.model.*;
+import com.github.cuter44.muuga.desire.core.*;
 import com.github.cuter44.muuga.user.model.*;
+import com.github.cuter44.muuga.user.core.*;
 
 public class BuyerInitedTradeDao extends DaoBase<BuyerInitedTrade>
 {
   // CONSTRUCT
+    protected ProfileDao profileDao;
+    protected SellDesireDao sDesireDao;
+
     public BuyerInitedTradeDao()
     {
         super();
+
+        this.profileDao = ProfileDao.getInstance();
+        this.sDesireDao = SellDesireDao.getInstance();
+
+        return;
     }
 
   // SINGLETON
@@ -51,12 +61,16 @@ public class BuyerInitedTradeDao extends DaoBase<BuyerInitedTrade>
     }
 
   // EXTENDED
-    public BuyerInitedTrade create(SellDesire desire, Profile buyer)
+    public BuyerInitedTrade create(Long desireId, Long buyerId)
     {
         // return existence if not closed.
-        BuyerInitedTrade trade = this.getActive(desire.getId(), buyer.getId());
+        BuyerInitedTrade trade = this.getActive(desireId, buyerId);
         if (trade != null)
             return(trade);
+
+        Desire desire   = (Desire)entFound(this.sDesireDao.get(desireId));
+        Profile buyer   = (Profile)entFound(this.profileDao.get(buyerId));
+        // checkpoint
 
         // else
         trade = new BuyerInitedTrade();

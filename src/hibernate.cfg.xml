@@ -44,5 +44,11 @@
     <mapping resource="com/github/cuter44/muuga/user/model/User.hbm.xml" />
     <mapping resource="com/github/cuter44/muuga/user/model/Profile.hbm.xml" />
 
+    <mapping resource="com/github/cuter44/muuga/shelf/model/Book.hbm.xml" />
+
+    <mapping resource="com/github/cuter44/muuga/desire/model/Desire.hbm.xml" />
+
+    <mapping resource="com/github/cuter44/muuga/contract/model/ContractBase.hbm.xml" />
+
   </session-factory>
 </hibernate-configuration>

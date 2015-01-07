@@ -10,8 +10,8 @@
         <discriminator></discriminator>
         
         <many-to-one name="supply" class="com.github.cuter44.muuga.user.model.Profile" />
-        <many-to-one name="consume" class="com.gihtub.cuter44.muuga.user.model.Profile" />
-        <many-to-one name="book" class="com.github.cuter44.muuga.book.model.Book" />
+        <many-to-one name="consume" class="com.github.cuter44.muuga.user.model.Profile" />
+        <many-to-one name="book" class="com.github.cuter44.muuga.shelf.model.Book" />
         <property name="isbn" type="string" length="13" />
 
         <property name="expense" type="double" />
@@ -27,7 +27,7 @@
         name="com.github.cuter44.muuga.contract.model.TradeContract" discriminator-value="TradeContract" >
           <subclass name="com.github.cuter44.muuga.contract.model.BuyerInitedTrade" discriminator-value="BuyerInitedTrade" >
           </subclass>
-          <subclass name="com.github.cuter44.muuga.contract.model.SellerInitedTradeContract" discriminator-value="SellerInitedTradeContract" >
+          <subclass name="com.github.cuter44.muuga.contract.model.SellerInitedTrade" discriminator-value="SellerInitedTradeContract" >
           </subclass>
         </subclass>
     </class>
