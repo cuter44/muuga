@@ -12,7 +12,7 @@
         <property name="mail" type="string" unique="true" not-null="true" />
         <property name="uname" type="string" unique="true" length="60" />
 
-        <property name="skey" type="binary" length="16" />
+        <property name="secret" type="binary" length="16" />
         <property name="salt" type="binary" length="8" />
         <property name="pass" type="binary" length="16" />
 

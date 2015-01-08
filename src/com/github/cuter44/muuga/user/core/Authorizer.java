@@ -24,16 +24,6 @@ import com.github.cuter44.muuga.Constants;
  * * 激活(activate)
  *   用户获得并回答(从其他信道获得的)激活码, 申请密钥对并指定(RSA加密的)登录密码
  *   用户给定的密码在服务器端解密, 并与随机生成的盐拼接, 散列后写入数据库
- * * 登录(login)
- *   用户给出自己的ID(邮件, username 或者 userid), 以及(RSA加密的)密码
- *   服务器端按以上方式验证密码是否匹配, 如匹配发给session key, 作为一般业务的凭证使用, 允许明文传输
- *   session key会在显式注销后失效, 多端登录下, 其他客户端的session key将失去作用
- * * 修改密码(passwd)
- *   用户申请密钥对, 加密并指定新旧两个登录密码
- *   服务器按以上方式验证密码是否匹配, 如匹配则变更密码, 并重置session key
- * * 注销
- *   用户给出自己的id, 以及session key或密码, 要求吊销session key
- *   服务器验证session key或密码, 如匹配, 吊销当前用户的session key
  *
  * 以拦截器的方式提供基于密码或session key的验证服务
  */
@@ -42,7 +32,7 @@ public class Authorizer
     protected static final String EVENT_TYPE_REGISTER = Constants.EVENT_TYPE_REGISTER;
 
   // CONSTRUCT
-    protected static Integer SKEY_LENGTH;
+    protected static Integer SECRET_LENGTH;
     protected static Integer SALT_LENGTH;
 
     protected UserDao userDao;
@@ -53,7 +43,7 @@ public class Authorizer
     {
         Configurator config = Configurator.getInstance();
 
-        SKEY_LENGTH = config.getInt("muuga.user.skeylength", 8);
+        SECRET_LENGTH = config.getInt("muuga.user.secretlength", 8);
         SALT_LENGTH = config.getInt("muuga.user.saltlength", 4);
 
         this.userDao = UserDao.getInstance();
@@ -83,7 +73,7 @@ public class Authorizer
      * @param pass 新密码, UTF-8编码
      * @exception EntityNotFoundException 指定的uid不存在时
      */
-    public void setPassword(Long uid, byte[] pass)
+    public User setPassword(Long uid, byte[] pass)
     {
         User user = (User)entFound(this.userDao.get(uid));
 
@@ -98,7 +88,7 @@ public class Authorizer
 
         this.userDao.update(user);
 
-        return;
+        return(user);
     }
 
     /** 验证登录密码
@@ -126,61 +116,72 @@ public class Authorizer
             return(false);
     }
 
-    /** 验证 session key
-     * @param uid
-     * @param skey session key
-     * @return boolean session key 正确与否
-     * @exception NullPointerException 当uid为null
-     */
-    public boolean verifySkey(Long uid, byte[] skey)
-        throws IllegalArgumentException, EntityNotFoundException
-    {
-        User user = (User)entFound(this.userDao.get(uid));
+    ///** 验证 session key
+     //* @param uid
+     //* @param skey session key
+     //* @return boolean session key 正确与否
+     //* @exception NullPointerException 当uid为null
+     //*/
+    //public boolean verifySkey(Long uid, byte[] skey)
+        //throws IllegalArgumentException, EntityNotFoundException
+    //{
+        //User user = (User)entFound(this.userDao.get(uid));
 
-        if (Arrays.equals(user.getSkey(), skey))
-            return(true);
-        else
-            return(false);
-    }
+        //if (Arrays.equals(user.getSkey(), skey))
+            //return(true);
+        //else
+            //return(false);
+    //}
 
-    /** 清除 session key, 即注销登录, 通过登录密码
+    /** 清除 secret, 即注销登录, 通过登录密码
      * @param uid , 需要注销登录的 uid
      * @param pass , UTF-8 编码的登录密码
      * @exception EntityNotFoundException 当指定的uid不存在时
      * @exception UnauthorizedException 当pass错误时
      */
-    public void logoutViaPass(Long uid, byte[] pass)
+    public User logoutViaPass(Long uid, byte[] pass)
     {
         if (!this.verifyPassword(uid, pass))
             throw(new UnauthorizedException());
 
         User user = this.userDao.get(uid);
 
-        user.setSkey(null);
+        user.setSecret(null);
 
         this.userDao.update(user);
 
-        return;
+        return(user);
     }
 
-    /** 清除 session key, 即注销登录
-     * @param uid , 需要注销登录的 uid
-     * @param skey , session key
-     * @exception EnetityNotFoundException 当指定的uid不存在时
-     * @exception UnauthorizedException 当skey不正确时
-     */
-    public void logoutViaSkey(Long uid, byte[] skey)
+    ///** 清除 session key, 即注销登录
+     //* @param uid , 需要注销登录的 uid
+     //* @param skey , session key
+     //* @exception EnetityNotFoundException 当指定的uid不存在时
+     //* @exception UnauthorizedException 当skey不正确时
+     //*/
+    //public void logoutViaSkey(Long uid, byte[] skey)
+    //{
+        //if (!this.verifySkey(uid, skey))
+            //throw(new UnauthorizedException());
+
+        //User user = this.userDao.get(uid);
+
+        //user.setSkey(null);
+
+        //this.userDao.update(user);
+
+        //return;
+    //}
+
+    public User logoutViaSecret(Long uid)
     {
-        if (!this.verifySkey(uid, skey))
-            throw(new UnauthorizedException());
+        User user = (User)entFound(this.userDao.get(uid));
 
-        User user = this.userDao.get(uid);
-
-        user.setSkey(null);
+        user.setSecret(null);
 
         this.userDao.update(user);
 
-        return;
+        return(user);
     }
 
   // EX
@@ -224,7 +225,7 @@ public class Authorizer
      * @param newPass 登录密码的UTF-8编码, 实际为该用户的 pass 域
      * @exception EntityNotFoundException 当指定的uid不存在时
      */
-    public void activate(Long uid, byte[] activateCode, byte[] newPass)
+    public User activate(Long uid, byte[] activateCode, byte[] newPass)
     {
         User user = (User)entFound(this.userDao.get(uid));
 
@@ -240,7 +241,7 @@ public class Authorizer
 
         this.userDao.update(user);
 
-        return;
+        return(user);
     }
 
     /** 登录
@@ -249,7 +250,7 @@ public class Authorizer
      * @exception EntityNotFoundException 当指定uid不存在时
      * @exception UnauthorizedException 当pass不正确时
      */
-    public void login(Long uid, byte[] pass)
+    public User login(Long uid, byte[] pass)
         throws UnauthorizedException, EntityNotFoundException
     {
         User user = (User)entFound(this.userDao.get(uid));
@@ -262,25 +263,24 @@ public class Authorizer
         if (!this.verifyPassword(uid, pass))
             throw(new UnauthorizedException());
 
-        if (user.getSkey() == null)
+        if (user.getSecret() == null)
         {
-            user.setSkey(this.rsa.randomBytes(SKEY_LENGTH));
+            user.setSecret(this.rsa.randomBytes(SECRET_LENGTH));
             this.userDao.update(user);
         }
 
-        return;
+        return(user);
     }
 
-    public void passwd(Long uid, byte[] pass, byte[] newpass)
+    public User passwd(Long uid, byte[] pass, byte[] newpass)
         throws UnauthorizedException, EntityNotFoundException
     {
         // 验证密码
         if (!this.verifyPassword(uid, pass))
             throw(new UnauthorizedException());
 
-        this.setPassword(uid, newpass);
-        this.logoutViaPass(uid, newpass);
-
-        return;
+        return(
+            this.setPassword(uid, newpass)
+        );
     }
 }

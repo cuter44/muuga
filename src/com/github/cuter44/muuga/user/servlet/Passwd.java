@@ -29,8 +29,8 @@ import com.github.cuter44.muuga.user.exception.*;
    newpass:hex, 使用相同 key 加密的新密码
 
    <strong>响应</strong>
-   application/json class=user.model.User(private)
-   attributes refer to {@link Json#jsonizeUserPrivate(User) Json}
+   application/json class=user.model.User
+   attributes refer to {@link Json#jsonizeUserPublic(User) Json}
    <i>密码被变更为 newpass</i>
    <i>原session key失效</i>
 
@@ -76,7 +76,7 @@ public class Passwd extends HttpServlet
             this.authorizer.passwd(uid, pass, newpass);
             this.authorizer.login(uid, newpass);
 
-            Json.writeUserPrivate(this.userDao.get(uid), resp);
+            Json.writeUserPublic(this.userDao.get(uid), resp);
 
             this.userDao.commit();
         }

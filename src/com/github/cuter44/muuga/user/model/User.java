@@ -35,7 +35,7 @@ public class User
 
     /** session
      */
-    protected byte[] skey;
+    protected byte[] secret;
     /** 盐
      */
     protected byte[] salt;
@@ -80,13 +80,13 @@ public class User
         this.uname = aUname;
     }
 
-    public byte[] getSkey()
+    public byte[] getSecret()
     {
-        return(this.skey);
+        return(this.secret);
     }
-    public void setSkey(byte[] aSkey)
+    public void setSecret(byte[] aSecret)
     {
-        this.skey = aSkey;
+        this.secret = aSecret;
     }
 
     public byte[] getSalt()

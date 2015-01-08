@@ -7,33 +7,32 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 
 import com.github.cuter44.nyafx.dao.*;
-import com.github.cuter44.nyafx.servlet.*;
 import com.github.cuter44.nyafx.crypto.*;
+import com.github.cuter44.nyafx.servlet.*;
 import static com.github.cuter44.nyafx.servlet.Params.notNull;
 import static com.github.cuter44.nyafx.servlet.Params.needLong;
 import static com.github.cuter44.nyafx.servlet.Params.needByteArray;
-import com.alibaba.fastjson.*;
 
-//import com.github.cuter44.muuga.util.conf.*;
 import com.github.cuter44.muuga.Constants;
 import com.github.cuter44.muuga.user.model.*;
 import com.github.cuter44.muuga.user.core.*;
 import com.github.cuter44.muuga.user.exception.*;
 
-/** 激活帐号
+/** 登出
+ * 登出使得 secret 失效, 而使得签名不再有效, 以阻止(包括其他终端)操作.
+ * 客户端在持有的密钥失效时, 应使用 login 接口取得现在的密钥. 仅在用户认为其 secret 已经泄漏需要重置时使用该接口.
+ * 如果持有密钥已失效, 请使用 logout-via-pass.api
  * <pre style="font-size:12px">
 
    <strong>请求</strong>
-   POST /user/activate.api
+   POST /user/logout-via-secret.api
 
    <strong>参数</strong>
    uid:long, uid
-   code:hex, 激活码
-   pass:hex, RSA 加密的 UTF-8 编码的用户登录密码.
 
    <strong>响应</strong>
-   application/json, class=user.model.User(public)
-   attributes refer to {@link Json#jsonizeUserPublic(User) Json}
+   application/json; class=user.model.User
+   attributes refer to {@link Json#jsonizeUserWithSecret(User) Json}
 
    <strong>例外</strong>
    parsed by {@link com.github.cuter44.muuga.sys.servlet.ExceptionHandler ExceptionHandler}
@@ -42,17 +41,20 @@ import com.github.cuter44.muuga.user.exception.*;
  * </pre>
  *
  */
-@WebServlet("/user/activate.api")
-public class Activate extends HttpServlet
+@WebServlet("/user/logout-via-secret.api")
+public class LogoutViaSecret extends HttpServlet
 {
     private static final String UID = "uid";
-    private static final String CODE = "code";
-    private static final String PASS = "pass";
 
     protected UserDao userDao = UserDao.getInstance();
     protected Authorizer authorizer = Authorizer.getInstance();
-    protected RSAKeyCache keyCache = RSAKeyCache.getInstance();
-    protected RSACrypto rsa = RSACrypto.getInstance();
+
+    @Override
+    public void doGet(HttpServletRequest req, HttpServletResponse resp)
+        throws ServletException, IOException
+    {
+        doPost(req, resp);
+    }
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -62,20 +64,15 @@ public class Activate extends HttpServlet
 
         try
         {
-            Long uid        = needLong(req, UID);
-            byte[] code     = needByteArray(req, CODE);
-            byte[] pass     = needByteArray(req, PASS);
-            PrivateKey key  = (PrivateKey)notNull(this.keyCache.get(uid));
-
-            pass = this.rsa.decrypt(pass, key);
+            Long uid = needLong(req, UID);
 
             this.userDao.begin();
 
-            User user = this.authorizer.activate(uid, code, pass);
+            User u = this.authorizer.logoutViaSecret(uid);
 
             this.userDao.commit();
 
-            Json.writeUserPublic(user, resp);
+            Json.writeUserPublic(u, resp);
         }
         catch (Exception ex)
         {

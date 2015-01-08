@@ -24,8 +24,8 @@ import com.github.cuter44.muuga.user.core.*;
    mail:string(60), 邮件地址
 
    <strong>响应</strong>
-   application/json class=user.model.User(private)
-   attributes refer to {@link Json#jsonizeUserPrivate(User) Json}
+   application/json class=user.model.User
+   attributes refer to {@link Json#jsonizeUserPublic(User) Json}
 
    <strong>例外</strong>
    parsed by {@link com.github.cuter44.muuga.sys.servlet.ExceptionHandler ExceptionHandler}
@@ -59,7 +59,7 @@ public class Register extends HttpServlet
 
             this.userDao.commit();
 
-            Json.writeUserPrivate(u, resp);
+            Json.writeUserPublic(u, resp);
         }
         catch (Exception ex)
         {

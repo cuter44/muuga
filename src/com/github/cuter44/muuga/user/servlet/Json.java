@@ -16,7 +16,7 @@ class Json
     private static final String UID         = "uid";
     private static final String UNAME       = "uname";
     private static final String MAIL        = "mail";
-    private static final String S           = "s";
+    private static final String SECRET      = "secret";
     private static final String STATUS      = "status";
     private static final String REG_DATE    = "regDate";
     private static final String CLAZZ       = "clazz";
@@ -48,16 +48,6 @@ class Json
         return(j);
     }
 
-    protected static JSONObject jsonizeUserPrivate(User u)
-    {
-        JSONObject j = jsonizeUserPublic(u);
-
-        if (u.getSkey()!=null)
-            j.put(S, byteToHex(u.getSkey()));
-
-        return(j);
-    }
-
     protected static JSONArray jsonizeUserPublic(Collection<User> coll)
     {
         JSONArray a = new JSONArray();
@@ -68,15 +58,18 @@ class Json
         return(a);
     }
 
-    public static void writeUserPrivate(User u, ServletResponse resp)
+    public static void writeUserWithSecret(User u, String encryptedSecret, ServletResponse resp)
         throws IOException
     {
         resp.setContentType("application/json; charset=utf-8");
         resp.setCharacterEncoding("utf-8");
         PrintWriter out = resp.getWriter();
 
+        JSONObject j = jsonizeUserPublic(u);
+        j.put(SECRET, encryptedSecret);
+
         out.println(
-            jsonizeUserPrivate(u).toJSONString()
+            j.toJSONString()
         );
 
         return;

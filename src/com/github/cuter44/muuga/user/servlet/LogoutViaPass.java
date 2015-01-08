@@ -11,7 +11,7 @@ import com.github.cuter44.nyafx.crypto.*;
 import com.github.cuter44.nyafx.servlet.*;
 import static com.github.cuter44.nyafx.servlet.Params.notNull;
 import static com.github.cuter44.nyafx.servlet.Params.needLong;
-import static com.github.cuter44.nyafx.servlet.Params.getByteArray;
+import static com.github.cuter44.nyafx.servlet.Params.needByteArray;
 
 import com.github.cuter44.muuga.Constants;
 import com.github.cuter44.muuga.user.model.*;
@@ -19,21 +19,21 @@ import com.github.cuter44.muuga.user.core.*;
 import com.github.cuter44.muuga.user.exception.*;
 
 /** 登出
- * 登出会清除所有终端上的操作凭证
+ * 登出使得 secret 失效, 而使得签名不再有效, 以阻止(包括其他终端)操作.
+ * 客户端在持有的密钥失效时, 应使用 login 接口取得现在的密钥. 仅在用户认为其 secret 已经泄漏需要重置时使用该接口.
+ * 如果持有密钥仍然有效, 且需要重置 secret, 请使用 logout-via-secret.api
  * <pre style="font-size:12px">
 
    <strong>请求</strong>
-   POST /user/logout.api
+   POST /user/logout-via-pass.api
 
    <strong>参数</strong>
    uid:long, uid
-   以下参数的其中一个:
-   s:hex, session key
    pass:hex, RSA 加密的 UTF-8 编码的用户登录密码.
 
    <strong>响应</strong>
-   application/json
-   error: string, ="ok"
+   application/json; class=user.model.User
+   attributes refer to {@link Json#jsonizeUserWithSecret(User) Json}
 
    <strong>例外</strong>
    parsed by {@link com.github.cuter44.muuga.sys.servlet.ExceptionHandler ExceptionHandler}
@@ -42,12 +42,11 @@ import com.github.cuter44.muuga.user.exception.*;
  * </pre>
  *
  */
-@WebServlet("/user/logout.api")
-public class Logout extends HttpServlet
+@WebServlet("/user/logout-via-pass.api")
+public class LogoutViaPass extends HttpServlet
 {
     private static final String UID = "uid";
     private static final String PASS = "pass";
-    private static final String S = "s";
 
     protected UserDao userDao = UserDao.getInstance();
     protected Authorizer authorizer = Authorizer.getInstance();
@@ -73,39 +72,18 @@ public class Logout extends HttpServlet
 
             this.userDao.begin();
 
-            // logout by session key
-            byte[] skey = getByteArray(req, S);
-            if (skey != null)
-            {
-                this.authorizer.logoutViaSkey(uid, skey);
+            byte[] pass = needByteArray(req, PASS);
 
-                this.userDao.commit();
+            // key 检定
+            PrivateKey key  = (PrivateKey)notNull(this.keyCache.get(uid));
+            pass            = this.rsa.decrypt(pass, key);
 
-                Json.writeErrorOk(resp);
+            User u = this.authorizer.logoutViaPass(uid, pass);
 
-                return;
-            }
+            this.userDao.commit();
 
-            // else
-            // logout by password
-            byte[] pass = getByteArray(req, PASS);
-            if (pass != null)
-            {
-                // key 检定
-                PrivateKey key  = (PrivateKey)notNull(this.keyCache.get(uid));
-                pass            = this.rsa.decrypt(pass, key);
+            Json.writeUserPublic(u, resp);
 
-                this.authorizer.logoutViaPass(uid, pass);
-
-                this.userDao.commit();
-
-                Json.writeErrorOk(resp);
-
-                return;
-            }
-            // else
-            // parameter missing
-            throw(new MissingParameterException("Pequires skey or pass"));
         }
         catch (Exception ex)
         {

@@ -27,25 +27,6 @@
   </servlet-mapping>
   -->
 
-  <filter>
-    <filter-name>SessionKeyVerifier</filter-name>
-    <filter-class>com.github.cuter44.muuga.user.filter.SessionKeyVerifier</filter-class>
-    <init-param>
-      <param-name>userIdParamName</param-name>
-      <param-value>uid</param-value>
-    </init-param>
-    <init-param>
-      <param-name>sessionKeyParamName</param-name>
-      <param-value>s</param-value>
-    </init-param>
-  </filter>
-  <!--
-  <filter-mapping>
-    <filter-name>SessionKeyVerifier</filter-name>
-    <url-pattern>/book/*.api</url-pattern>
-  </filter-mapping>
-  -->
-
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
     <welcome-file>index.htm</welcome-file>
