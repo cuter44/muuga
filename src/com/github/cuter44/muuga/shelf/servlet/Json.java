@@ -3,6 +3,7 @@ package com.github.cuter44.muuga.shelf.servlet;
 import java.io.*;
 import java.util.*;
 import javax.servlet.*;
+import javax.servlet.http.*;
 
 import com.alibaba.fastjson.*;
 
@@ -42,7 +43,7 @@ class Json
         return(j);
     }
 
-    public static void writeBook(Book book, ServletResponse resp)
+    public static void writeBook(Book book, HttpServletResponse resp)
         throws IOException
     {
         resp.setContentType("application/json; charset=utf-8");
@@ -56,7 +57,7 @@ class Json
         return;
     }
 
-    public static void writeBook(Collection<Book> book, ServletResponse resp)
+    public static void writeBook(Collection<Book> book, HttpServletResponse resp)
         throws IOException
     {
         resp.setContentType("application/json; charset=utf-8");
@@ -70,7 +71,7 @@ class Json
         return;
     }
 
-    public static void writeErrorOk(ServletResponse resp)
+    public static void writeErrorOk(HttpServletResponse resp)
         throws IOException
     {
         resp.setContentType("application/json; charset=utf-8");

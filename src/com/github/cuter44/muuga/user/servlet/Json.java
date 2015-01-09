@@ -3,6 +3,7 @@ package com.github.cuter44.muuga.user.servlet;
 import java.io.*;
 import java.util.*;
 import javax.servlet.*;
+import javax.servlet.http.*;
 
 import com.alibaba.fastjson.*;
 import static com.github.cuter44.nyafx.crypto.CryptoBase.byteToHex;
@@ -58,7 +59,7 @@ class Json
         return(a);
     }
 
-    public static void writeUserWithSecret(User u, String encryptedSecret, ServletResponse resp)
+    public static void writeUserWithSecret(User u, String encryptedSecret, HttpServletResponse resp)
         throws IOException
     {
         resp.setContentType("application/json; charset=utf-8");
@@ -75,7 +76,7 @@ class Json
         return;
     }
 
-    public static void writeUserPublic(User u, ServletResponse resp)
+    public static void writeUserPublic(User u, HttpServletResponse resp)
         throws IOException
     {
         resp.setContentType("application/json; charset=utf-8");
@@ -89,7 +90,7 @@ class Json
         return;
     }
 
-    public static void writeUserPublic(Collection<User> coll, ServletResponse resp)
+    public static void writeUserPublic(Collection<User> coll, HttpServletResponse resp)
         throws IOException
     {
         resp.setContentType("application/json; charset=utf-8");
@@ -147,7 +148,7 @@ class Json
         return(j);
     }
 
-    public static void writeProfile(Profile p, ServletResponse resp)
+    public static void writeProfile(Profile p, HttpServletResponse resp)
         throws IOException
     {
         resp.setContentType("application/json; charset=utf-8");
@@ -161,7 +162,7 @@ class Json
         return;
     }
 
-    public static void writeProfile(Collection<Profile> coll, ServletResponse resp)
+    public static void writeProfile(Collection<Profile> coll, HttpServletResponse resp)
         throws IOException
     {
         resp.setContentType("application/json; charset=utf-8");
@@ -175,7 +176,7 @@ class Json
         return;
     }
 
-    public static void writeErrorOk(ServletResponse resp)
+    public static void writeErrorOk(HttpServletResponse resp)
         throws IOException
     {
         resp.setContentType("application/json; charset=utf-8");

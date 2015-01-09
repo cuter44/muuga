@@ -10,8 +10,8 @@ import com.github.cuter44.nyafx.dao.*;
 import static com.github.cuter44.nyafx.dao.EntityNotFoundException.entFound;
 import com.github.cuter44.nyafx.servlet.*;
 import static com.github.cuter44.nyafx.servlet.Params.notNull;
+import static com.github.cuter44.nyafx.servlet.Params.getLong;
 import static com.github.cuter44.nyafx.servlet.Params.needLong;
-import static com.github.cuter44.nyafx.servlet.Params.needByteArray;
 
 //import com.github.cuter44.muuga.util.conf.*;
 import com.github.cuter44.muuga.Constants;
@@ -28,7 +28,7 @@ import com.github.cuter44.muuga.desire.core.*;
    <strong>参数</strong>
    uid      :long, 自己的 uid, 作为交易的参与方
    desire   :long, 应答的 desire id,
-   book     :long, 在应答一个想买心愿时必需, 要出售的书的id
+   book     :long, 在应答一个想买心愿时可选, 要出售的书的id, 用于交易完成后的库存清理
    <i>鉴权</i>
    uid  :long   , 必需, uid
    s    :hex    , 必需, session key
@@ -51,12 +51,8 @@ public class CreateTrade extends HttpServlet
     private static final String DESIRE  = "desire";
     private static final String BOOK    = "book";
 
-    protected TradeContractDao tradeDao         = TradeContractDao.getInstance();
-    protected SellerInitedTradeDao sTradeDao    = SellerInitedTradeDao.getInstance();
-    protected BuyerInitedTradeDao bTradeDao     = BuyerInitedTradeDao.getInstance();
-    protected TradeDesireDao desireDao          = TradeDesireDao.getInstance();
-    protected BuyDesireDao bDesireDao           = BuyDesireDao.getInstance();
-    protected SellDesireDao sDesireDao          = SellDesireDao.getInstance();
+    protected TradeContractDao tradeDao = TradeContractDao.getInstance();
+    protected TradeController tradeCtl  = TradeController.getInstance();
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -68,27 +64,15 @@ public class CreateTrade extends HttpServlet
         {
             Long    uid     = needLong(req, UID);
             Long    desire  = needLong(req, DESIRE);
+            Long    book    = getLong(req, BOOK);
 
             this.tradeDao.begin();
 
-            entFound(this.desireDao.get(desire));
-
-            TradeContract contract = null;
-
-            if (this.bDesireDao.get(desire) != null)
-            {
-                Long book   = needLong(req, BOOK);
-                contract    = this.sTradeDao.create(uid, desire, book);
-            }
-
-            if (this.sDesireDao.get(desire) != null)
-            {
-                contract    = this.bTradeDao.create(uid, desire);
-            }
+            TradeContract trade = this.tradeCtl.create(uid, desire, book);
 
             this.tradeDao.commit();
 
-            Json.writeContractBase(contract, resp);
+            Json.writeContractBase(trade, resp);
         }
         catch (Exception ex)
         {

@@ -3,6 +3,7 @@ package com.github.cuter44.muuga.desire.servlet;
 import java.io.*;
 import java.util.*;
 import javax.servlet.*;
+import javax.servlet.http.*;
 
 import com.alibaba.fastjson.*;
 
@@ -89,7 +90,7 @@ class Json
         return(j);
     }
 
-    public static void writeDesire(Desire d, ServletResponse resp)
+    public static void writeDesire(Desire d, HttpServletResponse resp)
         throws IOException
     {
         resp.setContentType("application/json; charset=utf-8");
@@ -103,7 +104,7 @@ class Json
         return;
     }
 
-    public static void writeDesire(Collection<Desire> coll, ServletResponse resp)
+    public static void writeDesire(Collection<Desire> coll, HttpServletResponse resp)
         throws IOException
     {
         resp.setContentType("application/json; charset=utf-8");
@@ -117,7 +118,7 @@ class Json
         return;
     }
 
-    public static void writeErrorOk(ServletResponse resp)
+    public static void writeErrorOk(HttpServletResponse resp)
         throws IOException
     {
         resp.setContentType("application/json; charset=utf-8");
