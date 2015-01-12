@@ -19,16 +19,15 @@ import com.github.cuter44.muuga.contract.model.*;
 import com.github.cuter44.muuga.contract.core.*;
 import com.github.cuter44.muuga.desire.core.*;
 
-/** 应征别人的心愿, 发起交易
+/** 确认收货
  * <pre style="font-size:12px">
 
    <strong>请求</strong>
-   POST /contract/trade/create.api
+   POST /contract/trade/finish.api
 
    <strong>参数</strong>
    uid      :long, 自己的 uid, 作为交易的参与方
-   desire   :long, 应答的 desire id,
-   book     :long, 在应答一个想买心愿时可选, 要出售的书的id, 用于交易完成后的库存清理
+   id       :long, 应答的 desire id,
    <i>鉴权</i>
    uid  :long   , 必需, uid
    s    :hex    , 必需, session key
@@ -44,11 +43,11 @@ import com.github.cuter44.muuga.desire.core.*;
  * </pre>
  *
  */
-@WebServlet("/contract/trade/create.api")
-public class CreateTrade extends HttpServlet
+@WebServlet("/contract/trade/quit.api")
+public class TradeFinish extends HttpServlet
 {
     private static final String UID     = "uid";
-    private static final String DESIRE  = "desire";
+    private static final String ID  = "id";
     private static final String BOOK    = "book";
 
     protected TradeContractDao tradeDao = TradeContractDao.getInstance();
@@ -63,12 +62,11 @@ public class CreateTrade extends HttpServlet
         try
         {
             Long    uid     = needLong(req, UID);
-            Long    desire  = needLong(req, DESIRE);
-            Long    book    = getLong(req, BOOK);
+            Long    id      = needLong(req, ID);
 
             this.tradeDao.begin();
 
-            TradeContract trade = this.tradeCtl.create(uid, desire, book);
+            TradeContract trade = this.tradeCtl.finish(id, uid);
 
             this.tradeDao.commit();
 

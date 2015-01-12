@@ -43,9 +43,9 @@ public class ContractBase
     /** 1, 对方已接受该交易
      */
     public static final Byte STATUS_ACKED = 1;
-    /** 255, 完成
+    /** 127, 完成
      */
-    public static final Byte STATUS_FINISH = 16;
+    public static final Byte STATUS_FINISH = 127;
 
   // ACCESSOR
     public Long getId()
@@ -164,6 +164,24 @@ public class ContractBase
     public ContractBase()
     {
         return;
+    }
+  // MISC
+    public boolean consumeBy(Long uid)
+    {
+        if (uid==null || this.getConsume()==null)
+            return(false);
+
+        // else
+        return(uid.equals(this.getConsume().getId()));
+    }
+
+    public boolean supplyBy(Long uid)
+    {
+        if (uid == null || this.getSupply()==null)
+            return(false);
+
+        // else
+        return(uid.equals(this.getSupply().getId()));
     }
 
   // HASH

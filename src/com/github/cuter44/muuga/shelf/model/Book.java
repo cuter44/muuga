@@ -117,7 +117,7 @@ public class Book
     }
 
   // EXTENDED
-    public boolean ownedBy(Long userId)
+    public boolean ownBy(Long userId)
     {
         try
         {

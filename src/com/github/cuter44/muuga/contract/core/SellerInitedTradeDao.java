@@ -77,7 +77,7 @@ public class SellerInitedTradeDao extends DaoBase<SellerInitedTrade>
         BuyDesire desire    = this.bDesireDao.get(desireId);
         Profile seller      = this.profileDao.get(sellerId);
         Book book           = this.bookDao.get(bookId);
-        if ((book!=null) && (!book.ownedBy(sellerId)))
+        if ((book!=null) && (!book.ownBy(sellerId)))
             throw(
                 new UnauthorizedException(
                     String.format("Not book owner: book=%d, uid=%d", bookId, sellerId)

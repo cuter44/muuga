@@ -9,12 +9,12 @@ public class TradeContract extends ContractBase
     public static final long serialVersionUID = 1L;
 
   // FIELDS
-    /** 1, 已支付
+    /** 8, 已支付
      */
-    public static final Byte STATUS_PAYED = 2;
-    /** 2, 已交付
+    public static final Byte STATUS_PAYED = 8;
+    /** 12, 已交付
      */
-    public static final Byte STATUS_DELIEVERED = 3;
+    public static final Byte STATUS_DELIEVERED = 12;
 
   // ACCESSOR
 
