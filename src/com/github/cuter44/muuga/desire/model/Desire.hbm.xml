@@ -26,5 +26,11 @@
           <subclass name="com.github.cuter44.muuga.desire.model.SellDesire" discriminator-value="SellDesire" >
           </subclass>
         </subclass>
+        <subclass name="com.github.cuter44.muuga.desire.model.LoanDesire" discriminator-value="LoanDesire" >
+          <subclass name="com.github.cuter44.muuga.desire.model.BorrowDesire" discriminator-value="BorrowDesire" >
+          </subclass>
+          <subclass name="com.github.cuter44.muuga.desire.model.LendDesire" discriminator-value="LendDesire" >
+          </subclass>
+        </subclass>
     </class>
 </hibernate-mapping>

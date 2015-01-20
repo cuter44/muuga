@@ -27,7 +27,14 @@
         name="com.github.cuter44.muuga.contract.model.TradeContract" discriminator-value="TradeContract" >
           <subclass name="com.github.cuter44.muuga.contract.model.BuyerInitedTrade" discriminator-value="BuyerInitedTrade" >
           </subclass>
-          <subclass name="com.github.cuter44.muuga.contract.model.SellerInitedTrade" discriminator-value="SellerInitedTradeContract" >
+          <subclass name="com.github.cuter44.muuga.contract.model.SellerInitedTrade" discriminator-value="SellerInitedTrade" >
+          </subclass>
+        </subclass>
+        <subclass 
+        name="com.github.cuter44.muuga.contract.model.LoanContract" discriminator-value="LoanContract" >
+          <subclass name="com.github.cuter44.muuga.contract.model.BorrowerInitedLoan" discriminator-value="BorrowerInitedLoan" >
+          </subclass>
+          <subclass name="com.github.cuter44.muuga.contract.model.LenderInitedLoan" discriminator-value="LenderInitedLoan" >
           </subclass>
         </subclass>
     </class>

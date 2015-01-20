@@ -4,7 +4,7 @@
 	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
     <class name="com.github.cuter44.muuga.user.model.Profile" table="user_profile">
-        <id	name="id" type="long">
+        <id name="id" type="long">
             <generator class="foreign">
                 <param name="property">user</param>
             </generator>
