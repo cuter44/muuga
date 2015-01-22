@@ -19,7 +19,7 @@ import com.github.cuter44.muuga.contract.model.*;
 import com.github.cuter44.muuga.contract.core.*;
 import com.github.cuter44.muuga.desire.core.*;
 
-/** 确认收货
+/** 确认归还书籍
  * <pre style="font-size:12px">
 
    <strong>请求</strong>
@@ -43,11 +43,11 @@ import com.github.cuter44.muuga.desire.core.*;
  * </pre>
  *
  */
-@WebServlet("/contract/trade/quit.api")
+@WebServlet("/contract/trade/finish.api")
 public class TradeFinish extends HttpServlet
 {
     private static final String UID     = "uid";
-    private static final String ID  = "id";
+    private static final String ID      = "id";
     private static final String BOOK    = "book";
 
     protected TradeContractDao tradeDao = TradeContractDao.getInstance();

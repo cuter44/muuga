@@ -10,7 +10,7 @@ import static com.github.cuter44.nyafx.dao.EntityNotFoundException.entFound;
 import com.github.cuter44.nyafx.servlet.*;
 import static com.github.cuter44.nyafx.servlet.Params.needLong;
 import static com.github.cuter44.nyafx.servlet.Params.needString;
-import static com.github.cuter44.nyafx.servlet.Params.needDouble;
+import static com.github.cuter44.nyafx.servlet.Params.getDouble;
 import static com.github.cuter44.nyafx.servlet.Params.getInt;
 import static com.github.cuter44.nyafx.servlet.Params.getString;
 
@@ -20,17 +20,17 @@ import com.github.cuter44.muuga.desire.core.*;
 import com.github.cuter44.muuga.user.model.*;
 import com.github.cuter44.muuga.user.core.*;
 
-/** 增加购买意愿
+/** 增加借出意愿
  * <pre style="font-size:12px">
 
    <strong>请求</strong>
-   POST /desire/buy/create.api
+   POST /desire/lend/create.api
 
    <strong>参数</strong>
    uid      :long           , 必需, 购买意愿的发起者
    isbn     :string         , 必需, 购买意愿的 isbn
-   expense  :double(0.2)    , 必需, 接受的价格
-   qty      :integer        , 购买量
+   expense  :double(0.2)    , 要求的押金(由于无法使用电子支付, 该值暂不起作用)
+   qty      :integer        , 需求量(好像没什么意义)
    ps       :string(255)    , 附言
    pos      :geohash(24)    , 地理位置标签
    <i>鉴权</i>
@@ -38,7 +38,7 @@ import com.github.cuter44.muuga.user.core.*;
    s    :hex    , 必需, session key
 
    <strong>响应</strong>
-   application/json class=desire.model.BuyDesire
+   application/json class=desire.model.LendDesire
    rendered by Json#jsonizeBuyDesire
 
    <strong>例外</strong>
@@ -49,8 +49,8 @@ import com.github.cuter44.muuga.user.core.*;
  *
  *
  */
-@WebServlet("/desire/buy/create.api")
-public class CreateBuyDesire extends HttpServlet
+@WebServlet("/desire/lend/create.api")
+public class CreateLendDesire extends HttpServlet
 {
     private static final String UID     = "uid";
     private static final String ISBN    = "isbn";
@@ -59,7 +59,7 @@ public class CreateBuyDesire extends HttpServlet
     private static final String PS      = "ps";
     private static final String POS     = "pos";
 
-    protected BuyDesireDao desireDao = BuyDesireDao.getInstance();
+    protected LendDesireDao desireDao = LendDesireDao.getInstance();
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -71,14 +71,14 @@ public class CreateBuyDesire extends HttpServlet
         {
             Long    uid     = needLong(req, UID);
             String  isbn    = needString(req, ISBN);
-            Double  expense = needDouble(req, EXPENSE);
+            Double  expense = getDouble(req, EXPENSE);
             Integer qty     = getInt(req, QTY);
             String  ps      = getString(req, PS);
             String  pos     = getString(req, POS);
 
             this.desireDao.begin();
 
-            BuyDesire   d   = this.desireDao.create(uid, isbn, expense, qty, ps, pos);
+            LendDesire  d   = this.desireDao.create(uid, isbn, expense, qty, ps, pos);
 
             this.desireDao.commit();
 

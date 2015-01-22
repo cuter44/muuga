@@ -13,7 +13,7 @@ import com.github.cuter44.muuga.Constants;
 public class ActivateMailDeamon
     implements Runnable
 {
-    protected static final String EVENT_TYPE_REGISTER = Constants.EVENT_TYPE_REGISTER;
+    protected static final String EVENTTYPE_USER_REGISTER = Constants.EVENTTYPE_USER_REGISTER;
 
     protected CryptoBase crypto;
     protected Mailer mailer;
@@ -38,7 +38,7 @@ public class ActivateMailDeamon
 
     public void run()
     {
-        EventHub.getInstance().addListener(this.EVENT_TYPE_REGISTER, this.eq);
+        EventHub.getInstance().addListener(this.EVENTTYPE_USER_REGISTER, this.eq);
 
         while (!Thread.currentThread().isInterrupted())
         {

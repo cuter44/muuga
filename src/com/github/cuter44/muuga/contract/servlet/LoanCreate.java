@@ -19,21 +19,22 @@ import com.github.cuter44.muuga.contract.model.*;
 import com.github.cuter44.muuga.contract.core.*;
 import com.github.cuter44.muuga.desire.core.*;
 
-/** 拒绝/撤销借阅
+/** 应征别人的心愿, 发起借阅
  * <pre style="font-size:12px">
 
    <strong>请求</strong>
-   POST /contract/trade/quit.api
+   POST /contract/loan/create.api
 
    <strong>参数</strong>
    uid      :long, 自己的 uid, 作为交易的参与方
-   id       :long, 应答的 desire id,
+   desire   :long, 应答的 desire id,
+   book     :long, 在应答一个想借心愿时可选, 要出售的书的id, 用于标记为已借出
    <i>鉴权</i>
    uid  :long   , 必需, uid
    s    :hex    , 必需, session key
 
    <strong>响应</strong>
-   application/json, class=contract.model.TradeContract
+   application/json, class=contract.model.LoanConract
    attributes refer to {@link Json#jsonizeUserPrivate(ContractBase) Json}
 
    <strong>例外</strong>
@@ -43,11 +44,11 @@ import com.github.cuter44.muuga.desire.core.*;
  * </pre>
  *
  */
-@WebServlet("/contract/teade/quit.api")
-public class TradeQuit extends HttpServlet
+@WebServlet("/contract/loan/create.api")
+public class LoanCreate extends HttpServlet
 {
     private static final String UID     = "uid";
-    private static final String ID  = "id";
+    private static final String DESIRE  = "desire";
     private static final String BOOK    = "book";
 
     protected TradeContractDao tradeDao = TradeContractDao.getInstance();
@@ -62,11 +63,12 @@ public class TradeQuit extends HttpServlet
         try
         {
             Long    uid     = needLong(req, UID);
-            Long    id      = needLong(req, ID);
+            Long    desire  = needLong(req, DESIRE);
+            Long    book    = getLong(req, BOOK);
 
             this.tradeDao.begin();
 
-            TradeContract trade = this.tradeCtl.quit(id, uid);
+            TradeContract trade = this.tradeCtl.create(desire, uid, book);
 
             this.tradeDao.commit();
 

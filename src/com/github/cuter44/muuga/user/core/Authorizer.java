@@ -29,7 +29,7 @@ import com.github.cuter44.muuga.Constants;
  */
 public class Authorizer
 {
-    protected static final String EVENT_TYPE_REGISTER = Constants.EVENT_TYPE_REGISTER;
+    protected static final String EVENTTYPE_USER_REGISTER = Constants.EVENTTYPE_USER_REGISTER;
 
   // CONSTRUCT
     protected static Integer SECRET_LENGTH;
@@ -214,7 +214,7 @@ public class Authorizer
 
         }
 
-        this.eventHub.dispatch(this.EVENT_TYPE_REGISTER, new Event(user));
+        this.eventHub.dispatch(this.EVENTTYPE_USER_REGISTER, new Event(user));
 
         return(user);
     }

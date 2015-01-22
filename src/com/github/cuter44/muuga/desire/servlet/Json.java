@@ -32,11 +32,11 @@ class Json
         if (d instanceof SellDesire)
             return(jsonizeSellDesire((SellDesire)d));
 
-        //if (d instanceof BorrowDesire)
-            //return(jsonizeBuyDesire((BuyDesire)d));
+        if (d instanceof BorrowDesire)
+            return(jsonizeBorrowDesire((BorrowDesire)d));
 
-        //if (d instanceof LendDesire)
-            //return(jsonizeBuyDesire((LendDesire)d));
+        if (d instanceof LendDesire)
+            return(jsonizeLendDesire((LendDesire)d));
 
         return(new JSONObject());
     }
@@ -89,6 +89,31 @@ class Json
         JSONObject j = new JSONObject();
 
         j = jsonizeTradeDesire(d, j);
+
+        return(j);
+    }
+
+    protected static JSONObject jsonizeLoanDesire(LoanDesire d, JSONObject j)
+    {
+        j = jsonizeDesire(d, j);
+
+        return(j);
+    }
+
+    public static JSONObject jsonizeBorrowDesire(BorrowDesire d)
+    {
+        JSONObject j = new JSONObject();
+
+        j = jsonizeLoanDesire(d, j);
+
+        return(j);
+    }
+
+    public static JSONObject jsonizeLendDesire(LendDesire d)
+    {
+        JSONObject j = new JSONObject();
+
+        j = jsonizeLoanDesire(d, j);
 
         return(j);
     }

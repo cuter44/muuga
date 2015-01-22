@@ -166,7 +166,7 @@ public class ContractBase
         return;
     }
   // MISC
-    public boolean consumeBy(Long uid)
+    public boolean isConsumedBy(Long uid)
     {
         if (uid==null || this.getConsume()==null)
             return(false);
@@ -175,7 +175,7 @@ public class ContractBase
         return(uid.equals(this.getConsume().getId()));
     }
 
-    public boolean supplyBy(Long uid)
+    public boolean isSuppliedBy(Long uid)
     {
         if (uid == null || this.getSupply()==null)
             return(false);

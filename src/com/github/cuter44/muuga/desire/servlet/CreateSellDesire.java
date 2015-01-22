@@ -29,7 +29,7 @@ import com.github.cuter44.muuga.user.core.*;
    <strong>参数</strong>
    uid      :long           , 必需, 出售意愿的发起者
    isbn     :string         , 必需, 出售的 isbn
-   price    :double(0.2)    , 必需, 出售的价格
+   expense  :double(0.2)    , 必需, 出售的价格
    qty      :integer        , 购买量
    ps       :string(255)    , 附言
    pos      :geohash(24)    , 地理位置标签
@@ -54,7 +54,7 @@ public class CreateSellDesire extends HttpServlet
 {
     private static final String UID     = "uid";
     private static final String ISBN    = "isbn";
-    private static final String PRICE   = "price";
+    private static final String EXPENSE = "expense";
     private static final String QTY     = "qty";
     private static final String PS      = "ps";
     private static final String POS     = "pos";
@@ -71,14 +71,14 @@ public class CreateSellDesire extends HttpServlet
         {
             Long    uid     = needLong(req, UID);
             String  isbn    = needString(req, ISBN);
-            Double  price   = needDouble(req, PRICE);
+            Double  expense = needDouble(req, EXPENSE);
             Integer qty     = getInt(req, QTY);
             String  ps      = getString(req, PS);
             String  pos     = getString(req, POS);
 
             this.desireDao.begin();
 
-            SellDesire  d   = this.desireDao.create(uid, isbn, price, qty, ps, pos);
+            SellDesire  d   = this.desireDao.create(uid, isbn, expense, qty, ps, pos);
 
             this.desireDao.commit();
 

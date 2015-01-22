@@ -23,11 +23,11 @@ import com.github.cuter44.muuga.desire.core.*;
  * <pre style="font-size:12px">
 
    <strong>请求</strong>
-   POST /contract/trade/deliver.api
+   POST /contract/trade/deliever.api
 
    <strong>参数</strong>
    uid      :long, 自己的 uid, 作为交易的参与方
-   id      :long, 应答的 desire id,
+   id      :long, 交易的 id
    <i>鉴权</i>
    uid  :long   , 必需, uid
    s    :hex    , 必需, session key
@@ -43,8 +43,8 @@ import com.github.cuter44.muuga.desire.core.*;
  * </pre>
  *
  */
-@WebServlet("/contract/trade/deliver.api")
-public class TradeDeliver extends HttpServlet
+@WebServlet("/contract/trade/deliever.api")
+public class TradeDeliever extends HttpServlet
 {
     private static final String UID     = "uid";
     private static final String ID      = "id";
@@ -65,7 +65,7 @@ public class TradeDeliver extends HttpServlet
 
             this.tradeDao.begin();
 
-            TradeContract trade = this.tradeCtl.deliver(id, uid);
+            TradeContract trade = this.tradeCtl.deliever(id, uid);
 
             this.tradeDao.commit();
 

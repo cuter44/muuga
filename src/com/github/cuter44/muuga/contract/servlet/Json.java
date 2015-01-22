@@ -30,6 +30,12 @@ class Json
         if (contract instanceof SellerInitedTrade)
             return(jsonizeSellerInitedTrade((SellerInitedTrade)contract));
 
+        if (contract instanceof BorrowerInitedLoan)
+            return(jsonizeBorrowerInitedLoan((BorrowerInitedLoan)contract));
+
+        if (contract instanceof LenderInitedLoan)
+            return(jsonizeLenderInitedLoan((LenderInitedLoan)contract));
+
         return(new JSONObject());
     }
 
@@ -99,6 +105,31 @@ class Json
         JSONObject j = new JSONObject();
 
         j = jsonizeTradeContract(contract, j);
+
+        return(j);
+    }
+
+    protected static JSONObject jsonizeLoanContract(LoanContract contract, JSONObject j)
+    {
+        j = jsonizeContractBase(contract, j);
+
+        return(j);
+    }
+
+    public static JSONObject jsonizeBorrowerInitedLoan(BorrowerInitedLoan contract)
+    {
+        JSONObject j = new JSONObject();
+
+        j = jsonizeLoanContract(contract, j);
+
+        return(j);
+    }
+
+    public static JSONObject jsonizeLenderInitedLoan(LenderInitedLoan contract)
+    {
+        JSONObject j = new JSONObject();
+
+        j = jsonizeLoanContract(contract, j);
 
         return(j);
     }

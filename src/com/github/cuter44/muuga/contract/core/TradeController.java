@@ -111,11 +111,11 @@ public class TradeController
         if (!BuyerInitedTrade.STATUS_INIT.equals(trade.getStatus()))
             throw(new IllegalStateException("Trade not on STATUS_INIT:tradeId="+tradeId));
 
-        if (!trade.supplyBy(uid))
+        if (!trade.isSuppliedBy(uid))
             throw(new UnauthorizedException("Trade not supplied by current user:tradeId="+tradeId+",uid="+uid));
 
         Book book = bookId!=null ? this.bookDao.get(bookId) : null;
-        if ((book!=null) && !book.ownBy(uid))
+        if ((book!=null) && !book.isOwnedBy(uid))
             throw(new UnauthorizedException("Book not owned by current user:bookId="+bookId+",uid="+uid));
 
         trade.setStatus(BuyerInitedTrade.STATUS_ACKED);
@@ -136,7 +136,7 @@ public class TradeController
         if (!SellerInitedTrade.STATUS_INIT.equals(trade.getStatus()))
             throw(new IllegalStateException("Trade not on STATUS_INIT:tradeId="+tradeId));
 
-        if (!trade.consumeBy(uid))
+        if (!trade.isConsumedBy(uid))
             throw(new UnauthorizedException("Trade not consumed by current user:tradeId="+tradeId+",uid="+uid));
 
         trade.setStatus(SellerInitedTrade.STATUS_ACKED);
@@ -157,34 +157,36 @@ public class TradeController
         if (!TradeContract.STATUS_INIT.equals(trade.getStatus()))
             throw(new IllegalStateException("Trade not on STATUS_INIT:tradeId="+tradeId));
 
-        if (trade.consumeBy(uid))
+        if (trade.isConsumedBy(uid))
         {
             trade.setStatus(TradeContract.STATUS_CONSUME_QUIT);
             // TODO notify
         }
 
-        if (trade.supplyBy(uid))
+        if (trade.isSuppliedBy(uid))
         {
             trade.setStatus(TradeContract.STATUS_SUPPLY_QUIT);
             // TODO notify
         }
 
+        this.tradeDao.update(trade);
+
         return(trade);
     }
 
   // DELIVERED
-    public TradeContract deliver(Long tradeId, Long uid)
+    public TradeContract deliever(Long tradeId, Long uid)
         throws UnauthorizedException, IllegalStateException
     {
         TradeContract trade = (TradeContract)entFound(this.tradeDao.get(tradeId));
 
-        if (!trade.supplyBy(uid))
+        if (!trade.isSuppliedBy(uid))
             throw(new UnauthorizedException("Trade not supplied by current user:tradeId="+tradeId+",uid="+uid));
 
         Byte status = trade.getStatus();
         if (
-            !TradeContract.STATUS_ACKED.equals(trade.getStatus())
-            && !TradeContract.STATUS_PAYED.equals(trade.getStatus())
+            !TradeContract.STATUS_ACKED.equals(status)
+            && !TradeContract.STATUS_PAYED.equals(status)
         )
             throw(new IllegalStateException("Trade not on STATUS_ACKED or STATUS_PAYED:tradeId="+tradeId));
 
@@ -203,7 +205,7 @@ public class TradeController
     {
         TradeContract trade = (TradeContract)entFound(this.tradeDao.get(tradeId));
 
-        if (!trade.consumeBy(uid))
+        if (!trade.isConsumedBy(uid))
             throw(new UnauthorizedException("Trade not consumed by current user:tradeId="+tradeId+",uid="+uid));
 
         Byte status = trade.getStatus();

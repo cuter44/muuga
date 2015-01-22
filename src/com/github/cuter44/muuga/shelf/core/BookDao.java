@@ -65,7 +65,7 @@ public class BookDao extends DaoBase<Book>
         throws EntityNotFoundException
     {
         Book book = (Book)entFound(this.get(bookId));
-        return(book.ownBy(userId));
+        return(book.isOwnedBy(userId));
     }
 
 }

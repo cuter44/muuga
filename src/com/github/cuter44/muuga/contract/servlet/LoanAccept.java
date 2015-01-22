@@ -17,23 +17,23 @@ import static com.github.cuter44.nyafx.servlet.Params.needLong;
 import com.github.cuter44.muuga.Constants;
 import com.github.cuter44.muuga.contract.model.*;
 import com.github.cuter44.muuga.contract.core.*;
-import com.github.cuter44.muuga.desire.core.*;
 
-/** 拒绝/撤销借阅
+/**接受发起的借阅
+ * 借阅从该步骤之后无法被撤销
  * <pre style="font-size:12px">
 
    <strong>请求</strong>
-   POST /contract/trade/quit.api
+   POST /contract/loan/accept.api
 
    <strong>参数</strong>
    uid      :long, 自己的 uid, 作为交易的参与方
-   id       :long, 应答的 desire id,
+   id       :long, 接受的交易 id
+   book     :long, 在应答一个借阅方发起交易时可选, 要出借的书的id, 用于标记为出借
    <i>鉴权</i>
    uid  :long   , 必需, uid
-   s    :hex    , 必需, session key
 
    <strong>响应</strong>
-   application/json, class=contract.model.TradeContract
+   application/json, class=contract.model.LoanContract
    attributes refer to {@link Json#jsonizeUserPrivate(ContractBase) Json}
 
    <strong>例外</strong>
@@ -43,15 +43,15 @@ import com.github.cuter44.muuga.desire.core.*;
  * </pre>
  *
  */
-@WebServlet("/contract/teade/quit.api")
-public class TradeQuit extends HttpServlet
+@WebServlet("/contract/loan/accept.api")
+public class LoanAccept extends HttpServlet
 {
     private static final String UID     = "uid";
-    private static final String ID  = "id";
+    private static final String ID      = "id";
     private static final String BOOK    = "book";
 
-    protected TradeContractDao tradeDao = TradeContractDao.getInstance();
-    protected TradeController tradeCtl  = TradeController.getInstance();
+    protected LoanContractDao loanDao = LoanContractDao.getInstance();
+    protected LoanController loanCtl  = LoanController.getInstance();
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -63,12 +63,13 @@ public class TradeQuit extends HttpServlet
         {
             Long    uid     = needLong(req, UID);
             Long    id      = needLong(req, ID);
+            Long    book    = getLong(req, BOOK);
 
-            this.tradeDao.begin();
+            this.loanDao.begin();
 
-            TradeContract trade = this.tradeCtl.quit(id, uid);
+            LoanContract trade = this.loanCtl.accept(id, uid, book);
 
-            this.tradeDao.commit();
+            this.loanDao.commit();
 
             Json.writeContractBase(trade, resp);
         }
@@ -79,7 +80,7 @@ public class TradeQuit extends HttpServlet
         }
         finally
         {
-            this.tradeDao.close();
+            this.loanDao.close();
         }
 
         return;

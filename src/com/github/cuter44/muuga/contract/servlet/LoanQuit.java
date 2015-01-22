@@ -23,7 +23,7 @@ import com.github.cuter44.muuga.desire.core.*;
  * <pre style="font-size:12px">
 
    <strong>请求</strong>
-   POST /contract/trade/quit.api
+   POST /contract/loan/quit.api
 
    <strong>参数</strong>
    uid      :long, 自己的 uid, 作为交易的参与方
@@ -33,7 +33,7 @@ import com.github.cuter44.muuga.desire.core.*;
    s    :hex    , 必需, session key
 
    <strong>响应</strong>
-   application/json, class=contract.model.TradeContract
+   application/json, class=contract.model.LoanContract
    attributes refer to {@link Json#jsonizeUserPrivate(ContractBase) Json}
 
    <strong>例外</strong>
@@ -43,15 +43,15 @@ import com.github.cuter44.muuga.desire.core.*;
  * </pre>
  *
  */
-@WebServlet("/contract/teade/quit.api")
-public class TradeQuit extends HttpServlet
+@WebServlet("/contract/loan/quit.api")
+public class LoanQuit extends HttpServlet
 {
     private static final String UID     = "uid";
     private static final String ID  = "id";
     private static final String BOOK    = "book";
 
-    protected TradeContractDao tradeDao = TradeContractDao.getInstance();
-    protected TradeController tradeCtl  = TradeController.getInstance();
+    protected LoanContractDao loanDao = LoanContractDao.getInstance();
+    protected LoanController loanCtl  = LoanController.getInstance();
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -64,13 +64,13 @@ public class TradeQuit extends HttpServlet
             Long    uid     = needLong(req, UID);
             Long    id      = needLong(req, ID);
 
-            this.tradeDao.begin();
+            this.loanDao.begin();
 
-            TradeContract trade = this.tradeCtl.quit(id, uid);
+            LoanContract loan = this.loanCtl.quit(id, uid);
 
-            this.tradeDao.commit();
+            this.loanDao.commit();
 
-            Json.writeContractBase(trade, resp);
+            Json.writeContractBase(loan, resp);
         }
         catch (Exception ex)
         {
@@ -79,7 +79,7 @@ public class TradeQuit extends HttpServlet
         }
         finally
         {
-            this.tradeDao.close();
+            this.loanDao.close();
         }
 
         return;

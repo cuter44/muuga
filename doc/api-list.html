@@ -96,12 +96,86 @@
         <dd>增加藏书
 
         <dt><span class="method">POST</span> <span class="uri">/book/remove.api</span>
-        <a href="com/github/cuter44/muuga/user/servlet/RemoveBook.html">→</a>
+        <a href="com/github/cuter44/muuga/shelf/servlet/RemoveBook.html">→</a>
         <dd>删除藏书
 
         <dt><span class="method">POST</span> <span class="uri">/book/search.api</span>
-        <a href="com/github/cuter44/muuga/user/servlet/SearchBook.html">→</a>
+        <a href="com/github/cuter44/muuga/shelf/servlet/SearchBook.html">→</a>
         <dd>搜索藏书
+      </dl>
+
+      <h5>意愿</h5>
+      <dl class="indent">
+        <dt><span class="method">POST</span> <span class="uri">/desire/buy/create.api</span>
+        <a href="com/github/cuter44/muuga/desire/servlet/CreateBuyDesire.html">→</a>
+        <dd>创建"想买"
+
+        <dt><span class="method">POST</span> <span class="uri">/desire/sell/create.api</span>
+        <a href="com/github/cuter44/muuga/desire/servlet/CreateSellDesire.html">→</a>
+        <dd>创建"想卖"
+
+        <dt><span class="method">POST</span> <span class="uri">/desire/search.api</span>
+        <a href="com/github/cuter44/muuga/desire/servlet/SearchDesire.html">→</a>
+        <dd>搜索意愿
+
+        <dt><span class="method">POST</span> <span class="uri">/desire/remove.api</span>
+        <a href="com/github/cuter44/muuga/desire/servlet/RemoveDesire.html">→</a>
+        <dd>删除意愿
+      </dl>
+
+      <h5>交易会话</h5>
+      <strong>买卖</strong>
+      <dl class="indent">
+        <dt><span class="method">POST</span> <span class="uri">/contract/trade/create.api</span>
+        <a href="com/github/cuter44/muuga/contract/servlet/TradeCreate.html">→</a>
+        <dd>创建买卖交易会话
+
+        <dt><span class="method">POST</span> <span class="uri">/contract/trade/accept.api</span>
+        <a href="com/github/cuter44/muuga/contract/servlet/TradeAccept.html">→</a>
+        <dd>接受买卖会话
+
+        <dt><span class="method">POST</span> <span class="uri">/contract/trade/quit.api</span>
+        <a href="com/github/cuter44/muuga/contract/servlet/TradeQuit.html">→</a>
+        <dd>拒绝/撤销买卖会话
+
+        <dt><span class="method">POST</span> <span class="uri">/contract/trade/deliever.api</span>
+        <a href="com/github/cuter44/muuga/contract/servlet/TradeDeliever.html">→</a>
+        <dd>标记为已发货
+
+        <dt><span class="method">POST</span> <span class="uri">/contract/trade/finish.api</span>
+        <a href="com/github/cuter44/muuga/contract/servlet/TradeFinish.html">→</a>
+        <dd>确认收货/完成交易
+      </dl>
+
+      <strong>借阅</strong>
+      <dl class="indent">
+        <dt><span class="method">POST</span> <span class="uri">/contract/loan/create.api</span>
+        <a href="com/github/cuter44/muuga/contract/servlet/LoanCreate.html">→</a>
+        <dd>创建借阅交易会话
+
+        <dt><span class="method">POST</span> <span class="uri">/contract/loan/accept.api</span>
+        <a href="com/github/cuter44/muuga/contract/servlet/LoanAccept.html">→</a>
+        <dd>接受借阅会话
+
+        <dt><span class="method">POST</span> <span class="uri">/contract/loan/quit.api</span>
+        <a href="com/github/cuter44/muuga/contract/servlet/LoanQuit.html">→</a>
+        <dd>拒绝/撤销借阅会话
+
+        <dt><span class="method">POST</span> <span class="uri">/contract/loan/deliever.api</span>
+        <a href="com/github/cuter44/muuga/contract/servlet/LoanDeliever.html">→</a>
+        <dd>标记为借出方已递出
+
+        <dt><span class="method">POST</span> <span class="uri">/contract/loan/deliever-ack.api</span>
+        <a href="com/github/cuter44/muuga/contract/servlet/LoanDelieverAck.html">→</a>
+        <dd>标记为借阅方已接收
+
+        <dt><span class="method">POST</span> <span class="uri">/contract/loan/return.api</span>
+        <a href="com/github/cuter44/muuga/contract/servlet/LoanReturn.html">→</a>
+        <dd>通知借出方要求还书
+
+        <dt><span class="method">POST</span> <span class="uri">/contract/loan/finish.api</span>
+        <a href="com/github/cuter44/muuga/contract/servlet/LoanFinish.html">→</a>
+        <dd>确认收货/完成交易
       </dl>
 
     </div>

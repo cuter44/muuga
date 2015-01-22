@@ -19,7 +19,7 @@ public class LoanContract extends ContractBase
 
     /** 16, 借阅方提请归还
      */
-    public static final Byte STATUS_RETURN = 16;
+    public static final Byte STATUS_RETURN_REQ = 16;
 
     /** 17, 借出方收讫
      */
