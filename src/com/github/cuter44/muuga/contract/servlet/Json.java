@@ -51,16 +51,16 @@ class Json
 
     /**
      * 序列化 ContractBase 对象, 字段如下:
-     * id:long, 交易id
-     * isbn:string(13), isbn
-     * expense:double(.2), 价格/押金
-     * tmCreate:unix-epoh-millis, 创建时间
-     * tmStatus:unix-epoh-millis, 最后一次状态变更时间
-     * status:byte, 交易状态
-     * clazz:enum(class-name), 交易类型(买卖, 借阅...)
-     * supply:long, 借出/卖出方的uid
-     * consume:long, 借入/买入方的uid
-     * book:long, 可选, 关联到该交易的书籍, 用于交易完成之后卖方清理库存/防止二次借出
+     * id       :long           , 交易id
+     * isbn     :string(13)     , isbn
+     * expense  :double(.2)     , 价格/押金
+     * tmCreate :unix-time-ms   , 创建时间
+     * tmStatus :unix-time-ms   , 最后一次状态变更时间
+     * status   :byte           , 交易状态
+     * clazz    :class-name     , 交易类型(买卖, 借阅...)
+     * supply   :long           , 借出/卖出方的uid
+     * consume  :long           , 借入/买入方的uid
+     * book     :long           , 可选, 关联到该交易的书籍, 用于交易完成之后卖方清理库存/防止二次借出
      */
     protected static JSONObject jsonizeContractBase(ContractBase contract, JSONObject j)
     {

@@ -30,7 +30,7 @@ class Json
        <li>uname    :string             , username
        <li>mail     :string             , user e-mail
        <li>status   :byte               , account state, refer to {@link com.github.cuter44.muuga.user.model.User User}
-       <li>regDate  :unix-time-millis   , register date
+       <li>regDate  :unix-time-ms       , register date
        <li>clazz    :string             , class of user (IndividualUser, EnterpriseUser, etc.)
        </ul>
      */

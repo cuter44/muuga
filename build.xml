@@ -17,6 +17,7 @@
   <!-- 变量 -->
   <property name="srcdir" value="src" />
   <property name="resdir" value="res" />
+  <property name="docdir" value="doc" />
   <property name="dtlibdir" value="lib" />
   <property name="webdir" value="web" />
   <property name="javadocdir" value="javadoc" />
@@ -127,6 +128,7 @@
   <!-- 生成javadoc -->
   <target name="javadoc" description="生成javadoc">
     <javadoc sourcepath="${srcdir}" destdir="${javadocdir}" private="true" classpathref="classpath" encoding="utf-8"/>
+    <copy file="${docdir}/api-list.html" todir="${javadocdir}" />
   </target>
 
   <!-- 生成war -->
