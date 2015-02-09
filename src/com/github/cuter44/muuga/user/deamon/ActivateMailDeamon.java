@@ -49,7 +49,7 @@ public class ActivateMailDeamon
 
                 ST tContent = this.stg.getInstanceOf("content")
                     .add("user", u)
-                    .add("pass", this.crypto.byteToHex(u.getPass()))
+                    .add("code", this.crypto.byteToHex(u.getPass()))
                     .add("webbase", this.strWebBase);
 
                 String content = tContent.render();

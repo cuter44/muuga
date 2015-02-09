@@ -1,0 +1,130 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+ <head>
+  <title>木瓜 - 用户激活</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <script src="../js/jq/jquery-1.10.2.js"></script>
+ </head>
+ <body>
+  <h1>激活</h1>
+
+  <div>
+    <input type="text" name="uid" id="uid" placeholder="UID" />
+    <br />
+    <input type="text" name="code" id="code" placeholder="激活码" />
+    <br />
+    <input type="password" name="pass-cleartext" id="pass-cleartext" placeholder="密码(明文)" />
+    <br />
+    <input type="text" name="pass" id="pass" placeholder="密码(密文)" />
+    <br />
+    <button onclick="javascript:doActivate();">激活</button>
+  </div>
+
+  <script src="../js/crypto/rsa.js"></script>
+  <script src="../js/crypto/jsbn.js"></script>
+  <script src="../js/crypto/prng4.js"></script>
+  <script src="../js/crypto/rng.js"></script>
+  <script>
+    function getParamValue(name)
+    {
+      try {
+        return(
+          decodeURIComponent(
+            location.search.match(new RegExp("[\?&]"+name+"=[^&#]*"))[0].split("=")[1]
+          )
+        );
+      } catch (ex) {
+        return(null);
+      }
+    }
+
+    $.ready(function(){
+      var uid = getParamValue("uid");
+      if (uid)
+        $("#uid").val(uid);
+
+      var code = getParamValue("code");
+      if (code)
+        $("#code").val(code);
+    });
+
+  </script>
+  <script>
+    function doActivate() {
+      $("div.form").slideUp().promise().done(
+        function() {
+          try {
+            $.ajaxSetup({async:false});
+            var key = getKey();
+            var s = activate(key);
+            alert(s);
+            //var profile = chdname(s);
+            alert("✓ 完成! 可以在应用上登录了");
+          } catch (ex) {
+            alert(ex);
+          }
+      });
+
+      return(false);
+    }
+
+    function getKey() {
+      var key;
+
+      $.getJSON(
+        "../security/get-rsa-key.api",
+        {uid:$("#uid").val()}
+      ).fail(
+        function(){throw "获取公钥失败";}
+      ).done(
+        function(json){key=json;}
+      );
+
+      return(key);
+    }
+
+
+    function activate(key) {
+      var s;
+
+      var rsa = new RSAKey();
+      rsa.setPublic(key.m, key.e);
+      
+      $.post(
+        "./activate.api",
+        {
+          uid :$("#uid").val(),
+          code:$("#code").val(),
+          pass:rsa.encrypt($("#pass-cleartext").val())
+        }
+      ).fail(
+        function(){throw "设定密码失败";}
+      ).done(
+        function(json){s=json;}
+      );
+
+      return(s);
+    }
+
+    //function chdname(wrapped) {
+      //var p;
+
+      //$("div#status").html("<p>设定昵称...</p>");
+      //$.post(
+        //"../profile/update.api",
+        //{
+          //uid:"<%=uid%>",
+          //s:wrapped.s,
+          //dname:$("input#dname").val()
+        //}
+      //).fail(
+        //function(){throw "设定昵称失败";}
+      //).done(
+        //function(json){p=json;}
+      //);
+
+      //return(p);
+    //}
+  </script>
+ </body>
+</html>

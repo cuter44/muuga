@@ -2,7 +2,7 @@ delimiters "%", "%"
 
 title() ::= "welcome"
 
-content(user, pass, webbase) ::= <<
+content(user, code, webbase) ::= <<
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
   <head>
@@ -11,10 +11,10 @@ content(user, pass, webbase) ::= <<
 
   <body>
     <div>
-      <h1>Hello, %user.dname%</h1>
+      <h1>Hello, %user.mail%</h1>
       这是一个实验性的激活邮件
       <br />
-      激活的链接在这里 <a href="%webbase%/user/activate.html?uid=%user.id%&pass=%pass%">URL</a>
+      激活的链接在这里 <a href="%webbase%/user/activate.html?uid=%user.id%&code=%code%">%webbase%/user/activate.html?uid=%user.id%&code=%code%</a>
     </div>
   </body>
 </html>
