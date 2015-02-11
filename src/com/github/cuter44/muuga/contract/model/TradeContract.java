@@ -14,7 +14,7 @@ public class TradeContract extends ContractBase
     public static final Byte STATUS_PAYED = 8;
     /** 12, 已交付
      */
-    public static final Byte STATUS_DELIEVERED = 12;
+    public static final Byte STATUS_DELIVERED = 12;
 
   // ACCESSOR
 

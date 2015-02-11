@@ -69,9 +69,13 @@
         <a href="com/github/cuter44/muuga/user/servlet/Login.html" target="javadoc">→</a>
         <dd>登录/获取当前用户信息(需要密码, 稍后将分离这个接口)
 
-        <dt><span class="method">POST</span> <span class="uri">/user/logout.api</span>
-        <a href="com/github/cuter44/muuga/user/servlet/Logout.html" target="javadoc">→</a>
-        <dd>登出
+        <dt><span class="method">POST</span> <span class="uri">/user/logout-via-pass.api</span>
+        <a href="com/github/cuter44/muuga/user/servlet/LogoutViaPass.html" target="javadoc">→</a>
+        <dd>使用密码登出
+
+        <dt><span class="method">POST</span> <span class="uri">/user/logout-via-secret.api</span>
+        <a href="com/github/cuter44/muuga/user/servlet/LogoutViaSecret.html" target="javadoc">→</a>
+        <dd>使用secret登出
 
         <dt><span class="method">POST</span> <span class="uri">/user/passwd.api</span>
         <a href="com/github/cuter44/muuga/user/servlet/Passwd.html" target="javadoc">→</a>
@@ -142,8 +146,8 @@
         <a href="com/github/cuter44/muuga/contract/servlet/TradeQuit.html" target="javadoc">→</a>
         <dd>拒绝/撤销买卖会话
 
-        <dt><span class="method">POST</span> <span class="uri">/contract/trade/deliever.api</span>
-        <a href="com/github/cuter44/muuga/contract/servlet/TradeDeliever.html" target="javadoc">→</a>
+        <dt><span class="method">POST</span> <span class="uri">/contract/trade/deliver.api</span>
+        <a href="com/github/cuter44/muuga/contract/servlet/TradeDeliver.html" target="javadoc">→</a>
         <dd>标记为已发货
 
         <dt><span class="method">POST</span> <span class="uri">/contract/trade/finish.api</span>
@@ -165,12 +169,12 @@
         <a href="com/github/cuter44/muuga/contract/servlet/LoanQuit.html" target="javadoc">→</a>
         <dd>拒绝/撤销借阅会话
 
-        <dt><span class="method">POST</span> <span class="uri">/contract/loan/deliever.api</span>
-        <a href="com/github/cuter44/muuga/contract/servlet/LoanDeliever.html" target="javadoc">→</a>
+        <dt><span class="method">POST</span> <span class="uri">/contract/loan/deliver.api</span>
+        <a href="com/github/cuter44/muuga/contract/servlet/LoanDeliver.html" target="javadoc">→</a>
         <dd>标记为借出方已递出
 
-        <dt><span class="method">POST</span> <span class="uri">/contract/loan/deliever-ack.api</span>
-        <a href="com/github/cuter44/muuga/contract/servlet/LoanDelieverAck.html" target="javadoc">→</a>
+        <dt><span class="method">POST</span> <span class="uri">/contract/loan/deliver-ack.api</span>
+        <a href="com/github/cuter44/muuga/contract/servlet/LoanDeliverAck.html" target="javadoc">→</a>
         <dd>标记为借阅方已接收
 
         <dt><span class="method">POST</span> <span class="uri">/contract/loan/return.api</span>

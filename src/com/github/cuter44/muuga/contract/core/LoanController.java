@@ -175,7 +175,7 @@ public class LoanController
     }
 
   // DELIVERED
-    public LoanContract deliever(Long loanId, Long uid)
+    public LoanContract deliver(Long loanId, Long uid)
         throws UnauthorizedException, IllegalStateException
     {
         LoanContract loan = (LoanContract)entFound(this.loanDao.get(loanId));
@@ -186,7 +186,7 @@ public class LoanController
         if (!LoanContract.STATUS_ACKED.equals(loan.getStatus()))
             throw(new IllegalStateException("Loan not on STATUS_ACKED or STATUS_PAYED:loanId="+loanId));
 
-        loan.setStatus(LoanContract.STATUS_DELIEVERED);
+        loan.setStatus(LoanContract.STATUS_DELIVERED);
 
         this.loanDao.update(loan);
 
@@ -196,7 +196,7 @@ public class LoanController
     }
 
   // DELIVERE_ACK
-    public LoanContract delieverAck(Long loanId, Long uid)
+    public LoanContract deliverAck(Long loanId, Long uid)
         throws UnauthorizedException, IllegalStateException
     {
         LoanContract loan = (LoanContract)entFound(this.loanDao.get(loanId));
@@ -204,10 +204,10 @@ public class LoanController
         if (!loan.isConsumedBy(uid))
             throw(new UnauthorizedException("Loan not consumed by current user:loanId="+loanId+",uid="+uid));
 
-        if (!LoanContract.STATUS_DELIEVERED.equals(loan.getStatus()))
-            throw(new IllegalStateException("Loan not on STATUS_DELIEVERED:loanId="+loanId));
+        if (!LoanContract.STATUS_DELIVERED.equals(loan.getStatus()))
+            throw(new IllegalStateException("Loan not on STATUS_DELIVERED:loanId="+loanId));
 
-        loan.setStatus(LoanContract.STATUS_DELIEVER_ACK);
+        loan.setStatus(LoanContract.STATUS_DELIVER_ACK);
 
         this.loanDao.update(loan);
 
@@ -225,8 +225,8 @@ public class LoanController
         if (!loan.isConsumedBy(uid))
             throw(new UnauthorizedException("Loan not consumed by current user:loanId="+loanId+",uid="+uid));
 
-        if (!LoanContract.STATUS_DELIEVER_ACK.equals(loan.getStatus()))
-            throw(new IllegalStateException("Loan not on STATUS_DELIEVER_ACK:loanId="+loanId));
+        if (!LoanContract.STATUS_DELIVER_ACK.equals(loan.getStatus()))
+            throw(new IllegalStateException("Loan not on STATUS_DELIVER_ACK:loanId="+loanId));
 
         loan.setStatus(LoanContract.STATUS_RETURN_REQ);
 

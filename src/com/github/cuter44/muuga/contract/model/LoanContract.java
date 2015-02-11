@@ -11,11 +11,11 @@ public class LoanContract extends ContractBase
   // FIELDS
     /** 12, 已交付
      */
-    public static final Byte STATUS_DELIEVERED = 12;
+    public static final Byte STATUS_DELIVERED = 12;
 
     /** 13, 借阅方收讫
      */
-    public static final Byte STATUS_DELIEVER_ACK = 13;
+    public static final Byte STATUS_DELIVER_ACK = 13;
 
     /** 16, 借阅方提请归还
      */

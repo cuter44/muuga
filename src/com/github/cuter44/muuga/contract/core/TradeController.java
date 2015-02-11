@@ -175,7 +175,7 @@ public class TradeController
     }
 
   // DELIVERED
-    public TradeContract deliever(Long tradeId, Long uid)
+    public TradeContract deliver(Long tradeId, Long uid)
         throws UnauthorizedException, IllegalStateException
     {
         TradeContract trade = (TradeContract)entFound(this.tradeDao.get(tradeId));
@@ -190,7 +190,7 @@ public class TradeController
         )
             throw(new IllegalStateException("Trade not on STATUS_ACKED or STATUS_PAYED:tradeId="+tradeId));
 
-        trade.setStatus(TradeContract.STATUS_DELIEVERED);
+        trade.setStatus(TradeContract.STATUS_DELIERED);
 
         this.tradeDao.update(trade);
 
@@ -209,7 +209,7 @@ public class TradeController
             throw(new UnauthorizedException("Trade not consumed by current user:tradeId="+tradeId+",uid="+uid));
 
         Byte status = trade.getStatus();
-        if (!TradeContract.STATUS_DELIEVERED.equals(trade.getStatus()))
+        if (!TradeContract.STATUS_DELIVERED.equals(trade.getStatus()))
             throw(new IllegalStateException("Trade not on STATUS_DELIVERED:tradeId="+tradeId));
 
         trade.setStatus(TradeContract.STATUS_FINISH);
