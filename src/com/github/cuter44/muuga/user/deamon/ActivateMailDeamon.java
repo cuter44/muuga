@@ -38,7 +38,7 @@ public class ActivateMailDeamon
 
     public void run()
     {
-        EventHub.getInstance().addListener(this.EVENTTYPE_USER_REGISTER, this.eq);
+        EventHub.getInstance().subscribe(this.EVENTTYPE_USER_REGISTER, this.eq);
 
         while (!Thread.currentThread().isInterrupted())
         {

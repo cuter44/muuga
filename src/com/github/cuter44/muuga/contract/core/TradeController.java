@@ -190,7 +190,7 @@ public class TradeController
         )
             throw(new IllegalStateException("Trade not on STATUS_ACKED or STATUS_PAYED:tradeId="+tradeId));
 
-        trade.setStatus(TradeContract.STATUS_DELIERED);
+        trade.setStatus(TradeContract.STATUS_DELIVERED);
 
         this.tradeDao.update(trade);
 

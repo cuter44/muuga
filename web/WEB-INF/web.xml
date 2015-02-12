@@ -11,9 +11,19 @@
   <listener>
     <listener-class>net.sf.ehcache.constructs.web.ShutdownListener</listener-class>
   </listener>
+
   <listener>
     <listener-class>com.github.cuter44.muuga.sys.servlet.DeamonRoot</listener-class>
   </listener>
+
+  <listener>
+    <listener-class>com.github.cuter44.muuga.easemob.servlet.InjectActivateTrigger</listener-class>
+  </listener>
+
+  <listener>
+    <listener-class>com.github.cuter44.muuga.easemob.servlet.InjectLoginTrigger</listener-class>
+  </listener>
+
 
 
   <!--

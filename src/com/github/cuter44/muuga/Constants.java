@@ -11,5 +11,8 @@ public class Constants
     public static final String KEY_UID = "uid";
 
   // EVENT TYPE
-    public static final String EVENTTYPE_USER_REGISTER = "user.register";
+    public static final String EVENTTYPE_USER_REGISTER  = "user.register";
+    public static final String EVENTTYPE_USER_ACTIVATE  = "user.activate";
+    public static final String EVENTTYPE_USER_LOGIN     = "user.login";
+    public static final String EVENTTYPE_USER_LOGOUT    = "user.logout";
 }

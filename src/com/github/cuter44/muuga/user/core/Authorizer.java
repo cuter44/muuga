@@ -29,7 +29,10 @@ import com.github.cuter44.muuga.Constants;
  */
 public class Authorizer
 {
-    protected static final String EVENTTYPE_USER_REGISTER = Constants.EVENTTYPE_USER_REGISTER;
+    protected static final String EVENTTYPE_USER_REGISTER   = Constants.EVENTTYPE_USER_REGISTER;
+    protected static final String EVENTTYPE_USER_ACTIVATE   = Constants.EVENTTYPE_USER_ACTIVATE;
+    protected static final String EVENTTYPE_USER_LOGIN      = Constants.EVENTTYPE_USER_LOGIN;
+    protected static final String EVENTTYPE_USER_LOGOUT     = Constants.EVENTTYPE_USER_LOGOUT;
 
   // CONSTRUCT
     protected static Integer SECRET_LENGTH;
@@ -150,6 +153,8 @@ public class Authorizer
 
         this.userDao.update(user);
 
+        this.eventHub.dispatch(EVENTTYPE_USER_LOGOUT, new Event(user));
+
         return(user);
     }
 
@@ -180,6 +185,8 @@ public class Authorizer
         user.setSecret(null);
 
         this.userDao.update(user);
+
+        this.eventHub.dispatch(EVENTTYPE_USER_LOGOUT, new Event(user));
 
         return(user);
     }
@@ -214,7 +221,7 @@ public class Authorizer
 
         }
 
-        this.eventHub.dispatch(this.EVENTTYPE_USER_REGISTER, new Event(user));
+        this.eventHub.dispatch(EVENTTYPE_USER_REGISTER, new Event(user));
 
         return(user);
     }
@@ -240,6 +247,8 @@ public class Authorizer
         user.setStatus(User.STATUS_ACTIVATED);
 
         this.userDao.update(user);
+
+        this.eventHub.dispatch(EVENTTYPE_USER_ACTIVATE, new Event(user));
 
         return(user);
     }
@@ -268,6 +277,8 @@ public class Authorizer
             user.setSecret(this.rsa.randomBytes(SECRET_LENGTH));
             this.userDao.update(user);
         }
+
+        this.eventHub.dispatch(EVENTTYPE_USER_LOGIN, new Event(user));
 
         return(user);
     }
