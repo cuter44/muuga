@@ -38,8 +38,7 @@ import com.github.cuter44.muuga.user.core.*;
    s    :hex    , 必需, session key
 
    <strong>响应</strong>
-   application/json class=desire.model.SellDesire
-   rendered by Json#jsonizeBuyDesire
+   application/json class={@link Json#jsonizeDesire(Desire, JSONObject) desire.model.LendDesire}
 
    <strong>例外</strong>
    parsed by {@link com.github.cuter44.muuga.sys.servlet.ExceptionHandler ExceptionHandler}

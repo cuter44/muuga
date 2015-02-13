@@ -50,7 +50,26 @@ class Json
 
         return(j);
     }
-
+    /**
+     * <pre style="font-size:12px;">
+     * 序列化 ContractBase 对象, 字段如下:
+     * id           :long                       , 需求id
+     * isbn         :string(13)                 , isbn
+     * originator   :long                       , 需求发起者的id
+     * qty          :int                        , 期望数量
+     * ps           :string(255)                , PostScript, 附言
+     * pos          :geohash(24)                , 地理位置标记
+     * expense      :double(.2)                 , 卖出的最低期望价格, 买入的最高期望价格
+     * tm           :unix-time-ms               , Last-Modified
+     * clazz        :class-name=BuyDesire...    , 交易类型(买卖, 借阅...), 参见以下链接
+     * </pre>
+     * @see com.github.cuter44.muuga.desire.model.Desire
+     * @see com.github.cuter44.muuga.desire.model.BorrowDesire
+     * @see com.github.cuter44.muuga.desire.model.LendDesire
+     * @see com.github.cuter44.muuga.desire.model.BuyDesire
+     * @see com.github.cuter44.muuga.desire.model.SellDesire
+     * .last-update 2015/2/13
+     */
     protected static JSONObject jsonizeDesire(Desire d, JSONObject j)
     {
         j.put(ID            , d.getId());

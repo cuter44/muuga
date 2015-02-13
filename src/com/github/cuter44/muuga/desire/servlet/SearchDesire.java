@@ -30,7 +30,7 @@ import com.github.cuter44.muuga.conf.Configurator;
    GET/POST /desire/search.api
 
    <strong>参数</strong>
-   isbn         :long       , ISBN-13
+   isbn         :string     , ISBN-13
    originator   :long       , 需求的从属者
    expenseSt    :double     , 价格, 左开区间匹配
    expenseEd    :double     , 价格, 右闭区间匹配
@@ -50,8 +50,7 @@ import com.github.cuter44.muuga.conf.Configurator;
    order    :string=asc|desc    , 顺序|逆序排列
 
    <strong>响应</strong>
-   application/json array class=desire.model.Desire
-   attributes refer to {@link Json#jsonizeDesire(Desire) Json}
+   application/json; array; class={@link Json#jsonizeDesire(Desire, JSONObject) desire.model.LendDesire}
 
    <strong>例外</strong>
    parsed by {@link com.github.cuter44.muuga.sys.servlet.ExceptionHandler ExceptionHandler}

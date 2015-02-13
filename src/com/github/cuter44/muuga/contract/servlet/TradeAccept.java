@@ -33,8 +33,7 @@ import com.github.cuter44.muuga.contract.core.*;
    uid  :long   , 必需, uid
 
    <strong>响应</strong>
-   application/json, class=contract.model.TradeContract
-   attributes refer to {@link Json#jsonizeUserPrivate(ContractBase) Json}
+   application/json, class={@link Json#jsonizeContractBase(ContractBase, JSONObject) contract.model.TeadeContract}
 
    <strong>例外</strong>
    parsed by {@link com.github.cuter44.muuga.sys.servlet.ExceptionHandler ExceptionHandler}

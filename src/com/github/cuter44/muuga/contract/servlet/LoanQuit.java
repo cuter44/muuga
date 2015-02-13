@@ -33,8 +33,7 @@ import com.github.cuter44.muuga.desire.core.*;
    s    :hex    , 必需, session key
 
    <strong>响应</strong>
-   application/json, class=contract.model.LoanContract
-   attributes refer to {@link Json#jsonizeUserPrivate(ContractBase) Json}
+   application/json, class={@link Json#jsonizeContractBase(ContractBase, JSONObject) contract.model.LoanContract}
 
    <strong>例外</strong>
    parsed by {@link com.github.cuter44.muuga.sys.servlet.ExceptionHandler ExceptionHandler}
