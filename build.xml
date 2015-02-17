@@ -127,7 +127,9 @@
 
   <!-- 生成javadoc -->
   <target name="javadoc" description="生成javadoc">
-    <javadoc sourcepath="${srcdir}" destdir="${javadocdir}" private="true" classpathref="classpath" encoding="utf-8"/>
+    <javadoc sourcepath="${srcdir}" destdir="${javadocdir}" private="true" classpathref="classpath" encoding="utf-8">
+      <arg value="-quiet" />
+    </javadoc>
     <copy file="${docdir}/api-list.html" todir="${javadocdir}" />
   </target>
 

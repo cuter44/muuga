@@ -32,8 +32,7 @@ import com.github.cuter44.muuga.user.exception.*;
    pass:hex, RSA 加密的 UTF-8 编码的用户登录密码.
 
    <strong>响应</strong>
-   application/json, class=user.model.User(public)
-   attributes refer to {@link Json#jsonizeUserPublic(User) Json}
+   application/json, class={@link Json#jsonizeUser(User) user.model.User}
 
    <strong>例外</strong>
    parsed by {@link com.github.cuter44.muuga.sys.servlet.ExceptionHandler ExceptionHandler}
@@ -75,7 +74,7 @@ public class Activate extends HttpServlet
 
             this.userDao.commit();
 
-            Json.writeUserPublic(user, resp);
+            Json.writeUser(user, resp);
         }
         catch (Exception ex)
         {

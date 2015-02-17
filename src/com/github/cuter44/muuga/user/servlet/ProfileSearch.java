@@ -51,7 +51,7 @@ import com.github.cuter44.muuga.conf.Configurator;
  *
  */
 @WebServlet("/profile/search.api")
-public class SearchProfile extends HttpServlet
+public class ProfileSearch extends HttpServlet
 {
     private static final String START = "start";
     private static final String SIZE = "size";

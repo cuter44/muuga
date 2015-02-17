@@ -6,32 +6,28 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 
 import com.github.cuter44.nyafx.dao.*;
-import static com.github.cuter44.nyafx.dao.EntityNotFoundException.entFound;
 import com.github.cuter44.nyafx.servlet.*;
 import static com.github.cuter44.nyafx.servlet.Params.needLong;
-import static com.github.cuter44.nyafx.servlet.Params.needString;
 
 import com.github.cuter44.muuga.Constants;
 import com.github.cuter44.muuga.shelf.model.*;
 import com.github.cuter44.muuga.shelf.core.*;
-import com.github.cuter44.muuga.user.model.*;
-import com.github.cuter44.muuga.user.core.*;
+import com.github.cuter44.muuga.user.exception.*;
 
-/** 增加藏书
+/** 删除藏书
  * <pre style="font-size:12px">
 
    <strong>请求</strong>
-   POST /book/add.api
+   POST /book/remove.api
 
    <strong>参数</strong>
-   isbn :string , 必需, isbn
+   id   :long   , 删除书的id;
    <i>鉴权</i>
-   uid  :long   , 必需, uid
-   s    :hex    , 必需, session key
+   uid  :long   , uid;
+   s    :hex    , session key;
 
    <strong>响应</strong>
-   application/json class=shelf.model.Book
-   rendered by (@link Json#jsonizeBook(Book) Json}
+   HTTP 204:NO CONTENT
 
    <strong>例外</strong>
    parsed by {@link com.github.cuter44.muuga.sys.servlet.ExceptionHandler ExceptionHandler}
@@ -39,14 +35,13 @@ import com.github.cuter44.muuga.user.core.*;
    <strong>样例</strong>暂无
  * </pre>
  *
- *
  */
-@WebServlet("/book/add.api")
-public class AddBook extends HttpServlet
+@WebServlet("/book/remove.api")
+public class BookRemove extends HttpServlet
 {
-    private static final String UID     = "uid";
-    private static final String OWNER   = "owner";
-    private static final String ISBN    = "isbn";
+    private static final String UID = "uid";
+    private static final String S = "s";
+    private static final String ID = "id";
 
     protected BookDao bookDao = BookDao.getInstance();
 
@@ -58,16 +53,22 @@ public class AddBook extends HttpServlet
 
         try
         {
-            Long    uid     = needLong(req, UID);
-            String  isbn    = needString(req, ISBN);
+            Long uid    = needLong(req, UID);
+            Long id     = needLong(req, ID);
 
             this.bookDao.begin();
 
-            Book    book    = this.bookDao.create(uid, isbn);
+            if (!this.bookDao.isOwnedBy(id, uid))
+                throw(
+                    new UnauthorizedException(
+                        String.format("Not possession:Book=%d,User=%d", id, uid)
+                ));
+
+            this.bookDao.remove(id);
 
             this.bookDao.commit();
 
-            Json.writeBook(book, resp);
+            resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
         }
         catch (Exception ex)
         {
@@ -78,6 +79,7 @@ public class AddBook extends HttpServlet
         {
             this.bookDao.close();
         }
+
 
         return;
     }

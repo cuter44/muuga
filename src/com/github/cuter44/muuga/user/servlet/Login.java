@@ -35,7 +35,7 @@ import com.github.cuter44.muuga.user.exception.*;
 
    <strong>响应</strong>
    application/json class=user.model.User(with-secret)
-   attributes refer to {@link Json#jsonizeUserWithSecret(User) Json}
+   attributes refer to {@link Json#jsonizeUser(User) Json}
 
    <strong>例外</strong>
    parsed by {@link com.github.cuter44.muuga.sys.servlet.ExceptionHandler ExceptionHandler}
@@ -90,7 +90,7 @@ public class Login extends HttpServlet
                 this.rsa.encrypt(u.getSecret(), publicKey)
             );
 
-            Json.writeUserWithSecret(u, encryptedSecret, resp);
+            Json.writeUser(u, resp);
 
             this.userDao.commit();
         }

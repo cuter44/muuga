@@ -43,12 +43,13 @@ import com.github.cuter44.muuga.user.core.*;
  *
  */
 @WebServlet("/profile/update.api")
-public class UpdateProfile extends HttpServlet
+public class ProfileUpdate extends HttpServlet
 {
-    private static final String UID = "uid";
-    private static final String DNAME = "dname";
-    private static final String MOTTO = "motto";
-    private static final String POS = "pos";
+    private static final String UID     = "uid";
+    private static final String DNAME   = "dname";
+    private static final String MOTTO   = "motto";
+    private static final String POS     = "pos";
+    private static final String BG      = "bg";
 
     protected ProfileDao profileDao = ProfileDao.getInstance();
 
@@ -77,6 +78,10 @@ public class UpdateProfile extends HttpServlet
             String pos = getString(req, POS);
             if (pos != null)
                 p.setPos(pos);
+
+            String bg = getString(req, BG);
+            if (bg != null)
+                p.setBg(bg);
 
             this.profileDao.update(p);
 

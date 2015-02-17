@@ -38,7 +38,7 @@ import com.github.cuter44.muuga.user.core.*;
 
    <strong>响应</strong>
    application/json array class=user.model.User(public)
-   attributes refer to {@link Json#jsonizeUserPublic(User) Json}
+   attributes refer to {@link Json#jsonizeUser(User) Json}
 
    <strong>例外</strong>
    parsed by {@link com.github.cuter44.muuga.sys.servlet.ExceptionHandler ExceptionHandler}
@@ -48,7 +48,7 @@ import com.github.cuter44.muuga.user.core.*;
  *
  */
 @WebServlet("/user/search.api")
-public class SearchUser extends HttpServlet
+public class UserSearch extends HttpServlet
 {
     private static final String START = "start";
     private static final String SIZE = "size";
@@ -118,7 +118,7 @@ public class SearchUser extends HttpServlet
 
             this.userDao.commit();
 
-            Json.writeUserPublic(l, resp);
+            Json.writeUser(l, resp);
         }
         catch (Exception ex)
         {

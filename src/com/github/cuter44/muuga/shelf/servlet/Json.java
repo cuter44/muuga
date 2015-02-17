@@ -19,6 +19,18 @@ class Json
     private static final String STATUS      = "status";
 
 
+    /**
+     * <pre style="font-size:12px;">
+     * 序列化 Book 对象, 字段如下:
+     * id       :long           , id
+     * isbn     :string(13)     , isbn
+     * owner    :long           , 需求发起者的id
+     * regDate  :unix-time-ms   , 追加日期
+     * status   :byte           , 状态, 参见 Book 的常量字段
+     * </pre>
+     * @see com.github.cuter44.muuga.shelf.model.Book
+     * .last-update 2015/2/14
+     */
     public static JSONObject jsonizeBook(Book book)
     {
         JSONObject j = new JSONObject();

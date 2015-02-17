@@ -25,7 +25,7 @@ public class Book
     /** 1, 正常
      */
     public static final Byte STATUS_NORMAL = 1;
-    /** -1, 已删除
+    /** <del>-1, 已删除</del> 保留为将来使用
      */
     public static final Byte STATUS_REMOVED = -1;
 

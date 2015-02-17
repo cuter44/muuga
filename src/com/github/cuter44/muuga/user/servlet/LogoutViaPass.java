@@ -33,7 +33,7 @@ import com.github.cuter44.muuga.user.exception.*;
 
    <strong>响应</strong>
    application/json; class=user.model.User
-   attributes refer to {@link Json#jsonizeUserWithSecret(User) Json}
+   attributes refer to {@link Json#jsonizeUser(User) Json}
 
    <strong>例外</strong>
    parsed by {@link com.github.cuter44.muuga.sys.servlet.ExceptionHandler ExceptionHandler}
@@ -82,7 +82,7 @@ public class LogoutViaPass extends HttpServlet
 
             this.userDao.commit();
 
-            Json.writeUserPublic(u, resp);
+            Json.writeUser(u, resp);
 
         }
         catch (Exception ex)

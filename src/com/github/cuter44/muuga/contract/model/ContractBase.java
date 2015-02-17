@@ -13,22 +13,40 @@ public class ContractBase
     public static final long serialVersionUID = 1L;
 
   // FIELDS
+    /** id
+     */
     protected Long id;
 
+    /** 供应方, 借出/卖出
+     */
     protected Profile supply;
+    /** 消耗方, 借入/买入
+     */
     protected Profile consume;
+    /** isbn
+     */
     protected String isbn;
+    /** 关联到该交易的书籍, 用于交易完成之后卖方清理库存/防止二次借出
+     */
     protected Book book;
 
+    /** 价格/押金, 按总价计算
+     */
     protected Double expense;
 
+    /** 交易创建时间
+     */
     protected Date tmCreate;
+    /** 交易状态变更时间
+     */
     protected Date tmStatus;
 
+    /** 辨别符
+     */
     protected String clazz;
 
     /**
-     * 子类具有不同的状态, 你可能需要沿继承树翻阅多个文档才能得到全部可能的值
+     * 子类具有不同的状态, 可能需要沿继承树翻阅多个文档才能得到全部可能的值
      */
     protected Byte status;
     /** 0, 初始状态

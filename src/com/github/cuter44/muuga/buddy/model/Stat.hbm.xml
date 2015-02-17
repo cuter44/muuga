@@ -3,7 +3,7 @@
 	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
-    <class name="com.github.cuter44.muuga.user.model.Profile" table="user_profile">
+    <class name="com.github.cuter44.muuga.buddy.model.Stat" table="buddy_stat">
         <id name="id" type="long">
             <generator class="foreign">
                 <param name="property">user</param>
@@ -11,13 +11,10 @@
         </id>
         <one-to-one name="user" class="com.github.cuter44.muuga.user.model.User" />
         
-        <property name="dname" type="string" length="48" />
-        <property name="tname" type="string" length="48" />
-        <property name="motto" type="string" length="255" />
-        <property name="avatar" type="string" length="255"/>
-
-        <property name="pos" type="string" length="24" />
-        <property name="bg" type="string" length="24" />
+        <property name="follow" type="long" />
+        <property name="followed" type="long" />
+        <property name="hate" type="long" />
+        <property name="hated" type="long" />
 
     </class>
 </hibernate-mapping>

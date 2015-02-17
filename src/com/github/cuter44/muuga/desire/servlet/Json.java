@@ -21,9 +21,6 @@ class Json
     private static final String TM          = "tm";
     private static final String CLAZZ       = "clazz";
 
-    /**
-     * @see jsonizeDesire(Desire, JSONObject)
-     */
     protected static JSONObject jsonizeDesire(Desire d)
     {
         if (d instanceof BuyDesire)

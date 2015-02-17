@@ -38,8 +38,7 @@ import com.github.cuter44.muuga.shelf.core.*;
    size:int, 返回结果的最大笔数, 缺省使用服务器配置
 
    <strong>响应</strong>
-   application/json array class=shelf.model.Book
-   rendered by {@link Json#jsonizeBook(Book) Json}
+   application/json; array; class={@link Json#jsonizeBook(Book) class=shelf.model.Book}
 
    <strong>例外</strong>
    parsed by {@link com.github.cuter44.muuga.sys.servlet.ExceptionHandler ExceptionHandler}
@@ -49,7 +48,7 @@ import com.github.cuter44.muuga.shelf.core.*;
  *
  */
 @WebServlet("/book/search.api")
-public class SearchBook extends HttpServlet
+public class BookSearch extends HttpServlet
 {
     private static final String ID = "id";
     private static final String OWNER = "owner";

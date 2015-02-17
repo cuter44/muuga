@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 import com.github.cuter44.muuga.conf.*;
 
+/** 守护线程加载器
+ */
 public class DeamonRoot
     implements ServletContextListener
 {

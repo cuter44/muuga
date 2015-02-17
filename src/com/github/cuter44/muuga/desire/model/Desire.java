@@ -11,18 +11,36 @@ public class Desire
     public static final long serialVersionUID = 1L;
 
   // FIELD
+    /** id
+     */
     protected Long id;
 
+    /** ISBN-13
+     */
     protected String isbn;
+    /** 发起人
+     */
     protected Profile originator;
+    /** 请求数量
+     */
     protected Integer qty;
+    /** 费用, 卖出的要价/买入的出价, 按单价计算
+     */
     protected Double expense;
 
+    /** PostScript, 附言
+     */
     protected String ps;
+    /** 地理位置标记
+     */
     protected String pos;
 
+    /** 创建时间
+     */
     protected Date tm;
 
+    /** 辨别符
+     */
     protected String clazz;
 
   // GETTER/SETTER

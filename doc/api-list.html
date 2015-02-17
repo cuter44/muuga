@@ -45,9 +45,9 @@
         <a href="com/github/cuter44/muuga/conf/ServerConfigBroadcaster.html" target="javadoc">→</a>
         <dd>获取服务器端配置
 
-        <dt><i>无法被客户端调用</i>
+        <dt><span class="uri">/sys/exception.api</span>
         <a href="com/github/cuter44/muuga/sys/servlet/ExceptionHandler.html" target="javadoc">→</a>
-        <dd>通用错误码解析
+        <dd>通用错误码解析/服务器存活确认
 
       </dl>
 
@@ -184,6 +184,41 @@
         <dt><span class="method">POST</span> <span class="uri">/contract/loan/finish.api</span>
         <a href="com/github/cuter44/muuga/contract/servlet/LoanFinish.html" target="javadoc">→</a>
         <dd>确认收货/完成交易
+      </dl>
+
+      <h5>好友</h5>
+      <dl class="indent">
+        <dt><span class="method">POST</span> <span class="uri">/buddy/follow.api</span>
+        <a href="com/github/cuter44/muuga/buddy/servlet/Follow.html" target="javadoc">→</a>
+        <dd>关注
+
+        <dt><span class="method">POST</span> <span class="uri">/buddy/unfollow.api</span>
+        <a href="com/github/cuter44/muuga/buddy/servlet/Unfollow.html" target="javadoc">→</a>
+        <dd>解除关注
+
+        <dt><span class="method">POST</span> <span class="uri">/buddy/hate.api</span>
+        <a href="com/github/cuter44/muuga/buddy/servlet/Hate.html" target="javadoc">→</a>
+        <dd>拉黑
+
+        <dt><span class="method">POST</span> <span class="uri">/buddy/unhate.api</span>
+        <a href="com/github/cuter44/muuga/buddy/servlet/Unhate.html" target="javadoc">→</a>
+        <dd>解除拉黑
+
+        <dt><span class="method">GET</span> <span class="uri">/buddy/stat.api</span>
+        <a href="com/github/cuter44/muuga/buddy/servlet/StatGet.html" target="javadoc">→</a>
+        <dd>好友统计数据
+
+        <dt><span class="method">GET</span> <span class="uri">/buddy/stat/update.api</span>
+        <a href="com/github/cuter44/muuga/buddy/servlet/StatUpdate.html" target="javadoc">→</a>
+        <dd>更新统计数据
+
+        <dt><span class="method">GET</span> <span class="uri">/buddy/follow/search.api</span>
+        <a href="com/github/cuter44/muuga/buddy/servlet/FollowSearch.html" target="javadoc">→</a>
+        <dd>查找/列出关注/被关注关系
+
+        <dt><span class="method">GET</span> <span class="uri">/buddy/hate/search.api</span><i>待完成</i>
+        <dd>查找/列出拉黑/被拉黑关系
+
       </dl>
 
     </div>

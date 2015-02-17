@@ -14,19 +14,35 @@ public class Profile
     private static final String gravatarPattern = Configurator.getInstance().get("muuga.user.avatar.defaulturl");
 
   // fields
+    /** id
+     */
     protected Long id;
+    /** fkey ref
+     */
     protected User user;
 
+    /** 显示名(display-name)
+     * 由用户自行决定
+     */
     protected String dname;
-    /** Trusted Name
-     * 由系统认证功能产生
+    /** <del>Trusted Name
+     * 由系统认证功能产生</del>
+     * @deprecated
      */
     protected String tname;
+    /** 签名
+     */
     protected String motto;
+    /** 头像
+     */
     protected String avatar;
     /** 预留 geohash 字段, 也可以自愿性地提供
      */
     protected String pos;
+
+    /** :"%s[,%0.2d]", 用户首页的背景图像, 取 isbn 为 %s 的书的封面, 从高度的 %d (比例, 缺省为0)开始的矩形区域.
+     */
+    protected String bg;
 
     /** 额外字段, 接受其他模块填入
      * 通常是一些导出值
@@ -95,6 +111,15 @@ public class Profile
     public void setPos(String aPos)
     {
         this.pos = aPos;
+    }
+
+    public String getBg()
+    {
+        return(this.bg);
+    }
+    public void setBg(String aBg)
+    {
+        this.bg = aBg;
     }
 
   // UTIL

@@ -30,7 +30,7 @@ import com.github.cuter44.muuga.user.exception.*;
 
    <strong>响应</strong>
    application/json class=user.model.User
-   attributes refer to {@link Json#jsonizeUserPublic(User) Json}
+   attributes refer to {@link Json#jsonizeUser(User) Json}
    <i>密码被变更为 newpass</i>
    <i>原session key失效</i>
 
@@ -76,7 +76,7 @@ public class Passwd extends HttpServlet
             this.authorizer.passwd(uid, pass, newpass);
             this.authorizer.login(uid, newpass);
 
-            Json.writeUserPublic(this.userDao.get(uid), resp);
+            Json.writeUser(this.userDao.get(uid), resp);
 
             this.userDao.commit();
         }

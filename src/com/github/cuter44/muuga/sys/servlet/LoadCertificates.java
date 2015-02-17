@@ -8,6 +8,8 @@ import com.github.cuter44.nyafx.ssl.*;
 
 import com.github.cuter44.muuga.conf.*;
 
+/** 证书加载器
+ */
 @WebListener
 public class LoadCertificates implements ServletContextListener
 {

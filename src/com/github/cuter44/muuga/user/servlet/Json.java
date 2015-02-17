@@ -23,18 +23,23 @@ class Json
     private static final String CLAZZ       = "clazz";
 
     /**
-     * export below attributes:
-       <ul>
-       <li>id       :long               , user id
-       <li>uid      :long               , user id
-       <li>uname    :string             , username
-       <li>mail     :string             , user e-mail
-       <li>status   :byte               , account state, refer to {@link com.github.cuter44.muuga.user.model.User User}
-       <li>regDate  :unix-time-ms       , register date
-       <li>clazz    :string             , class of user (IndividualUser, EnterpriseUser, etc.)
-       </ul>
+     * <pre style="font-size:12px;">
+     * 序列化 User 对象, 字段如下:
+     * <ul>
+     * <li>id       :long                           , user id
+     * <li>uid      :long                           , user id
+     * <li>uname    :string                         , 登录名(username)
+     * <li>mail     :string                         , e-mail
+     * <li>status   :byte                           , 账户状态, 参见 User
+     * <li>regDate  :unix-time-ms                   , 注册时间
+     * <li>clazz    :class-name=IndividualUser|...  , 账户类型, 参见 User 的子类
+     * </ul>
+     * </pre>
+     * @see com.github.cuter44.muuga.user.model.User
+     * @see com.github.cuter44.muuga.user.model.IndividualUser
+     * @see com.github.cuter44.muuga.user.model.EnterpriseUser
      */
-    protected static JSONObject jsonizeUserPublic(User u)
+    protected static JSONObject jsonizeUser(User u)
     {
         JSONObject j = new JSONObject();
 
@@ -49,34 +54,31 @@ class Json
         return(j);
     }
 
-    protected static JSONArray jsonizeUserPublic(Collection<User> coll)
+    protected static JSONArray jsonizeUser(Collection<User> coll)
     {
         JSONArray a = new JSONArray();
 
         for (User u:coll)
-            a.add(jsonizeUserPublic(u));
+            a.add(jsonizeUser(u));
 
         return(a);
     }
 
-    public static void writeUserWithSecret(User u, String encryptedSecret, HttpServletResponse resp)
+    public static void writeUser(User u, HttpServletResponse resp)
         throws IOException
     {
         resp.setContentType("application/json; charset=utf-8");
         resp.setCharacterEncoding("utf-8");
         PrintWriter out = resp.getWriter();
 
-        JSONObject j = jsonizeUserPublic(u);
-        j.put(SECRET, encryptedSecret);
-
         out.println(
-            j.toJSONString()
+            jsonizeUser(u).toJSONString()
         );
 
         return;
     }
 
-    public static void writeUserPublic(User u, HttpServletResponse resp)
+    public static void writeUser(Collection<User> coll, HttpServletResponse resp)
         throws IOException
     {
         resp.setContentType("application/json; charset=utf-8");
@@ -84,21 +86,7 @@ class Json
         PrintWriter out = resp.getWriter();
 
         out.println(
-            jsonizeUserPublic(u).toJSONString()
-        );
-
-        return;
-    }
-
-    public static void writeUserPublic(Collection<User> coll, HttpServletResponse resp)
-        throws IOException
-    {
-        resp.setContentType("application/json; charset=utf-8");
-        resp.setCharacterEncoding("utf-8");
-        PrintWriter out = resp.getWriter();
-
-        out.println(
-            jsonizeUserPublic(coll).toJSONString()
+            jsonizeUser(coll).toJSONString()
         );
 
         return;
@@ -109,17 +97,20 @@ class Json
     private static final String MOTTO       = "motto";
     private static final String AVATAR      = "avatar";
     private static final String POS         = "pos";
+    private static final String BG          = "bg";
 
     /**
-     * export below attributes:
-       <ul>
-       <li>id       :long               , user id
-       <li>dname    :string             , user display name
-       <li>tname    :string             , (now unused)
-       <li>motto    :string             , user motto
-       <li>avatar   :url                , avatar pattern
-       <li>pos      :geohash            , user most recently geo position
-       </ul>
+     * <pre style="font-size:12px;">
+     * 序列化 User 对象, 字段如下:
+     * <ul>
+     * <li>id       :long           , user id
+     * <li>dname    :string         , 显示名(display-name)
+     * <li><del>tname    :string        , </del>(currently not used)
+     * <li>motto    :string         , 签名
+     * <li>avatar   :url            , 头像URL, 参见 github://cuter44/muuga/wiki/Avatar_Specification
+     * <li>pos      :geohash        , 用户位置, 受用户本身的隐私设置可能是不精确或不正确的
+     * <li>bg       :"%s[,%0.2d]"   , 用户首页的背景图像, 取 isbn 为 %s 的书的封面, 从高度的 %d (比例, 缺省为0)开始的矩形区域.
+     * </ul>
      */
     public static JSONObject jsonizeProfile(Profile p)
     {
@@ -131,6 +122,7 @@ class Json
         j.put(MOTTO     , p.getMotto());
         j.put(AVATAR    , p.getAvatar());
         j.put(POS       , p.getPos());
+        j.put(BG        , p.getBg());
 
         for (String key:p.others.stringPropertyNames())
             j.put(key, p.others.getProperty(key));

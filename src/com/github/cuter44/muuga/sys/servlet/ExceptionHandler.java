@@ -32,6 +32,7 @@ import com.github.cuter44.nyafx.servlet.*;
    <li>!duplicated  : EntityDuplicatedException, 创建操作违反唯一约束, 例如注册时使用了重合的用户名
    <li>!state       : IlllegalStateException, 试图在不符合操作状态的情况下操作, 比如未付款但确认收款
    <li>!error       : 无法解析的错误
+   <li>//TODO
    </ul>
    </i>
 
