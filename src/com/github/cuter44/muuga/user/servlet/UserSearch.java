@@ -22,15 +22,15 @@ import com.github.cuter44.muuga.user.core.*;
  * <pre style="font-size:12px">
 
    <strong>请求</strong>
-   POST /user/search.api
+   GET/POST /user/search.api
 
    <strong>参数</strong>
-   <i>以下零至多个参数组, 按参数名分组, 组内以,分隔以or逻辑连接, 组间以and逻辑连接, 完全匹配</i>
-   uid      :long       , uid
-   mail     :string(60) , 邮件地址
-   uname    :string     , 用户名字, 不包含显示名
+   id       :long[]     , 逗号分隔, uid
+   uid      :long[]     , 逗号分隔, uid, 与 id 同义, 仅用于兼容旧的客户端
+   mail     :string[]   , 逗号分隔, 邮件地址
+   uname    :string[]   , 逗号分隔, 用户名字, 不包含显示名
    <i>分页</i>
-   start    :int        , 返回结果的起始笔数, 缺省从 1 开始
+   start    :int        , 返回结果的起始笔数, 缺省从 0 开始
    size     :int        , 返回结果的最大笔数, 缺省使用服务器配置
    <i>排序</i>
    by       :string             , 按该字段...
@@ -50,35 +50,19 @@ import com.github.cuter44.muuga.user.core.*;
 @WebServlet("/user/search.api")
 public class UserSearch extends HttpServlet
 {
-    private static final String START = "start";
-    private static final String SIZE = "size";
     private static final String UID = "uid";
+    private static final String ID = "id";
     private static final String MAIL = "mail";
     private static final String UNAME = "uname";
 
+    private static final String START = "start";
+    private static final String SIZE = "size";
     private static final String ORDER = "order";
     private static final String BY = "by";
 
     private static final Integer defaultPageSize = Configurator.getInstance().getInt("nyafx.search.defaultpagesize", 20);
 
     protected UserDao userDao = UserDao.getInstance();
-
-    public static DetachedCriteria parseCriteria(DetachedCriteria dc, HttpServletRequest req)
-    {
-        List<Long> uids = getLongList(req, UID);
-        if (uids!=null && uids.size()>0)
-            dc.add(Restrictions.in("uid", uids));
-
-        List<String> mails = getStringList(req, MAIL);
-        if (mails!=null && mails.size()>0)
-            dc.add(Restrictions.in("mail", mails));
-
-        List<String> unames = getStringList(req, UNAME);
-        if (unames!=null && unames.size()>0)
-            dc.add(Restrictions.in("uname", unames));
-
-        return(dc);
-    }
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -95,17 +79,30 @@ public class UserSearch extends HttpServlet
 
         try
         {
-            DetachedCriteria dc = parseCriteria(
-                DetachedCriteria.forClass(User.class),
-                req
-            );
+            List<Long>      uids    = getLongList(req, UID);
+            List<Long>      ids     = getLongList(req, ID);
+            List<String>    mails   = getStringList(req, MAIL);
+            List<String>    unames  = getStringList(req, UNAME);
 
-            Integer start   = getInt(req, START);
-            Integer size    = getInt(req, SIZE);
-                    size    = size!=null?size:defaultPageSize;
-            String  order   = getString(req, ORDER);
-            String  by      = getString(req, BY);
+            Integer     start   = getInt(req, START);
+            Integer     size    = getInt(req, SIZE);
+                        size    = size!=null?size:defaultPageSize;
+            String      order   = getString(req, ORDER);
+            String      by      = getString(req, BY);
 
+            DetachedCriteria dc = DetachedCriteria.forClass(User.class);
+
+            if (ids!=null)
+                dc.add(Restrictions.in("id", ids));
+
+            if (uids!=null)
+                dc.add(Restrictions.in("id", uids));
+
+            if (mails!=null)
+                dc.add(Restrictions.in("mail", mails));
+
+            if (unames!=null)
+                dc.add(Restrictions.in("uname", unames));
 
             if ("asc".equals(order))
                 dc.addOrder(Order.asc(by));

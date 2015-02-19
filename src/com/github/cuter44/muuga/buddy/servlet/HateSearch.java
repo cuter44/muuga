@@ -17,15 +17,15 @@ import com.github.cuter44.muuga.buddy.model.*;
 import com.github.cuter44.muuga.buddy.core.*;
 import com.github.cuter44.muuga.conf.*;
 
-/** 搜索关注者/被关注者/检查关注关系
+/** 搜索拉黑/被拉黑/检查拉黑关系
  * <pre style="font-size:12px">
 
    <strong>请求</strong>
-   POST /buddy/follow/search.api
+   POST /buddy/hate/search.api
 
    <strong>参数</strong>
-   me       :long[] , 可选, 逗号分隔, 关注方的uid
-   op       :long[] , 可选, 逗号分隔, 被关注的uid
+   me       :long[] , 可选, 逗号分隔, 拉黑方的uid
+   op       :long[] , 可选, 逗号分隔, 被拉黑的uid
    <i>分页</i>
    start    :int    , 返回结果的起始笔数, 缺省从 0 开始
    size     :int    , 返回结果的最大笔数, 缺省使用服务器配置
@@ -34,7 +34,7 @@ import com.github.cuter44.muuga.conf.*;
    order    :string=asc|desc    , 顺序|逆序排列
 
    <strong>响应</strong>
-   application/json ; array; class={@link Json#jsonizeFollow(com.github.cuter44.muuga.buddy.model.Follow) buddy.model.Follow}
+   application/json ; array; class={@link Json#jsonizeHate(com.github.cuter44.muuga.buddy.model.Hate) buddy.model.Hate}
 
    <strong>例外</strong>
    parsed by {@link com.github.cuter44.muuga.sys.servlet.ExceptionHandler ExceptionHandler}
@@ -44,8 +44,8 @@ import com.github.cuter44.muuga.conf.*;
  *
  *
  */
-@WebServlet("/buddy/follow/search.api")
-public class FollowSearch extends HttpServlet
+@WebServlet("/buddy/hate/search.api")
+public class HateSearch extends HttpServlet
 {
     private static final String ME      = "me";
     private static final String OP      = "op";
@@ -56,7 +56,7 @@ public class FollowSearch extends HttpServlet
 
     private static final Integer defaultPageSize = Configurator.getInstance().getInt("com.cuter44.nyagurufx.search.defaultpagesize", 20);
 
-    protected FollowDao followDao = FollowDao.getInstance();
+    protected HateDao hateDao = HateDao.getInstance();
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -75,7 +75,7 @@ public class FollowSearch extends HttpServlet
             String      by      = getString(req, BY);
 
 
-            DetachedCriteria dc = DetachedCriteria.forClass(Follow.class);
+            DetachedCriteria dc = DetachedCriteria.forClass(Hate.class);
 
             if (me != null)
                 dc.add(Restrictions.in("me", me));
@@ -88,13 +88,13 @@ public class FollowSearch extends HttpServlet
             if ("desc".equals(order))
                 dc.addOrder(Order.desc(by));
 
-            this.followDao.begin();
+            this.hateDao.begin();
 
-            List<com.github.cuter44.muuga.buddy.model.Follow> f = this.followDao.search(dc, start, size);
+            List<com.github.cuter44.muuga.buddy.model.Hate> h = this.hateDao.search(dc, start, size);
 
-            this.followDao.commit();
+            this.hateDao.commit();
 
-            Json.writeFollow(f, resp);
+            Json.writeHate(h, resp);
         }
         catch (Exception ex)
         {
@@ -103,7 +103,7 @@ public class FollowSearch extends HttpServlet
         }
         finally
         {
-            this.followDao.close();
+            this.hateDao.close();
         }
 
         return;

@@ -21,8 +21,8 @@ class Json
      * 序列化 Follow 对象, 字段如下:
      * <ul>
      * <li>id   :long   , id
-     * <li>me   :long   , 关注者ID
-     * <li>op   :long   , 被关注ID
+     * <li>me   :long   , 关注者 UID
+     * <li>op   :long   , 被关注 UID
      * </ul>
      * </pre>
      */
@@ -81,8 +81,8 @@ class Json
      * 序列化 Hate 对象, 字段如下:
      * <ul>
      * <li>id   :long   , id
-     * <li>me   :long   , 关注者ID
-     * <li>op   :long   , 被关注ID
+     * <li>me   :long   , 拉黑 UID
+     * <li>op   :long   , 被拉黑 UID
      * </ul>
      * </pre>
      */

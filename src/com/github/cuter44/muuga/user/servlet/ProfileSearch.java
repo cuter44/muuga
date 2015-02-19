@@ -26,13 +26,10 @@ import com.github.cuter44.muuga.conf.Configurator;
    GET/POST /profile/search.api
 
    <strong>参数</strong>
-   <i>以下的其中一种</i>
-   <i>精确匹配, 忽略任意匹配参数</i>
-   id       :long       , 指定uid, 多值时以逗号分隔;
-   <i>任意匹配</i>
-   q        :string     , 在 mail, uname, dname, tname 上运行包含匹配(%key%)
+   id       :long[]     , 逗号分隔, uid
+   q        :string     , 在 mail, uname, dname, <del>tname</del> 上运行模糊匹配(%key%)
    <i>分页</i>
-   start    :int        , 返回结果的起始笔数, 缺省从 1 开始
+   start    :int        , 返回结果的起始笔数, 缺省从 0 开始
    size     :int        , 返回结果的最大笔数, 缺省使用服务器配置
    <i>排序</i>
    by       :string             , 按该字段...
@@ -80,63 +77,45 @@ public class ProfileSearch extends HttpServlet
 
         try
         {
+            String      q       = getString(req, Q);
+            List<Long>  uids    = getLongList(req, ID);
+
             Integer start   = getInt(req, START);
             Integer size    = getInt(req, SIZE);
                     size    = size!=null?size:defaultPageSize;
             String  order   = getString(req, ORDER);
             String  by      = getString(req, BY);
 
-            this.profileDao.begin();
+            DetachedCriteria dc = DetachedCriteria.forClass(Profile.class);
 
-            List<Long> uids = getLongList(req, ID);
             if (uids != null)
-            {
-                DetachedCriteria dc = DetachedCriteria.forClass(Profile.class)
-                    .add(Restrictions.in("id", uids));
+                dc.add(Restrictions.in("id", uids));
 
-                if ("asc".equals(order))
-                    dc.addOrder(Order.asc(by));
-                if ("desc".equals(order))
-                    dc.addOrder(Order.desc(by));
-
-                List<Profile> l = (List<Profile>)this.profileDao.search(dc);
-
-                this.profileDao.commit();
-
-                Json.writeProfile(l, resp);
-
-                return;
-            }
-
-            String q = getString(req, Q);
-            if (q != null && q.length() > 0)
+            if (q != null)
             {
                 q = "%"+q+"%";
 
-                String hql = "SELECT p FROM Profile p INNER JOIN p.user u "+
-                    "WHERE p.dname LIKE :q OR p.tname LIKE :q "+
-                    "OR    u.uname LIKE :q OR u.mail LIKE :q";
-
-                if ("asc".equals(order))
-                    hql = hql + " ORDER ASC BY :by";
-                if ("desc".equals(order))
-                    hql = hql + " ORDER DESC BY :by";
-
-                Query query = this.profileDao.createQuery(hql)
-                    .setString("q", q);
-                if (by !=  null)
-                    query.setString("by", by);
-
-                List<Profile> l = (List<Profile>)query.list();
-
-                this.profileDao.commit();
-
-                Json.writeProfile(l, resp);
-
-                return;
+                dc.createCriteria("user", "user")
+                    .add(Restrictions.like("dname", q))
+                    //.add(Restrictions.like("tname", q))
+                    .add(Restrictions.like("user.uname", q))
+                    .add(Restrictions.like("user.mail", q));
             }
 
-            throw(new MissingParameterException());
+            if ("asc".equals(order))
+                dc.addOrder(Order.asc(by));
+            if ("desc".equals(order))
+                dc.addOrder(Order.desc(by));
+
+            this.profileDao.begin();
+
+            List<Profile> l = (List<Profile>)this.profileDao.search(dc);
+
+            this.profileDao.commit();
+
+            Json.writeProfile(l, resp);
+
+            return;
         }
         catch (Exception ex)
         {

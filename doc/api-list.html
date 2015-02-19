@@ -82,18 +82,18 @@
         <dd>修改密码
 
         <dt><span class="method">GET/POST</span> <span class="uri">/user/search.api</span>
-        <a href="com/github/cuter44/muuga/user/servlet/SearchUser.html" target="javadoc">→</a>
+        <a href="com/github/cuter44/muuga/user/servlet/UserSearch.html" target="javadoc">→</a>
         <dd>搜索/查看用户(id/登录名/邮件地址...)
       </dl>
 
       <h5>用户扩展</h5>
       <dl class="indent">
         <dt><span class="method">GET/POST</span> <span class="uri">/profile/search.api</span>
-        <a href="com/github/cuter44/muuga/user/servlet/SearchProfile.html" target="javadoc">→</a>
+        <a href="com/github/cuter44/muuga/user/servlet/ProfileSearch.html" target="javadoc">→</a>
         <dd>搜索/查看用户(id/昵称/头像)
 
         <dt><span class="method">POST</span> <span class="uri">/profile/update.api</span>
-        <a href="com/github/cuter44/muuga/user/servlet/UpdateProfile.html" target="javadoc">→</a>
+        <a href="com/github/cuter44/muuga/user/servlet/ProfileUpdate.html" target="javadoc">→</a>
         <dd>更改用户信息
       </dl>
 
@@ -107,7 +107,7 @@
         <a href="com/github/cuter44/muuga/shelf/servlet/RemoveBook.html" target="javadoc">→</a>
         <dd>删除藏书
 
-        <dt><span class="method">POST</span> <span class="uri">/book/search.api</span>
+        <dt><span class="method">GET/POST</span> <span class="uri">/book/search.api</span>
         <a href="com/github/cuter44/muuga/shelf/servlet/SearchBook.html" target="javadoc">→</a>
         <dd>搜索藏书
       </dl>
@@ -122,16 +122,22 @@
         <a href="com/github/cuter44/muuga/desire/servlet/CreateSellDesire.html" target="javadoc">→</a>
         <dd>创建"想卖"
 
-        <dt><span class="method">POST</span> <span class="uri">/desire/search.api</span>
-        <a href="com/github/cuter44/muuga/desire/servlet/SearchDesire.html" target="javadoc">→</a>
+        <dt><span class="method">GET/POST</span> <span class="uri">/desire/search.api</span>
+        <a href="com/github/cuter44/muuga/desire/servlet/DesireSearch.html" target="javadoc">→</a>
         <dd>搜索意愿
 
         <dt><span class="method">POST</span> <span class="uri">/desire/remove.api</span>
-        <a href="com/github/cuter44/muuga/desire/servlet/RemoveDesire.html" target="javadoc">→</a>
+        <a href="com/github/cuter44/muuga/desire/servlet/DesireRemove.html" target="javadoc">→</a>
         <dd>删除意愿
       </dl>
 
       <h5>交易会话</h5>
+      <dl class="indent">
+        <dt><span class="method">GET/POST</span> <span class="uri">/contract/search.api</span>
+        <a href="com/github/cuter44/muuga/contract/servlet/ContractSearch.html" target="javadoc">→</a>
+        <dd>查找交易会话
+      </dl>
+
       <strong>买卖</strong>
       <dl class="indent">
         <dt><span class="method">POST</span> <span class="uri">/contract/trade/create.api</span>
@@ -216,7 +222,8 @@
         <a href="com/github/cuter44/muuga/buddy/servlet/FollowSearch.html" target="javadoc">→</a>
         <dd>查找/列出关注/被关注关系
 
-        <dt><span class="method">GET</span> <span class="uri">/buddy/hate/search.api</span><i>待完成</i>
+        <dt><span class="method">GET</span> <span class="uri">/buddy/hate/search.api</span>
+        <a href="com/github/cuter44/muuga/buddy/servlet/HateSearch.html" target="javadoc">→</a>
         <dd>查找/列出拉黑/被拉黑关系
 
       </dl>

@@ -8,13 +8,7 @@ import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 
 import com.github.cuter44.nyafx.servlet.*;
-import static com.github.cuter44.nyafx.servlet.Params.notNull;
-import static com.github.cuter44.nyafx.servlet.Params.getString;
-import static com.github.cuter44.nyafx.servlet.Params.getInt;
-import static com.github.cuter44.nyafx.servlet.Params.getLong;
-import static com.github.cuter44.nyafx.servlet.Params.getDouble;
-import static com.github.cuter44.nyafx.servlet.Params.getDate;
-import static com.github.cuter44.nyafx.servlet.Params.getLongList;
+import static com.github.cuter44.nyafx.servlet.Params.*;
 import org.hibernate.*;
 import org.hibernate.criterion.*;
 
@@ -30,21 +24,22 @@ import com.github.cuter44.muuga.conf.Configurator;
    GET/POST /desire/search.api
 
    <strong>参数</strong>
-   isbn         :string     , ISBN-13
-   originator   :long       , 需求的从属者
-   expenseSt    :double     , 价格, 左开区间匹配
-   expenseEd    :double     , 价格, 右闭区间匹配
-   tmSt         :long       , 时间戳, 左开区间匹配
-   tmEd         :long       , 时间戳, 右闭区间匹配
-   pos          :geohash    , 地理位置标签, 作前缀匹配(LIKE :pos%)
-   posExd       :geohash    , 地理位置标签, 作除外前缀匹配(NOT LIKE :posExd%)
+   id           :long[]             , 逗号分隔, id
+   isbn         :string             , ISBN-13
+   originator   :long               , 需求的从属者
+   expense      :double[2]          , 逗号分隔, 表示一个左开右闭区间, 单值时逗号不可省略, 期望价.
+   <del>expenseSt    :double     , 价格, 左开区间匹配</del> 已被 expense 取代
+   <del>expenseEd    :double     , 价格, 右闭区间匹配</del> 已被 expense 取代
+   tm           :unix-time-ms[2]    , 逗号分隔, 表示一个左开右闭区间, 单值时逗号不可省略, 时间戳.
+   <del>tmSt         :long       , 时间戳, 左开区间匹配</del>
+   <del>tmEd         :long       , 时间戳, 右闭区间匹配</del>
+   pos          :geohash            , 地理位置标签, 作前缀匹配(LIKE :pos%)
+   posExd       :geohash            , 地理位置标签, 作除外前缀匹配(NOT LIKE :posExd%)
    (使用 pos 和 posExd 逐渐缩短参数长度可以进行渐进的附近搜索)
-   type         :string     , 需求类型, 可选值如下:
-
+   clazz        :string             , 需求类型, 可选值如下:
    <i>分页</i>
-   start    :int        , 返回结果的起始笔数, 缺省从 1 开始
+   start    :int        , 返回结果的起始笔数, 缺省从 0 开始
    size     :int        , 返回结果的最大笔数, 缺省使用服务器配置
-
    <i>排序</i>
    by       :string             , 按该字段...
    order    :string=asc|desc    , 顺序|逆序排列
@@ -60,14 +55,17 @@ import com.github.cuter44.muuga.conf.Configurator;
  *
  */
 @WebServlet("/desire/search.api")
-public class SearchDesire extends HttpServlet
+public class DesireSearch extends HttpServlet
 {
+    private static final String ID          = "id";
     private static final String ISBN        = "isbn";
     private static final String ORIGINATOR  = "originator";
-    private static final String EXPENSE_ST  = "expenseSt";
-    private static final String EXPENSE_ED  = "expenseEd";
-    private static final String TM_ST       = "tmSt";
-    private static final String TM_ED       = "tmEd";
+    private static final String EXPENSE     = "expense";
+    //private static final String EXPENSE_ST  = "expenseSt";
+    //private static final String EXPENSE_ED  = "expenseEd";
+    private static final String TM          = "tm";
+    //private static final String TM_ST       = "tmSt";
+    //private static final String TM_ED       = "tmEd";
     private static final String POS         = "pos";
     private static final String POS_EXD     = "posExd";
     private static final String CLAZZ       = "clazz";
@@ -97,53 +95,61 @@ public class SearchDesire extends HttpServlet
 
         try
         {
-            DetachedCriteria dc = DetachedCriteria.forClass(Desire.class)
-                .createAlias("originator", "originator");
+            DetachedCriteria dc = DetachedCriteria.forClass(Desire.class);
 
-            String isbn = getString(req, ISBN);
-            if (isbn != null)
-                dc.add(Restrictions.eq("isbn", isbn));
-
-            Long originator = getLong(req, ORIGINATOR);
-            if (originator != null)
-                dc.add(Restrictions.eq("originator.id", originator));
-
-            Double expenseSt = getDouble(req, EXPENSE_ST);
-            if (expenseSt != null)
-                dc.add(Restrictions.gt("expense", expenseSt));
-
-            Double expenseEd = getDouble(req, EXPENSE_ED);
-            if (expenseEd != null)
-                dc.add(Restrictions.le("expense", expenseEd));
-
-            Date tmSt = getDate(req, TM_ST);
-            if (tmSt != null)
-                dc.add(Restrictions.gt("tm", tmSt));
-
-            Date tmEd = getDate(req, TM_ED);
-            if (tmEd != null)
-                dc.add(Restrictions.le("tm", tmEd));
-
-            String pos = getString(req, POS);
-            if (pos != null)
-                dc.add(Restrictions.like("pos", pos+"%"));
-
-            String posExd = getString(req, POS_EXD);
-            if (posExd != null)
-                dc.add(
-                    Restrictions.not(
-                        Restrictions.like("pos", posExd+"%")
-                ));
-
-            String clazz = getString(req, CLAZZ);
-            if (clazz != null)
-                dc.add(Restrictions.eq("clazz", clazz));
+            List<Long>  id          = getLongList(req, ID);
+            String      isbn        = getString(req, ISBN);
+            Long        originator  = getLong(req, ORIGINATOR);
+            Double[]    expense     = getDoubleArray(req, EXPENSE);
+            Date[]      tm          = getDateArray(req, TM);
+            String      pos         = getString(req, POS);
+            String      posExd      = getString(req, POS_EXD);
+            String      clazz       = getString(req, CLAZZ);
 
             Integer start   = getInt(req, START);
             Integer size    = getInt(req, SIZE);
                     size    = size!=null?size:defaultPageSize;
             String  order   = getString(req, ORDER);
             String  by      = getString(req, BY);
+
+            if (id != null)
+                dc.add(Restrictions.in("id", id));
+
+            if (isbn != null)
+                dc.add(Restrictions.eq("isbn", isbn));
+
+            if (originator != null)
+                dc.createCriteria("originator")
+                    .add(Restrictions.eq("id", originator));
+
+            if (expense != null)
+            {
+                if (expense[0] != null)
+                    dc.add(Restrictions.gt("expense", expense[0]));
+                if (expense[1] != null)
+                    dc.add(Restrictions.le("expense", expense[1]));
+            }
+
+            if (tm != null)
+            {
+                if (expense[0] != null)
+                    dc.add(Restrictions.gt("tm", tm[0]));
+                if (expense[1] != null)
+                    dc.add(Restrictions.le("tm", tm[1]));
+            }
+
+            if (pos != null)
+                dc.add(Restrictions.like("pos", pos+"%"));
+
+            if (posExd != null)
+                dc.add(
+                    Restrictions.not(
+                        Restrictions.like("pos", posExd+"%")
+                ));
+
+            if (clazz != null)
+                dc.add(Restrictions.eq("clazz", clazz));
+
 
             if ("asc".equals(order))
                 dc.addOrder(Order.asc(by));

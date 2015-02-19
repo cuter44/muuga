@@ -8,10 +8,7 @@ import javax.servlet.annotation.*;
 
 import com.github.cuter44.nyafx.dao.*;
 import com.github.cuter44.nyafx.servlet.*;
-import static com.github.cuter44.nyafx.servlet.Params.getLongList;
-import static com.github.cuter44.nyafx.servlet.Params.getStringList;
-import static com.github.cuter44.nyafx.servlet.Params.getByte;
-import static com.github.cuter44.nyafx.servlet.Params.getInt;
+import static com.github.cuter44.nyafx.servlet.Params.*;
 import org.hibernate.criterion.*;
 
 import com.github.cuter44.muuga.Constants;
@@ -27,15 +24,16 @@ import com.github.cuter44.muuga.shelf.core.*;
    GET/POST /book/search.api
 
    <strong>参数</strong>
-   <i>以下零至多个参数组, 按参数名分组, 组内以,分隔以or逻辑连接, 组间以and逻辑连接, 完全匹配</i>
-   id       :long   , id of Book;
-   owner    :long   , owner id of Book3;
-   isbn     :string , 指定isbn;
-   <i>以下单个参数</i>
-   status   :byte   , status of book, refer to {@link com.github.cuter44.muuga.shelf.model.Book Book}
+   id       :long[]     , 逗号分隔, id;
+   owner    :long[]     , 逗号分隔, 书的所有者的 uid;
+   isbn     :string[]   , 逗号分隔, isbn;
+   <del>status   :byte       ,</del> 不再使用
    <i>分页</i>
-   start:int, 返回结果的起始笔数, 缺省从 1 开始
-   size:int, 返回结果的最大笔数, 缺省使用服务器配置
+   start    :int        , 返回结果的起始笔数, 缺省从 0 开始
+   size     :int        , 返回结果的最大笔数, 缺省使用服务器配置
+   <i>排序</i>
+   by       :string             , 按该字段...
+   order    :string=asc|desc    , 顺序|逆序排列
 
    <strong>响应</strong>
    application/json; array; class={@link Json#jsonizeBook(Book) class=shelf.model.Book}
@@ -57,7 +55,6 @@ public class BookSearch extends HttpServlet
 
     private static final String START = "start";
     private static final String SIZE = "size";
-
     private static final String ORDER = "order";
     private static final String BY = "by";
 
@@ -74,24 +71,6 @@ public class BookSearch extends HttpServlet
         if (dc == null)
             dc = DetachedCriteria.forClass(Book.class);
 
-        List<Long> ids = getLongList(req, ID);
-        if (ids!=null && ids.size()>0)
-            dc.add(Restrictions.in("id", ids));
-
-        List<String> isbns = getStringList(req, ISBN);
-        if (isbns!=null && isbns.size()>0)
-            dc.add(Restrictions.in("isbn", isbns));
-
-        Byte status = getByte(req, STATUS);
-        if (status != null)
-            dc.add(Restrictions.eq("status", status));
-
-        List<Long> owners = getLongList(req, OWNER);
-        if (owners!=null && owners.size()>0)
-        {
-            dc.createAlias("owner", "owner")
-                .add(Restrictions.in("owner.id", owners));
-        }
 
         return(dc);
     }
@@ -111,11 +90,32 @@ public class BookSearch extends HttpServlet
 
         try
         {
-            DetachedCriteria dc = parseCriteria(null, req);
+            List<Long>      ids     = getLongList(req, ID);
+            List<String>    isbns   = getStringList(req, ISBN);
+            List<Long>      owners  = getLongList(req, OWNER);
 
             Integer start   = getInt(req, START);
             Integer size    = getInt(req, SIZE);
                     size    = size!=null?size:defaultPageSize;
+            String  order   = getString(req, ORDER);
+            String  by      = getString(req, BY);
+
+            DetachedCriteria dc = parseCriteria(null, req);
+
+            if (ids!=null)
+                dc.add(Restrictions.in("id", ids));
+
+            if (isbns!=null)
+                dc.add(Restrictions.in("isbn", isbns));
+
+            if (owners!=null && owners.size()>0)
+                dc.createAlias("owner", "owner")
+                    .add(Restrictions.in("owner.id", owners));
+
+            if ("asc".equals(order))
+                dc.addOrder(Order.asc(by));
+            if ("desc".equals(order))
+                dc.addOrder(Order.desc(by));
 
             this.bookDao.begin();
 
