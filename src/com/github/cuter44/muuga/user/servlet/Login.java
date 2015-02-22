@@ -90,7 +90,7 @@ public class Login extends HttpServlet
                 this.rsa.encrypt(u.getSecret(), publicKey)
             );
 
-            Json.writeUser(u, resp);
+            Json.writeUser(u, resp, encryptedSecret);
 
             this.userDao.commit();
         }

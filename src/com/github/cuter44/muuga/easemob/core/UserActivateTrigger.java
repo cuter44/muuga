@@ -45,7 +45,7 @@ public class UserActivateTrigger implements EventSink<User>
 
             String username = u.getId().toString();
             String password = this.crypto.bytesToHex(
-                this.crypto.randomBytes(8)
+                u.getSecret()
             );
 
             JSONObject result = this.easemob.postUser(username, password);

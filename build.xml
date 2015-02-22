@@ -160,18 +160,10 @@
   </target>
 
   <!-- 测试 -->
-  <target name="test-register" description="注册和激活(CLI)">
-    <junit printsummary="yes">
+  <target name="tool-login" description="登录(CLI)">
+    <java classname="test.user.Login" fork="true" dir="${destdir}">
       <classpath refid="classpath" />
-      <test name="test.user.RegisterAndActivate" />
-    </junit>
-  </target>
-
-  <target name="test-login" description="登录(CLI)">
-    <junit printsummary="yes">
-      <classpath refid="classpath" />
-      <test name="test.user.Login" />
-    </junit>
+    </java>
   </target>
 
 

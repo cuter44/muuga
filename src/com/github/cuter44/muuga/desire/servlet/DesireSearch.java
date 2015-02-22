@@ -28,18 +28,18 @@ import com.github.cuter44.muuga.conf.Configurator;
    isbn         :string             , ISBN-13
    originator   :long               , 需求的从属者
    expense      :double[2]          , 逗号分隔, 表示一个左开右闭区间, 单值时逗号不可省略, 期望价.
-   <del>expenseSt    :double     , 价格, 左开区间匹配</del> 已被 expense 取代
-   <del>expenseEd    :double     , 价格, 右闭区间匹配</del> 已被 expense 取代
+   <del>expenseSt    :double        , 价格, 左开区间匹配</del> 已被 expense 取代
+   <del>expenseEd    :double        , 价格, 右闭区间匹配</del> 已被 expense 取代
    tm           :unix-time-ms[2]    , 逗号分隔, 表示一个左开右闭区间, 单值时逗号不可省略, 时间戳.
-   <del>tmSt         :long       , 时间戳, 左开区间匹配</del>
-   <del>tmEd         :long       , 时间戳, 右闭区间匹配</del>
+   <del>tmSt         :long          , 时间戳, 左开区间匹配</del>
+   <del>tmEd         :long          , 时间戳, 右闭区间匹配</del>
    pos          :geohash            , 地理位置标签, 作前缀匹配(LIKE :pos%)
    posExd       :geohash            , 地理位置标签, 作除外前缀匹配(NOT LIKE :posExd%)
    (使用 pos 和 posExd 逐渐缩短参数长度可以进行渐进的附近搜索)
    clazz        :string             , 需求类型, 可选值如下:
    <i>分页</i>
-   start    :int        , 返回结果的起始笔数, 缺省从 0 开始
-   size     :int        , 返回结果的最大笔数, 缺省使用服务器配置
+   start    :int                , 返回结果的起始笔数, 缺省从 0 开始
+   size     :int                , 返回结果的最大笔数, 缺省使用服务器配置
    <i>排序</i>
    by       :string             , 按该字段...
    order    :string=asc|desc    , 顺序|逆序排列

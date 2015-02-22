@@ -2,6 +2,7 @@ package com.github.cuter44.muuga.contract.core;
 
 import com.github.cuter44.nyafx.dao.EntityNotFoundException;
 import static com.github.cuter44.nyafx.dao.EntityNotFoundException.entFound;
+import com.github.cuter44.nyafx.event.*;
 
 import com.github.cuter44.muuga.contract.model.*;
 import com.github.cuter44.muuga.contract.core.*;
@@ -10,9 +11,18 @@ import com.github.cuter44.muuga.desire.core.*;
 import com.github.cuter44.muuga.shelf.model.*;
 import com.github.cuter44.muuga.shelf.core.*;
 import com.github.cuter44.muuga.user.exception.*;
+import com.github.cuter44.muuga.Constants;
 
 public class TradeController
 {
+    protected static final String EVENTTYPE_TRADE_BUYERINIT    = Constants.EVENTTYPE_TRADE_BUYERINIT;
+    protected static final String EVENTTYPE_TRADE_SELLERINIT   = Constants.EVENTTYPE_TRADE_SELLERINIT;
+    protected static final String EVENTTYPE_TRADE_BUYERACCEPT  = Constants.EVENTTYPE_TRADE_BUYERACCEPT;
+    protected static final String EVENTTYPE_TRADE_SELLERACCEPT = Constants.EVENTTYPE_TRADE_SELLERACCEPT;
+    protected static final String EVENTTYPE_TRADE_CONSUMEQUIT  = Constants.EVENTTYPE_TRADE_CONSUMEQUIT;
+    protected static final String EVENTTYPE_TRADE_SUPPLYQUIT   = Constants.EVENTTYPE_TRADE_SUPPLYQUIT;
+    protected static final String EVENTTYPE_TRADE_DELIVERED    = Constants.EVENTTYPE_TRADE_DELIVERED;
+    protected static final String EVENTTYPE_TRADE_FINISH       = Constants.EVENTTYPE_TRADE_FINISH;
 
   // CONSTRUCT
     protected TradeContractDao       tradeDao;
@@ -22,6 +32,7 @@ public class TradeController
     protected BuyDesireDao          bDesireDao;
     protected SellDesireDao         sDesireDao;
     protected BookDao               bookDao;
+    protected EventHub              eventHub;
 
     public TradeController()
     {
@@ -32,6 +43,7 @@ public class TradeController
         this.bDesireDao = BuyDesireDao.getInstance();
         this.sDesireDao = SellDesireDao.getInstance();
         this.bookDao    = BookDao.getInstance();
+        this.eventHub   = EventHub.getInstance();
 
         return;
     }
@@ -71,7 +83,7 @@ public class TradeController
     {
         SellerInitedTrade trade = this.sTradeDao.create(desireId, uid, bookId);
 
-        // TODO notify
+        this.eventHub.dispatch(EVENTTYPE_TRADE_SELLERINIT, new Event(trade));
 
         return(trade);
     }
@@ -80,7 +92,7 @@ public class TradeController
     {
         BuyerInitedTrade trade = this.bTradeDao.create(desireId, uid);
 
-        // TODO notify
+        this.eventHub.dispatch(EVENTTYPE_TRADE_BUYERINIT, new Event(trade));
 
         return(trade);
     }
@@ -123,7 +135,7 @@ public class TradeController
 
         this.bTradeDao.update(trade);
 
-        // TODO notify
+        this.eventHub.dispatch(EVENTTYPE_TRADE_SELLERACCEPT, new Event(trade));
 
         return(trade);
     }
@@ -143,7 +155,7 @@ public class TradeController
 
         this.sTradeDao.update(trade);
 
-        // TODO notify
+        this.eventHub.dispatch(EVENTTYPE_TRADE_BUYERACCEPT, new Event(trade));
 
         return(trade);
     }
@@ -160,16 +172,20 @@ public class TradeController
         if (trade.isConsumedBy(uid))
         {
             trade.setStatus(TradeContract.STATUS_CONSUME_QUIT);
-            // TODO notify
+
+            this.tradeDao.update(trade);
+
+            this.eventHub.dispatch(EVENTTYPE_TRADE_CONSUMEQUIT, new Event(trade));
         }
 
         if (trade.isSuppliedBy(uid))
         {
             trade.setStatus(TradeContract.STATUS_SUPPLY_QUIT);
-            // TODO notify
-        }
 
-        this.tradeDao.update(trade);
+            this.tradeDao.update(trade);
+
+            this.eventHub.dispatch(EVENTTYPE_TRADE_SUPPLYQUIT, new Event(trade));
+        }
 
         return(trade);
     }
@@ -194,7 +210,7 @@ public class TradeController
 
         this.tradeDao.update(trade);
 
-        // TODO notify
+        this.eventHub.dispatch(EVENTTYPE_TRADE_DELIVERED, new Event(trade));
 
         return(trade);
     }
@@ -216,7 +232,7 @@ public class TradeController
 
         this.tradeDao.update(trade);
 
-        // TODO notify
+        this.eventHub.dispatch(EVENTTYPE_TRADE_FINISH, new Event(trade));
 
         return(trade);
     }

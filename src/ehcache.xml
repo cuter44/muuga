@@ -272,29 +272,29 @@
     created programmtically using CacheManager.add(String cacheName)
     -->
     <defaultCache
-            maxElementsInMemory="10000"
+            maxElementsInMemory="10"
             eternal="false"
             timeToIdleSeconds="120"
             timeToLiveSeconds="120"
-            overflowToDisk="true"
-            maxElementsOnDisk="10000000"
+            overflowToDisk="false"
+            maxElementsOnDisk="10"
             diskPersistent="false"
             diskExpiryThreadIntervalSeconds="120"
             memoryStoreEvictionPolicy="LRU"
     />
 
     <cache name="SimplePageCachingFilter"  
-          maxElementsInMemory="500"  
-          maxElementsOnDisk="0"  
+          maxElementsInMemory="256"  
+          maxElementsOnDisk="10"  
           eternal="false"  
           overflowToDisk="false"  
-          timeToIdleSeconds="60"  
+          timeToIdleSeconds="0"  
           timeToLiveSeconds="60"  
           memoryStoreEvictionPolicy="LFU"
     />
 
     <cache name="RSAKeyCache"
-        maxElementsInMemory="1048576"
+        maxElementsInMemory="65536"
         maxElementsOnDisk="0"
         eternal="false"
         overflowToDisk="false"
@@ -303,6 +303,17 @@
         memoryStoreEvictionPolicy="FIFO"
     />
 
+    <cache name="UserSecretCache"
+        maxElementsInMemory="65536"
+        maxElementsOnDisk="0"
+        eternal="false"
+        overflowToDisk="false"
+        timeToIdleSeconds="300"
+        timeToLiveSeconds="0"
+        memoryStoreEvictionPolicy="LRU"
+    />
+
+    <!--
     <cache name="MagnetCache"
         maxElementsInMemory="1048576"
         maxElementsOnDisk="0"
@@ -312,5 +323,6 @@
         timeToLiveSeconds="100"
         memoryStoreEvictionPolicy="FIFO"
     />
+    -->
 
 </ehcache>

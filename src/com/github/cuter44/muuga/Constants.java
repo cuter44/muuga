@@ -11,8 +11,19 @@ public class Constants
     public static final String KEY_UID = "uid";
 
   // EVENT TYPE
-    public static final String EVENTTYPE_USER_REGISTER  = "user.register";
-    public static final String EVENTTYPE_USER_ACTIVATE  = "user.activate";
-    public static final String EVENTTYPE_USER_LOGIN     = "user.login";
-    public static final String EVENTTYPE_USER_LOGOUT    = "user.logout";
+    public static final String EVENTTYPE_USER_REGISTER      = "user.register";
+    public static final String EVENTTYPE_USER_ACTIVATE      = "user.activate";
+    public static final String EVENTTYPE_USER_LOGIN         = "user.login";
+    public static final String EVENTTYPE_USER_LOGOUT        = "user.logout";
+
+    public static final String EVENTTYPE_TRADE_BUYERINIT    = "trade.buyerinit";
+    public static final String EVENTTYPE_TRADE_SELLERINIT   = "trade.sellerinit";
+    public static final String EVENTTYPE_TRADE_BUYERACCEPT  = "trade.buyeraccept";
+    public static final String EVENTTYPE_TRADE_SELLERACCEPT = "trade.selleraccept";
+    public static final String EVENTTYPE_TRADE_CONSUMEQUIT  = "trade.consumeaccept";
+    public static final String EVENTTYPE_TRADE_SUPPLYQUIT   = "trade.supplyaccept";
+    public static final String EVENTTYPE_TRADE_DELIVERED    = "trade.delivered";
+    public static final String EVENTTYPE_TRADE_FINISH       = "trade.finish";
+
+    //public static final String EVENTTYPE_LOAN
 }

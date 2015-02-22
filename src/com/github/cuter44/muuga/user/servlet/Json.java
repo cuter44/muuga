@@ -78,6 +78,23 @@ class Json
         return;
     }
 
+    public static void writeUser(User u, HttpServletResponse resp, String encryptedSecret)
+        throws IOException
+    {
+        resp.setContentType("application/json; charset=utf-8");
+        resp.setCharacterEncoding("utf-8");
+        PrintWriter out = resp.getWriter();
+
+        JSONObject j = jsonizeUser(u);
+        j.put(SECRET    , encryptedSecret);
+
+        out.println(
+            j.toJSONString()
+        );
+
+        return;
+    }
+
     public static void writeUser(Collection<User> coll, HttpServletResponse resp)
         throws IOException
     {
