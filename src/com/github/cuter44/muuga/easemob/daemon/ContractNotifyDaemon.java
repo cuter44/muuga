@@ -1,4 +1,4 @@
-package com.github.cuter44.muuga.user.daemon;
+package com.github.cuter44.muuga.easemob.daemon;
 
 import com.github.cuter44.nyafx.event.*;
 import com.alibaba.fastjson.*;

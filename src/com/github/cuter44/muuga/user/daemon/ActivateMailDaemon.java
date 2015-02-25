@@ -1,4 +1,4 @@
-package com.github.cuter44.muuga.user.deamon;
+package com.github.cuter44.muuga.user.daemon;
 
 import org.stringtemplate.v4.*;
 import com.github.cuter44.nyafx.event.*;
