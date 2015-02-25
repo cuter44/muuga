@@ -16,11 +16,27 @@
   </listener>
 
   <listener>
-    <listener-class>com.github.cuter44.muuga.easemob.servlet.InjectActivateTrigger</listener-class>
+    <listener-class>com.github.cuter44.muuga.easemob.servlet.InjectUserActivateTrigger</listener-class>
   </listener>
 
   <listener>
-    <listener-class>com.github.cuter44.muuga.easemob.servlet.InjectLoginTrigger</listener-class>
+    <listener-class>com.github.cuter44.muuga.easemob.servlet.InjectUserLoginTrigger</listener-class>
+  </listener>
+
+  <listener>
+    <listener-class>com.github.cuter44.muuga.easemob.servlet.InjectBuddyFollowTrigger</listener-class>
+  </listener>
+
+  <listener>
+    <listener-class>com.github.cuter44.muuga.easemob.servlet.InjectBuddyUnfollowTrigger</listener-class>
+  </listener>
+
+  <listener>
+    <listener-class>com.github.cuter44.muuga.easemob.servlet.InjectBuddyHateTrigger</listener-class>
+  </listener>
+
+  <listener>
+    <listener-class>com.github.cuter44.muuga.easemob.servlet.InjectBuddyUnhateTrigger</listener-class>
   </listener>
 
 

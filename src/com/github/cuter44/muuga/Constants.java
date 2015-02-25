@@ -11,10 +11,17 @@ public class Constants
     public static final String KEY_UID = "uid";
 
   // EVENT TYPE
+    // USER
     public static final String EVENTTYPE_USER_REGISTER      = "user.register";
     public static final String EVENTTYPE_USER_ACTIVATE      = "user.activate";
     public static final String EVENTTYPE_USER_LOGIN         = "user.login";
     public static final String EVENTTYPE_USER_LOGOUT        = "user.logout";
+
+    // BUDDY
+    public static final String EVENTTYPE_BUDDY_FOLLOW       = "buddy.follow";
+    public static final String EVENTTYPE_BUDDY_UNFOLLOW     = "buddy.unfollow";
+    public static final String EVENTTYPE_BUDDY_HATE         = "buddy.hate";
+    public static final String EVENTTYPE_BUDDY_UNHATE       = "buddy.unhate";
 
     public static final String EVENTTYPE_TRADE_BUYERINIT    = "trade.buyerinit";
     public static final String EVENTTYPE_TRADE_SELLERINIT   = "trade.sellerinit";

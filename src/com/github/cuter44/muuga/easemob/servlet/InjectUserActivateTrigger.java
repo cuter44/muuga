@@ -8,16 +8,16 @@ import static com.github.cuter44.muuga.Constants.*;
 import com.github.cuter44.muuga.conf.*;
 import com.github.cuter44.muuga.easemob.core.*;
 
-public class InjectLoginTrigger
+public class InjectUserActivateTrigger
     implements ServletContextListener
 {
     @Override
     public void contextInitialized(ServletContextEvent ev)
     {
-        UserLoginTrigger evSink = UserLoginTrigger.getInstance();
+        UserActivateTrigger evSink = UserActivateTrigger.getInstance();
         EventHub evHub = EventHub.getInstance();
 
-        evHub.subscribe(EVENTTYPE_USER_LOGIN, evSink);
+        evHub.subscribe(EVENTTYPE_USER_ACTIVATE, evSink);
 
         return;
     }

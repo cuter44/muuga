@@ -8,16 +8,16 @@ import static com.github.cuter44.muuga.Constants.*;
 import com.github.cuter44.muuga.conf.*;
 import com.github.cuter44.muuga.easemob.core.*;
 
-public class InjectActivateTrigger
+public class InjectBuddyUnhateTrigger
     implements ServletContextListener
 {
     @Override
     public void contextInitialized(ServletContextEvent ev)
     {
-        UserActivateTrigger evSink = UserActivateTrigger.getInstance();
+        BuddyUnhateTrigger evSink = BuddyUnhateTrigger.getInstance();
         EventHub evHub = EventHub.getInstance();
 
-        evHub.subscribe(EVENTTYPE_USER_ACTIVATE, evSink);
+        evHub.subscribe(EVENTTYPE_BUDDY_UNHATE, evSink);
 
         return;
     }
