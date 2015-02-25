@@ -8,13 +8,11 @@ import com.github.cuter44.nyafx.mail.*;
 import com.github.cuter44.muuga.user.core.*;
 import com.github.cuter44.muuga.user.model.*;
 import com.github.cuter44.muuga.conf.*;
-import com.github.cuter44.muuga.Constants;
+import static com.github.cuter44.muuga.Constants.*;
 
-public class ActivateMailDeamon
+public class ActivateMailDaemon
     implements Runnable
 {
-    protected static final String EVENTTYPE_USER_REGISTER = Constants.EVENTTYPE_USER_REGISTER;
-
     protected CryptoBase crypto;
     protected Mailer mailer;
 
@@ -22,7 +20,7 @@ public class ActivateMailDeamon
     protected EventQueue<User> eq;
     protected String strWebBase;
 
-    public ActivateMailDeamon()
+    public ActivateMailDaemon()
     {
         this.crypto = CryptoBase.getInstance();
         this.mailer = Mailer.getInstance();
@@ -33,12 +31,13 @@ public class ActivateMailDeamon
         Configurator conf = Configurator.getInstance();
         this.strWebBase = conf.get("muuga.server.web.baseurl");
 
+        EventHub.getInstance().subscribe(EVENTTYPE_USER_REGISTER, this.eq);
+
         return;
     }
 
     public void run()
     {
-        EventHub.getInstance().subscribe(this.EVENTTYPE_USER_REGISTER, this.eq);
 
         while (!Thread.currentThread().isInterrupted())
         {

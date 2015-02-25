@@ -14,7 +14,7 @@ import static com.github.cuter44.nyafx.servlet.Params.getLong;
 import static com.github.cuter44.nyafx.servlet.Params.needLong;
 
 //import com.github.cuter44.muuga.util.conf.*;
-import com.github.cuter44.muuga.Constants;
+import static com.github.cuter44.muuga.Constants.*;
 import com.github.cuter44.muuga.contract.model.*;
 import com.github.cuter44.muuga.contract.core.*;
 import com.github.cuter44.muuga.desire.core.*;
@@ -73,8 +73,8 @@ public class LoanQuit extends HttpServlet
         }
         catch (Exception ex)
         {
-            req.setAttribute(Constants.KEY_EXCEPTION, ex);
-            req.getRequestDispatcher(Constants.URI_ERROR_HANDLER).forward(req, resp);
+            req.setAttribute(KEY_EXCEPTION, ex);
+            req.getRequestDispatcher(URI_ERROR_HANDLER).forward(req, resp);
         }
         finally
         {

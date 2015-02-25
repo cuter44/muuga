@@ -9,22 +9,22 @@ import com.github.cuter44.muuga.conf.*;
 
 /** 守护线程加载器
  */
-public class DeamonRoot
+public class DaemonRoot
     implements ServletContextListener
 {
-    protected static String KEY_DEAMONS = "muuga.deamons";
+    protected static String KEY_DAEMONS = "muuga.daemons";
 
     protected ServletContext servletContext;
-    protected List<Thread> deamons;
+    protected List<Thread> daemons;
 
     @Override
     public void contextInitialized(ServletContextEvent ev)
     {
         this.servletContext = ev.getServletContext();
-        this.deamons = new ArrayList<Thread>();
+        this.daemons = new ArrayList<Thread>();
 
         Configurator conf = Configurator.getInstance();
-        String value = conf.get(KEY_DEAMONS);
+        String value = conf.get(KEY_DAEMONS);
         String[] classes = value.split(";");
 
         for (String clazz:classes)
@@ -37,11 +37,11 @@ public class DeamonRoot
                 Class c = Class.forName(clazz);
                 Runnable rDeamon = (Runnable)c.newInstance();
 
-                Thread thDeamon = new Thread(rDeamon, "deamon-"+clazz);
-                this.servletContext.log("Start deamon:"+clazz);
-                thDeamon.start();
+                Thread thDaemon = new Thread(rDeamon, "daemon-"+clazz);
+                this.servletContext.log("Start daemon:"+clazz);
+                thDaemon.start();
 
-                this.deamons.add(thDeamon);
+                this.daemons.add(thDaemon);
             }
             catch (Exception ex)
             {
@@ -55,9 +55,9 @@ public class DeamonRoot
     @Override
     public void contextDestroyed(ServletContextEvent ev)
     {
-        for (Thread t:this.deamons)
+        for (Thread t:this.daemons)
         {
-            this.servletContext.log("Stop deamon:"+t.getName());
+            this.servletContext.log("Stop daemon:"+t.getName());
             t.interrupt();
         }
 

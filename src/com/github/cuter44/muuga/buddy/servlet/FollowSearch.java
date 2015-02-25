@@ -12,7 +12,7 @@ import static com.github.cuter44.nyafx.dao.EntityNotFoundException.entFound;
 import static com.github.cuter44.nyafx.servlet.Params.*;
 import org.hibernate.criterion.*;
 
-import com.github.cuter44.muuga.Constants;
+import static com.github.cuter44.muuga.Constants.*;
 import com.github.cuter44.muuga.buddy.model.*;
 import com.github.cuter44.muuga.buddy.core.*;
 import com.github.cuter44.muuga.conf.*;
@@ -98,8 +98,8 @@ public class FollowSearch extends HttpServlet
         }
         catch (Exception ex)
         {
-            req.setAttribute(Constants.KEY_EXCEPTION, ex);
-            req.getRequestDispatcher(Constants.URI_ERROR_HANDLER).forward(req, resp);
+            req.setAttribute(KEY_EXCEPTION, ex);
+            req.getRequestDispatcher(URI_ERROR_HANDLER).forward(req, resp);
         }
         finally
         {

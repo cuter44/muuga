@@ -14,7 +14,7 @@ import static com.github.cuter44.nyafx.servlet.Params.notNull;
 import static com.github.cuter44.nyafx.servlet.Params.needLong;
 import static com.github.cuter44.nyafx.servlet.Params.needByteArray;
 
-import com.github.cuter44.muuga.Constants;
+import static com.github.cuter44.muuga.Constants.*;
 import com.github.cuter44.muuga.conf.*;
 import com.github.cuter44.muuga.user.model.*;
 import com.github.cuter44.muuga.user.core.*;
@@ -96,8 +96,8 @@ public class Login extends HttpServlet
         }
         catch (Exception ex)
         {
-            req.setAttribute(Constants.KEY_EXCEPTION, ex);
-            req.getRequestDispatcher(Constants.URI_ERROR_HANDLER).forward(req, resp);
+            req.setAttribute(KEY_EXCEPTION, ex);
+            req.getRequestDispatcher(URI_ERROR_HANDLER).forward(req, resp);
         }
         finally
         {

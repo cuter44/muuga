@@ -12,7 +12,7 @@
   </listener>
 
   <listener>
-    <listener-class>com.github.cuter44.muuga.sys.servlet.DeamonRoot</listener-class>
+    <listener-class>com.github.cuter44.muuga.sys.servlet.DaemonRoot</listener-class>
   </listener>
 
   <listener>

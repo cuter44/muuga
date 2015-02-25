@@ -14,7 +14,7 @@ import com.github.cuter44.nyafx.crypto.*;
 import static com.github.cuter44.nyafx.crypto.CryptoBase.byteToHex;
 import static com.github.cuter44.nyafx.servlet.Params.needLong;
 
-import com.github.cuter44.muuga.Constants;
+import static com.github.cuter44.muuga.Constants.*;
 import com.github.cuter44.muuga.user.model.*;
 import com.github.cuter44.muuga.user.core.*;
 
@@ -87,8 +87,8 @@ public class GetRsaKey extends HttpServlet
         }
         catch (Exception ex)
         {
-            req.setAttribute(Constants.KEY_EXCEPTION, ex);
-            req.getRequestDispatcher(Constants.URI_ERROR_HANDLER).forward(req, resp);
+            req.setAttribute(KEY_EXCEPTION, ex);
+            req.getRequestDispatcher(URI_ERROR_HANDLER).forward(req, resp);
         }
 
         return;

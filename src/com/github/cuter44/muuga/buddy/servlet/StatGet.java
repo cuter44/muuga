@@ -10,7 +10,7 @@ import static com.github.cuter44.nyafx.dao.EntityNotFoundException.entFound;
 import com.github.cuter44.nyafx.servlet.*;
 import static com.github.cuter44.nyafx.servlet.Params.*;
 
-import com.github.cuter44.muuga.Constants;
+import static com.github.cuter44.muuga.Constants.*;
 import com.github.cuter44.muuga.buddy.model.*;
 import com.github.cuter44.muuga.buddy.core.*;
 
@@ -62,8 +62,8 @@ public class StatGet extends HttpServlet
         }
         catch (Exception ex)
         {
-            req.setAttribute(Constants.KEY_EXCEPTION, ex);
-            req.getRequestDispatcher(Constants.URI_ERROR_HANDLER).forward(req, resp);
+            req.setAttribute(KEY_EXCEPTION, ex);
+            req.getRequestDispatcher(URI_ERROR_HANDLER).forward(req, resp);
         }
         finally
         {

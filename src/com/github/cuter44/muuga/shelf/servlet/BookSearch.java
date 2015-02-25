@@ -11,7 +11,7 @@ import com.github.cuter44.nyafx.servlet.*;
 import static com.github.cuter44.nyafx.servlet.Params.*;
 import org.hibernate.criterion.*;
 
-import com.github.cuter44.muuga.Constants;
+import static com.github.cuter44.muuga.Constants.*;
 import com.github.cuter44.muuga.conf.Configurator;
 import com.github.cuter44.muuga.shelf.model.*;
 import com.github.cuter44.muuga.shelf.core.*;
@@ -127,8 +127,8 @@ public class BookSearch extends HttpServlet
         }
         catch (Exception ex)
         {
-            req.setAttribute(Constants.KEY_EXCEPTION, ex);
-            req.getRequestDispatcher(Constants.URI_ERROR_HANDLER).forward(req, resp);
+            req.setAttribute(KEY_EXCEPTION, ex);
+            req.getRequestDispatcher(URI_ERROR_HANDLER).forward(req, resp);
         }
         finally
         {

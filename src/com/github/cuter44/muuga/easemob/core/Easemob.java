@@ -1,15 +1,9 @@
 package com.github.cuter44.muuga.easemob.core;
 
-//import java.util.Date;
-//import java.io.BufferedInputStream;
-//import java.security.KeyStore;
-//import java.security.cert.Certificate;
-//import java.security.cert.CertificateFactory;
-//import javax.net.ssl.KeyManagerFactory;
-//import javax.net.ssl.TrustManagerFactory;
-//import javax.net.ssl.SSLContext;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.io.IOException;
 
+import org.apache.http.HttpHost;
 import org.apache.http.client.fluent.*;
 import org.apache.http.entity.ContentType;
 import com.alibaba.fastjson.*;
@@ -24,7 +18,7 @@ public class Easemob
     protected Configurator conf;
 
     protected String token;
-    protected Long expire;
+    protected long expire;
 
     protected static final String KEY_ORG_NAME = "easemob.orgname";
     protected String orgName;
@@ -268,6 +262,71 @@ public class Easemob
 
     }
 
+    private static AtomicInteger msgCount = new AtomicInteger(0);
+    private static long msgDuration = System.currentTimeMillis();
+    protected static boolean isMsgFrequencyExcess()
+    {
+        if (msgCount.incrementAndGet() < 30)
+            return(false);
+
+        if ((System.currentTimeMillis() - msgDuration) < 1000L)
+            return(true);
+
+        // else
+        synchronized(msgCount)
+        {
+            if ((System.currentTimeMillis() - msgDuration) > 1000L)
+            {
+                msgCount.set(0);
+                msgDuration = System.currentTimeMillis();
+            }
+
+            // make thread retry
+            return(true);
+        }
+    }
+
+    private static final JSONObject POST_MSG_CMD_MSG = JSON.parseObject("{\"type\":\"cmd\",\"action\":\"action1\"}");
+
+    /** 发送透传消息
+     * @param target 目标用户名
+     * @param ext 附加的json
+     */
+    public JSONObject postMsgCmd(JSONObject ext, String ... target)
+        throws IOException
+    {
+        while (isMsgFrequencyExcess())
+            Thread.yield();
+
+        if (System.currentTimeMillis() > this.expire)
+            this.getToken();
+
+        String path = this.apiBase + "/messages";
+
+        JSONObject reqBody = new JSONObject();
+        reqBody.put("target_type", "users");
+        reqBody.put("target", target);
+        reqBody.put("msg", POST_MSG_CMD_MSG);
+        reqBody.put("ext", ext.toJSONString());
+
+        JSONObject respBody = JSONObject.parseObject(
+            Request.Post(path)
+                //.viaProxy(new HttpHost("127.0.0.1", 8888))
+                .setHeader("Authorization", "Bearer " + this.token)
+                .bodyString(
+                    reqBody.toString(),
+                    ContentType.APPLICATION_JSON
+                )
+                .execute()
+                .returnContent()
+                .asString()
+        );
+
+        //System.out.println(respBody);
+
+        return(respBody);
+    }
+
     public static void main(String[] args)
     {
         try
@@ -288,6 +347,7 @@ public class Easemob
             System.out.println(easemob.getToken());
             System.out.println(easemob.postUser("19232", "1238432"));
             System.out.println(easemob.putPassword("19232", "123wefce"));
+            System.out.println(easemob.postMsgCmd(new JSONObject(), "19232"));
             System.out.println(easemob.deleteUser("19232"));
         }
         catch (Exception ex)

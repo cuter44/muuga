@@ -9,7 +9,7 @@ import com.alibaba.fastjson.*;
 
 import com.github.cuter44.muuga.contract.model.*;
 
-class Json
+public class Json
 {
     private static final String ID          = "id";
     private static final String SUPPLY      = "supply";
@@ -22,7 +22,7 @@ class Json
     private static final String STATUS      = "isbn";
     private static final String CLAZZ       = "clazz";
 
-    protected static JSONObject jsonizeContractBase(ContractBase contract)
+    public static JSONObject jsonizeContractBase(ContractBase contract)
     {
         if (contract instanceof BuyerInitedTrade)
             return(jsonizeBuyerInitedTrade((BuyerInitedTrade)contract));

@@ -4,7 +4,7 @@ import com.github.cuter44.nyafx.event.*;
 import com.github.cuter44.nyafx.crypto.*;
 import com.alibaba.fastjson.*;
 
-import com.github.cuter44.muuga.Constants;
+import static com.github.cuter44.muuga.Constants.*;
 import com.github.cuter44.muuga.user.model.*;
 
 /**

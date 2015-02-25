@@ -9,6 +9,7 @@ import com.github.cuter44.nyafx.ssl.*;
 import com.github.cuter44.muuga.conf.*;
 
 /** 证书加载器
+ * 加载证书并正确设置 apache-hc
  */
 @WebListener
 public class LoadCertificates implements ServletContextListener
@@ -29,7 +30,7 @@ public class LoadCertificates implements ServletContextListener
             if (confValue == null)
                 return;
 
-            String[] certs = confValue.split(",");
+            String[] certs = confValue.split(";");
 
             new CertificateLoader()
                 .loadX509CertResource(certs)

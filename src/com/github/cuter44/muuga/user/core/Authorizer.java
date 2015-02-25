@@ -15,7 +15,7 @@ import org.hibernate.criterion.*;
 import com.github.cuter44.muuga.user.model.*;
 import com.github.cuter44.muuga.user.exception.*;
 import com.github.cuter44.muuga.conf.*;
-import com.github.cuter44.muuga.Constants;
+import static com.github.cuter44.muuga.Constants.*;
 
 /** 身份验证及访问控制模块
  * 提供基于帐号密码的身份验证实现:
@@ -29,11 +29,6 @@ import com.github.cuter44.muuga.Constants;
  */
 public class Authorizer
 {
-    protected static final String EVENTTYPE_USER_REGISTER   = Constants.EVENTTYPE_USER_REGISTER;
-    protected static final String EVENTTYPE_USER_ACTIVATE   = Constants.EVENTTYPE_USER_ACTIVATE;
-    protected static final String EVENTTYPE_USER_LOGIN      = Constants.EVENTTYPE_USER_LOGIN;
-    protected static final String EVENTTYPE_USER_LOGOUT     = Constants.EVENTTYPE_USER_LOGOUT;
-
   // CONSTRUCT
     protected static Integer SECRET_LENGTH;
     protected static Integer SALT_LENGTH;
