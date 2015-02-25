@@ -12,6 +12,10 @@
   </listener>
 
   <listener>
+    <listener-class>com.github.cuter44.muuga.sys.servlet.LoadCertificates</listener-class>
+  </listener>
+
+  <listener>
     <listener-class>com.github.cuter44.muuga.sys.servlet.DaemonRoot</listener-class>
   </listener>
 

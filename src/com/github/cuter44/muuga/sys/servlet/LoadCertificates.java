@@ -11,7 +11,6 @@ import com.github.cuter44.muuga.conf.*;
 /** 证书加载器
  * 加载证书并正确设置 apache-hc
  */
-@WebListener
 public class LoadCertificates implements ServletContextListener
 {
     @Override
