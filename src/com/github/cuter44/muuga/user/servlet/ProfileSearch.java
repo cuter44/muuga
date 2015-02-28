@@ -94,11 +94,13 @@ public class ProfileSearch extends HttpServlet
             if (q != null)
             {
                 q = "%"+q+"%";
-                dc.add(Restrictions.like("dname", q));
-                dc.createCriteria("user", "user")
-                    //.add(Restrictions.like("tname", q))
-                    .add(Restrictions.like("user.uname", q))
-                    .add(Restrictions.like("user.mail", q));
+                dc.createAlias("user", "user");
+                dc.add(
+                    Restrictions.disjunction()
+                        .add(Restrictions.like("dname", q))
+                        .add(Restrictions.like("user.uname", q))
+                        .add(Restrictions.like("user.mail", q))
+                );
             }
 
             if ("asc".equals(order))

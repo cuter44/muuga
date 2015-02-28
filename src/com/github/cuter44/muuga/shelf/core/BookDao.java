@@ -17,6 +17,10 @@ public class BookDao extends DaoBase<Book>
     public BookDao()
     {
         super();
+
+        this.profileDao = ProfileDao.getInstance();
+
+        return;
     }
 
   // SINGLETON
