@@ -14,6 +14,8 @@
     <property name="connection.username">root</property>
     <!-- 指定连接数据库的密码 -->
     <property name="connection.password"></property>
+    <!-- Connection Pool Provider -->
+    <property name="hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>
     <!-- 指定连接池里最大连接数 -->
     <property name="hibernate.c3p0.max_size">20</property>
     <!-- 指定连接池里最小连接数 -->

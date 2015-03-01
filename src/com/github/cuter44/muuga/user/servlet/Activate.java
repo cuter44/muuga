@@ -48,10 +48,11 @@ public class Activate extends HttpServlet
     private static final String CODE = "code";
     private static final String PASS = "pass";
 
-    protected UserDao userDao = UserDao.getInstance();
-    protected Authorizer authorizer = Authorizer.getInstance();
-    protected RSAKeyCache keyCache = RSAKeyCache.getInstance();
-    protected RSACrypto rsa = RSACrypto.getInstance();
+    protected UserDao       userDao     = UserDao.getInstance();
+    protected ProfileDao    profileDao  = ProfileDao.getInstance();
+    protected Authorizer    authorizer  = Authorizer.getInstance();
+    protected RSAKeyCache   keyCache    = RSAKeyCache.getInstance();
+    protected RSACrypto     rsa         = RSACrypto.getInstance();
 
     @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -71,6 +72,8 @@ public class Activate extends HttpServlet
             this.userDao.begin();
 
             User user = this.authorizer.activate(uid, code, pass);
+
+            this.profileDao.create(uid);
 
             this.userDao.commit();
 
