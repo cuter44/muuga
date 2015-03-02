@@ -21,7 +21,7 @@ import com.github.cuter44.muuga.conf.*;
  * <pre style="font-size:12px">
 
    <strong>请求</strong>
-   POST /buddy/follow/search.api
+   GET/POST /buddy/follow/search.api
 
    <strong>参数</strong>
    me       :long[] , 可选, 逗号分隔, 关注方的uid
@@ -60,6 +60,13 @@ public class FollowSearch extends HttpServlet
 
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp)
+        throws ServletException, IOException
+    {
+        this.doPost(req, resp);
+    }
+
+    @Override
+    public void doPost(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException
     {
         req.setCharacterEncoding("utf-8");
