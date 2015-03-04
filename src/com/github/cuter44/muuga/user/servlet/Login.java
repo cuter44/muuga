@@ -58,13 +58,6 @@ public class Login extends HttpServlet
     protected RSACrypto rsa = RSACrypto.getInstance();
 
     @Override
-    public void doGet(HttpServletRequest req, HttpServletResponse resp)
-        throws ServletException, IOException
-    {
-        doPost(req, resp);
-    }
-
-    @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp)
         throws ServletException, IOException
     {

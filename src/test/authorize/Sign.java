@@ -1,7 +1,9 @@
-package test.user;
+package test.authorize;
 
 import java.util.Scanner;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.HashSet;
 import java.security.PublicKey;
 import java.security.KeyPair;
 import java.security.interfaces.RSAPublicKey;
@@ -12,11 +14,12 @@ import org.apache.http.*;
 import org.apache.http.client.fluent.*;
 import com.alibaba.fastjson.*;
 import com.github.cuter44.nyafx.crypto.*;
+import com.github.cuter44.nyafx.text.*;
 
 import com.github.cuter44.muuga.user.model.*;
 import com.github.cuter44.muuga.conf.*;
 
-public class Login
+public class Sign
 {
     protected Long      uid;
     protected String    pass;
@@ -24,6 +27,8 @@ public class Login
     protected byte[]    se;
     protected PublicKey sPublic;
     protected KeyPair   cKeyPair;
+    protected String    secret;
+    protected String    qString;
 
     protected static String     apibase;
     protected static RSACrypto  rsa;
@@ -117,8 +122,48 @@ public class Login
         return(decryptedSecret);
     }
 
+    public String sign()
+        throws Exception
+    {
+        URLParser up = URLParser.fromQueryString(this.qString).compile();
+
+        Map<String, String> paramMap = up.parsedParams;
+        String[] keys = new String[paramMap.size()];
+        keys = paramMap.keySet().toArray(keys);
+        Arrays.sort(keys);
+
+        StringBuilder sb = new StringBuilder(32768);
+
+        for (String key:keys)
+            sb.append(key).append(paramMap.get(key));
+
+        sb.append(secret);
+
+        String s = this.rsa.bytesToHex(
+            this.rsa.MD5Digest(
+                sb.toString().getBytes("utf-8")
+            )
+        );
+
+        System.out.println("s="+s);
+
+        up.setParameter("s", s);
+
+        System.out.println("Connect to vrfy-sign:");
+
+        String resp = Request.Get(apibase+"/security/vrfy-sign.api?"+up.toURL())
+            //.viaProxy(new HttpHost("localhost", 8888))
+            .execute()
+            .returnContent()
+            .asString();
+
+        System.out.println("Server return 204: "+("".equals(resp)));
+
+        return(s);
+    }
+
     @Test
-    public void testLogin()
+    public void testSign()
         throws Exception
     {
         Scanner scn = new Scanner(System.in);
@@ -133,6 +178,11 @@ public class Login
         this.getServerKey();
         this.genClientKey();
         this.login();
+
+        System.out.println("query string?");
+        this.qString = scn.nextLine();
+
+        this.sign();
     }
 
     public static void main(String[] args)
@@ -140,7 +190,7 @@ public class Login
         try
         {
             conf();
-            new Login().testLogin();
+            new Sign().testSign();
         }
         catch (Exception ex)
         {
