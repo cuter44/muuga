@@ -43,7 +43,14 @@
     <listener-class>com.github.cuter44.muuga.easemob.servlet.InjectBuddyUnhateTrigger</listener-class>
   </listener>
 
-
+  <filter>
+    <filter-name>ApiSignVerifier</filter-name>
+    <filter-class>com.github.cuter44.muuga.user.filter.ApiSignVerifier</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>ApiSignVerifier</filter-name>
+    <url-pattern>/security/test-sign.api</url-pattern>
+  </filter-mapping>
 
   <!--
   <servlet>
