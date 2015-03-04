@@ -100,6 +100,8 @@ public class ApiSignVerifier
 
             sb.append(secret);
 
+            System.out.println(sb.toString());
+
             byte[] hashed = this.crypto.MD5Digest(
                 sb.toString().getBytes("utf-8")
             );

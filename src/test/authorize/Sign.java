@@ -119,6 +119,8 @@ public class Sign
 
         System.out.println("decrypted secret:"+decryptedSecret);
 
+        this.secret = decryptedSecret;
+
         return(decryptedSecret);
     }
 
@@ -137,7 +139,9 @@ public class Sign
         for (String key:keys)
             sb.append(key).append(paramMap.get(key));
 
-        sb.append(secret);
+        sb.append(this.secret);
+
+        System.out.println(sb.toString());
 
         String s = this.rsa.bytesToHex(
             this.rsa.MD5Digest(
@@ -152,7 +156,7 @@ public class Sign
         System.out.println("Connect to vrfy-sign:");
 
         String resp = Request.Get(apibase+"/security/vrfy-sign.api?"+up.toURL())
-            //.viaProxy(new HttpHost("localhost", 8888))
+            .viaProxy(new HttpHost("localhost", 8888))
             .execute()
             .returnContent()
             .asString();
@@ -194,7 +198,7 @@ public class Sign
         }
         catch (Exception ex)
         {
-            ex.printStackTrace();
+            //ex.printStackTrace();
         }
     }
 }

@@ -46,10 +46,18 @@
   <filter>
     <filter-name>ApiSignVerifier</filter-name>
     <filter-class>com.github.cuter44.muuga.user.filter.ApiSignVerifier</filter-class>
+    <init-param>
+      <param-name>nameUid</param-name> 
+      <param-value>uid</param-value> 
+    </init-param>
+    <init-param>
+      <param-name>nameS</param-name> 
+      <param-value>s</param-value> 
+    </init-param>
   </filter>
   <filter-mapping>
     <filter-name>ApiSignVerifier</filter-name>
-    <url-pattern>/security/test-sign.api</url-pattern>
+    <url-pattern>/security/vrfy-sign.api</url-pattern>
   </filter-mapping>
 
   <!--
