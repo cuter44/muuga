@@ -156,7 +156,7 @@ public class Sign
         System.out.println("Connect to vrfy-sign:");
 
         String resp = Request.Get(apibase+"/security/vrfy-sign.api?"+up.toURL())
-            .viaProxy(new HttpHost("localhost", 8888))
+            //.viaProxy(new HttpHost("localhost", 8888))
             .execute()
             .returnContent()
             .asString();
