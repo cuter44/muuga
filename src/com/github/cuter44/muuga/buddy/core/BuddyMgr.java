@@ -30,7 +30,7 @@ public class BuddyMgr
   // SINGLETON
     private static class Singleton
     {
-        public static BuddyMgr instance = BuddyMgr.getInstance();
+        public static BuddyMgr instance = new BuddyMgr();
     }
 
     public static BuddyMgr getInstance()
