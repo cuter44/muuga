@@ -62,7 +62,7 @@ public class BookAdd extends HttpServlet
 
             this.bookDao.begin();
 
-            Book    book    = this.bookDao.create(uid, isbn);
+            Book    book    = this.bookDao.getOrCreate(uid, isbn);
 
             this.bookDao.commit();
 

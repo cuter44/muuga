@@ -2,6 +2,7 @@ package com.github.cuter44.muuga.shelf.core;
 
 import java.util.Date;
 
+import org.hibernate.criterion.*;
 import com.github.cuter44.nyafx.dao.*;
 import static com.github.cuter44.nyafx.dao.EntityNotFoundException.entFound;
 
@@ -42,6 +43,18 @@ public class BookDao extends DaoBase<Book>
     }
 
   // EXTENDED
+    public Book get(Long ownerId, String isbn)
+    {
+        DetachedCriteria dc = DetachedCriteria.forClass(Book.class)
+            .createAlias("owner", "owner")
+            .add(Restrictions.eq("owner.id", ownerId))
+            .add(Restrictions.eq("isbn", isbn));
+
+        return(
+            this.get(dc)
+        );
+    }
+
     public Book create(Long ownerId, String isbn)
     {
         Profile owner   = (Profile)entFound(this.profileDao.get(ownerId));
@@ -52,6 +65,27 @@ public class BookDao extends DaoBase<Book>
         this.save(book);
 
         return(book);
+    }
+
+    public Book getOrCreate(Long ownerId, String isbn)
+    {
+        Book b = this.get(ownerId, isbn);
+        if (b != null)
+            return(b);
+
+        // else
+        return(
+            this.create(ownerId, isbn)
+        );
+    }
+
+    public void remove(Long ownerId, String isbn)
+    {
+        Book b = this.get(ownerId, isbn);
+
+        this.delete(b);
+
+        return;
     }
 
     //public void softRemove(Long id)

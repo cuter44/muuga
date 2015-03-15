@@ -7,7 +7,7 @@ import javax.servlet.annotation.*;
 
 import com.github.cuter44.nyafx.dao.*;
 import com.github.cuter44.nyafx.servlet.*;
-import static com.github.cuter44.nyafx.servlet.Params.needLong;
+import static com.github.cuter44.nyafx.servlet.Params.*;
 
 import static com.github.cuter44.muuga.Constants.*;
 import com.github.cuter44.muuga.shelf.model.*;
@@ -21,9 +21,10 @@ import com.github.cuter44.muuga.user.exception.*;
    POST /book/remove.api
 
    <strong>参数</strong>
-   id   :long   , 删除书的id;
-   <i>鉴权</i>
+   <del>id   :long   , 删除书的id;</del>
+   isbn     :string , isbn
    uid  :long   , uid;
+   <i>鉴权</i>
    s    :hex    , session key;
 
    <strong>响应</strong>
@@ -39,9 +40,8 @@ import com.github.cuter44.muuga.user.exception.*;
 @WebServlet("/book/remove.api")
 public class BookRemove extends HttpServlet
 {
-    private static final String UID = "uid";
-    private static final String S = "s";
-    private static final String ID = "id";
+    private static final String UID     = "uid";
+    private static final String ISBN    = "isbn";
 
     protected BookDao bookDao = BookDao.getInstance();
 
@@ -53,18 +53,12 @@ public class BookRemove extends HttpServlet
 
         try
         {
-            Long uid    = needLong(req, UID);
-            Long id     = needLong(req, ID);
+            Long    uid     = needLong(req, UID);
+            String  isbn    = needString(req, ISBN);
 
             this.bookDao.begin();
 
-            if (!this.bookDao.isOwnedBy(id, uid))
-                throw(
-                    new UnauthorizedException(
-                        String.format("Not possession:Book=%d,User=%d", id, uid)
-                ));
-
-            this.bookDao.remove(id);
+            this.bookDao.remove(uid, isbn);
 
             this.bookDao.commit();
 
