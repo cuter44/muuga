@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="zh-CN">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
+  <title>欢迎加入萝卜淘书</title>
+  <link rel="stylesheet" href="../bootstrap-3.2.0-dist/css/bootstrap.min.css">
+  <script src="../jquery/1.11.2/jquery.min.js"></script>
+  <script src="../bootstrap-3.2.0-dist/js/bootstrap.min.js"></script>
+ </head>
+ <body>
+  <div class="container-fluid">
+
+    <div class="row" style="background-color:#2cad50; text-align:center; ">
+      <div class="row">
+        <div class="col-xs">
+          <h1 style="color:white">欢迎加入萝卜淘书</h1>
+        </div>
+      </div>
+      <div class="row" style="margin:24px 0px; text-align:center;">
+        <img class="img-circle" src="./images/muuga-logo-circled.png" width="160px">
+      </div>
+    </div>
+
+    <div class="row" id="form">
+      <div class="row">
+        <div class="col-xs-10 col-xs-offset-1">
+          <p>
+          请提供您的邮件地址, 我们将发送验证邮件到该邮件地址, 并引导您完成后续的步骤.
+          </p>
+          <p>
+          该邮件地址将用作您在萝卜淘书的帐号名.
+          </p>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="input-group col-xs-10 col-xs-offset-1">
+          <input type="email" class="form-control" id="mail" name="mail" placeholder="name@example.com">
+          <span class="btn-success glyphicon glyphicon-chevron-right input-group-addon" onclick="javascript:doRegister();"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" id="status" style="display:none;">
+      <div class="col-xs-10 col-xs-offset-1">
+        <p>
+          <span id="span-status">正在通信...</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="row" id="rollback" style="display:none;">
+      <div class="col-xs-10 col-xs-offset-1">
+        <button class="btn btn-default" onclick="javascript:doRollback();">后退</button>
+      </div>
+    </div>
+
+    <div class="row" id="success" style="display:none;">
+      <div class="col-xs-10 col-xs-offset-1">
+        <p>
+          <span class="glyphicon glyphicon-ok"></span> 已完成.
+        </p>
+        <p>
+          请前往收件箱查阅您的激活邮件, 打开其中附带的激活链接完成注册.
+        <p>
+        </p>
+          如需帮助, 可以向 <a href="mailto:">管理员</a> 发送邮件.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function doRollback(){
+      $("#status").hide();
+      $("#rollback").hide();
+      $("#form").slideDown();
+      $("#mod-avatar").slideDown();
+    }
+  </script>
+  <script>
+    function doRegister() {
+      $("#form").hide();
+      $("#mod-avatar").hide();
+      try {
+        $("#status").slideDown();
+        $.ajaxSetup({async:false});
+        var s = register();
+        $("#status").hide();
+        $("#success").slideDown();
+      } catch (ex) {
+        $("#span-status").text(ex);
+        $("#rollback").slideDown();
+      }
+
+      return(false);
+    }
+
+    function register() {
+      $.post(
+        "./register.api",
+        {
+          mail:$("#mail").val(),
+        }
+      ).fail(
+        function(){throw "失败, 邮件地址可能已被占用";}
+      );
+
+    }
+  </script>
+ </body>
+</html>
