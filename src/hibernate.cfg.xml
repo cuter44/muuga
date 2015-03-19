@@ -52,5 +52,9 @@
 
     <mapping resource="com/github/cuter44/muuga/contract/model/ContractBase.hbm.xml" />
 
+    <mapping resource="com/github/cuter44/muuga/buddy/model/Follow.hbm.xml" />
+    <mapping resource="com/github/cuter44/muuga/buddy/model/Hate.hbm.xml" />
+    <mapping resource="com/github/cuter44/muuga/buddy/model/Stat.hbm.xml" />
+
   </session-factory>
 </hibernate-configuration>
