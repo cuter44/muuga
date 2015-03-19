@@ -82,7 +82,7 @@ public class FollowSearch extends HttpServlet
             String      by      = getString(req, BY);
 
 
-            DetachedCriteria dc = DetachedCriteria.forClass(Follow.class);
+            DetachedCriteria dc = DetachedCriteria.forClass(com.github.cuter44.muuga.buddy.model.Follow.class);
 
             if (me != null)
                 dc.add(Restrictions.in("me", me));

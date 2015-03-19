@@ -82,7 +82,7 @@ public class HateSearch extends HttpServlet
             String      by      = getString(req, BY);
 
 
-            DetachedCriteria dc = DetachedCriteria.forClass(Hate.class);
+            DetachedCriteria dc = DetachedCriteria.forClass(com.github.cuter44.muuga.buddy.model.Hate.class);
 
             if (me != null)
                 dc.add(Restrictions.in("me", me));
