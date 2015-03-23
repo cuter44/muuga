@@ -29,9 +29,16 @@ import com.github.cuter44.muuga.conf.Configurator;
    consume      :long           , 消耗方 uid, 借入/买入
    book         :long           , 关联到该交易的书籍的 id
    expense      :double[2]      , 逗号分隔, 表示一个左开右闭区间, 单值时逗号不可省略, 期望价.
-   tmCreate     :unix-time-ms[2] , 逗号分隔, 表示一个左开右闭区间, 单值时逗号不可省略, 时间戳.
-   tmStatus     :unix-time-ms[2] , 逗号分隔, 表示一个左开右闭区间, 单值时逗号不可省略, 时间戳.
-   clazz         :string     , 需求类型, 可选值如下:
+   tmCreate     :unix-time-ms[2]    , 逗号分隔, 表示一个左开右闭区间, 单值时逗号不可省略, 时间戳.
+   tmStatus     :unix-time-ms[2]    , 逗号分隔, 表示一个左开右闭区间, 单值时逗号不可省略, 时间戳.
+   clazz        :string         , 需求类型, 可选值如下:
+   <dl>
+   <dt>BuyerInitedTrade <dd>买方发起的买卖
+   <dt>SellerInitedTrade <dd>卖方发起的买卖
+   <dt>BorrowerInitedLoan <dd>借入方发起的借阅
+   <dt>LenderInitedLoan <dd>借出方发起的借阅
+   </dl>
+
    <i>分页</i>
    start    :int        , 返回结果的起始笔数, 缺省从 0 开始
    size     :int        , 返回结果的最大笔数, 缺省使用服务器配置
@@ -47,6 +54,7 @@ import com.github.cuter44.muuga.conf.Configurator;
 
    <strong>样例</strong>
  * </pre>
+ *
  *
  */
 @WebServlet("/contract/search.api")

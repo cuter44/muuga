@@ -59,16 +59,17 @@ public class Json
      * tmStatus :unix-time-ms                       , 最后一次状态变更时间
      * status   :byte                               , 交易状态, 参见交易类型的常量字段
      * clazz    :class-name=BuyerInitedTrade...     , 交易类型(买卖, 借阅...), 参见交易类型
+       <i><dl>
+        <dt>BuyerInitedTrade <dd>买方发起的买卖
+        <dt>SellerInitedTrade <dd>卖方发起的买卖
+        <dt>BorrowerInitedLoan <dd>借入方发起的借阅
+        <dt>LenderInitedLoan <dd>借出方发起的借阅
+       </dl></i>
      * supply   :long                               , 借出/卖出方的uid
      * consume  :long                               , 借入/买入方的uid
      * book     :long                               , 可选, 关联到该交易的书籍, 用于交易完成之后卖方清理库存/防止二次借出
      * </pre>
-     * @see com.github.cuter44.muuga.contract.model.ContractBase
-     * @see com.github.cuter44.muuga.contract.model.BuyerInitedTrade
-     * @see com.github.cuter44.muuga.contract.model.SellerInitedTrade
-     * @see com.github.cuter44.muuga.contract.model.LenderInitedLoan
-     * @see com.github.cuter44.muuga.contract.model.BorrowerInitedLoan
-     * .last-update 2015/2/13
+     * .last-update 2015/3/24
      */
     protected static JSONObject jsonizeContractBase(ContractBase contract, JSONObject j)
     {
