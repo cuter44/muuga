@@ -14,12 +14,12 @@ public class Json
     private static final String ID          = "id";
     private static final String SUPPLY      = "supply";
     private static final String CONSUME     = "consume";
-    private static final String BOOK        = "consume";
+    private static final String BOOK        = "book";
     private static final String ISBN        = "isbn";
     private static final String EXPENSE     = "expense";
     private static final String TM_CREATE   = "tmCreate";
     private static final String TM_STATUS   = "tmStatus";
-    private static final String STATUS      = "isbn";
+    private static final String STATUS      = "status";
     private static final String CLAZZ       = "clazz";
 
     public static JSONObject jsonizeContractBase(ContractBase contract)
